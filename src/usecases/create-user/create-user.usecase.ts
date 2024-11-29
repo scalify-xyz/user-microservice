@@ -1,4 +1,4 @@
-import { UseCase } from ".."
+import { UseCase } from "../"
 import { User } from "../../domain/entity/user.entity";
 import { UserGateway } from "../../domain/gateway/user.gateway";
 
@@ -19,9 +19,11 @@ export class CreateUserUsecase implements UseCase<CreateUserInputDto, CreateUser
         return new CreateUserUsecase(userGateway);
     }
 
-    public async execute({ name, email, password }: CreateUserInputDto): Promise<CreateUserOutputDto> {
+    public async execute({ name, email, password }: CreateUserInputDto): Promise<any> {
         const user = User.create(name, email, password)
+
         await this.userGateway.save(user);
+
         const output: CreateUserOutputDto = {
             id: user.id
         }

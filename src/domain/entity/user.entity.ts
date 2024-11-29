@@ -8,6 +8,12 @@ export type UserProps = {
 
 export class User {
     private constructor(private props: UserProps) {
+        this.props.id = props.id;
+        this.props.name = props.name;
+        this.props.email = props.email;
+        this.props.password = props.password;
+        this.props.isAccountConfirmed = props.isAccountConfirmed;
+
         this.validate();
     }
 
@@ -24,7 +30,7 @@ export class User {
     }
 
     public get id() {
-        return this.props.name;
+        return this.props.id;
     }
 
     public get name() {

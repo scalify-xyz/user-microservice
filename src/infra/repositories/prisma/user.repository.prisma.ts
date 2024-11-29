@@ -10,8 +10,15 @@ export class UserRepositoryPrisma implements UserGateway {
     }
 
     public async save(user: User): Promise<void> {
+
         await this.prismaClient.user.create({
-            data: user
+            data: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                password: user.password,
+                isAccountConfirmed: user.isAccountConfirmed,
+            }
         });
     }
 }
