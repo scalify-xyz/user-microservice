@@ -3,22 +3,16 @@ export type UserProps = {
     name: string;
     email: string;
     password: string;
-    hasUSerConfirmation: boolean;
+    isAccountConfirmed: boolean;
 }
 
 export class User {
     private constructor(private props: UserProps) {
-        this.props.id = props.id;
-        this.props.name = props.name;
-        this.props.email = props.email;
-        this.props.password = props.password;
-        this.props.hasUSerConfirmation = props.hasUSerConfirmation;
-
         this.validate();
     }
 
     public static create(name: string, email: string, password: string) {
-        return new User({ id: crypto.randomUUID().toString(), name, email, password, hasUSerConfirmation: false });
+        return new User({ id: crypto.randomUUID().toString(), name, email, password, isAccountConfirmed: false });
     }
 
     public static with(props: UserProps) {
@@ -39,6 +33,14 @@ export class User {
 
     public get email() {
         return this.props.email;
+    }
+
+    public get password() {
+        return this.props.password;
+    }
+
+    public get isAccountConfirmed() {
+        return this.props.isAccountConfirmed;
     }
 
     public changePassword(newPassword: string) {
