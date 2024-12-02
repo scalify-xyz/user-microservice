@@ -26,7 +26,9 @@ export class User {
     }
 
     private validate() {
-        // Add Email and Password Size Validation
+       if (this.password.length < 5 ) {
+            throw new Error("Password is too weak")
+       }
     }
 
     public get id() {

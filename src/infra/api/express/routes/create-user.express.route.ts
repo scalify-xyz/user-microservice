@@ -23,17 +23,22 @@ export class CreateUserRoute implements Route {
 
     public getHandler(): (request: Request, response: Response) => Promise<void> {
         return async (request: Request, response: Response) => {
-            const { name, email, password } = request.body;
+            try {
+                const { name, email, password } = request.body;
 
-            const input: CreateUserInputDto = {
-                name, 
-                email, 
-                password
+                const input: CreateUserInputDto = {
+                    name,
+                    email,
+                    password
+                }
+
+                const output: CreateUserOutputDto = await this.createUserService.execute(input);
+
+                response.status(201).json(output)
+            } catch (error) {
+                response.status(400).json({ message: error.message })
             }
 
-            const output: CreateUserOutputDto = await this.createUserService.execute(input);
-
-            response.status(201).json(output)
         }
     }
 
