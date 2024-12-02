@@ -11,15 +11,15 @@ export class ChangePasswordUserRoute implements Route {
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly changePasswordUser: ChangePasswordUserUsecase,
+        private readonly changePasswordUserService: ChangePasswordUserUsecase,
         private readonly jsonwebtokenClient: jsonwebtokenPackage,
     ) { }
 
-    public static create(changePasswordUser: ChangePasswordUserUsecase, jsonwebtokenClient: jsonwebtokenPackage) {
+    public static create(changePasswordUserService: ChangePasswordUserUsecase, jsonwebtokenClient: jsonwebtokenPackage) {
         return new ChangePasswordUserRoute(
             "/change-password",
             HttpMethod.POST,
-            changePasswordUser,
+            changePasswordUserService,
             jsonwebtokenClient
         )
     }
@@ -55,7 +55,7 @@ export class ChangePasswordUserRoute implements Route {
                 }
 
                 const input: ChangePasswordUserInputDto = { password, email: userEmail }
-                const output: ChangePasswordUserOutputDto = await this.changePasswordUser.execute(input);
+                const output: ChangePasswordUserOutputDto = await this.changePasswordUserService.execute(input);
 
                 response.status(201).json(output)
             } catch (error) {

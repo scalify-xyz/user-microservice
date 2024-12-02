@@ -10,14 +10,14 @@ export class AuthUserRoute implements Route {
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly authUser: AuthUserUsecase,
+        private readonly authUserService: AuthUserUsecase,
     ) { }
 
-    public static create(authUser: AuthUserUsecase) {
+    public static create(authUserService: AuthUserUsecase) {
         return new AuthUserRoute(
             "/login",
             HttpMethod.POST,
-            authUser
+            authUserService
         )
     }
 
@@ -31,7 +31,7 @@ export class AuthUserRoute implements Route {
                     password
                 }
 
-                const output: AuthUserOutputDto = await this.authUser.execute(input);
+                const output: AuthUserOutputDto = await this.authUserService.execute(input);
 
                 response.status(201).json(output)
             } catch (error) {
