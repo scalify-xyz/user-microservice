@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { HttpMethod, Route } from "..";
 import { ChangePasswordUserInputDto, ChangePasswordUserOutputDto, ChangePasswordUserUsecase } from "../../../../usecases/change-password-user/change-password-user.usecase";
-import { jsonwebtokenPackage } from "../../../repositories/jsonwebtoken/package";
+import { jsonwebtokenPackage } from "../../../packages/jsonwebtoken/package";
 import CleanBearerToken from "../../../../utils/CleanBearerToken";
 
 
@@ -48,10 +48,13 @@ export class ChangePasswordUserRoute implements Route {
         return async (request: Request, response: Response) => {
             try {
                 const userEmail = response.locals.userEmail as string;
-                const { password } = request.body;
+                const { password, email } = request.body;
+
+                if (userEmail !== email) {
+                    throw new Error("Authentication failure")
+                }
 
                 const input: ChangePasswordUserInputDto = { password, email: userEmail }
-
                 const output: ChangePasswordUserOutputDto = await this.changePasswordUser.execute(input);
 
                 response.status(201).json(output)

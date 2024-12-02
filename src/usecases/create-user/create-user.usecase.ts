@@ -20,6 +20,10 @@ export class CreateUserUsecase implements UseCase<CreateUserInputDto, CreateUser
     }
 
     public async execute({ name, email, password }: CreateUserInputDto): Promise<CreateUserOutputDto> {
+        if (password.length < 5 ) {
+            throw new Error("Password is too weak")
+       }
+
         const user = User.create(name, email, password)
 
         await this.userGateway.save(user);

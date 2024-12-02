@@ -13,8 +13,6 @@ export class User {
         this.props.email = props.email;
         this.props.password = props.password;
         this.props.isAccountConfirmed = props.isAccountConfirmed;
-
-        this.validate();
     }
 
     public static create(name: string, email: string, password: string) {
@@ -23,12 +21,6 @@ export class User {
 
     public static with(props: UserProps) {
         return new User(props);
-    }
-
-    private validate() {
-       if (this.password.length < 5 ) {
-            throw new Error("Password is too weak")
-       }
     }
 
     public get id() {
@@ -49,9 +41,5 @@ export class User {
 
     public get isAccountConfirmed() {
         return this.props.isAccountConfirmed;
-    }
-
-    public changePassword(newPassword: string) {
-        this.props.password = newPassword;
     }
 }

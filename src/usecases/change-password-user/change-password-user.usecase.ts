@@ -16,6 +16,10 @@ export class ChangePasswordUserUsecase implements UseCase<ChangePasswordUserInpu
     }
 
     public async execute({ email, password }: ChangePasswordUserInputDto): Promise<any> {
+        if (password.length < 5) {
+            throw new Error("Password is too weak")
+        }
+
         await this.userGateway.changePassword(email, password);
     }
 }

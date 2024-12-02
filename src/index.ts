@@ -1,6 +1,6 @@
 import { prisma } from "./infra/repositories/prisma/package";
-import { argon2Package } from "./infra/repositories/argon2/package";
-import { jsonwebtokenPackage } from "./infra/repositories/jsonwebtoken/package";
+import { argon2Package } from "./infra/packages/argon2/package";
+import { jsonwebtokenPackage } from "./infra/packages/jsonwebtoken/package";
 
 import { UserRepositoryPrisma } from "./infra/repositories/prisma/user.repository.prisma";
 
