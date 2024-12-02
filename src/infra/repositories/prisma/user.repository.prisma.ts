@@ -1,14 +1,15 @@
 import { PrismaClient } from "@prisma/client";
+import { Argon2Package } from "../argon2/package";
+
 import { UserGateway } from "../../../domain/gateway/user.gateway";
 import { User } from "../../../domain/entity/user.entity";
-import { hash } from "argon2";
 
 
 export class UserRepositoryPrisma implements UserGateway {
-    private constructor(private readonly prismaClient: PrismaClient) { }
+    private constructor(private readonly prismaClient: PrismaClient, private readonly argon2Client: Argon2Package) { }
 
-    public static create(prismaClient: PrismaClient) {
-        return new UserRepositoryPrisma(prismaClient);
+    public static create(prismaClient: PrismaClient, argon2Client: Argon2Package) {
+        return new UserRepositoryPrisma(prismaClient, argon2Client);
     }
 
     public async save(user: User): Promise<void> {
@@ -23,7 +24,7 @@ export class UserRepositoryPrisma implements UserGateway {
                     id: user.id,
                     name: user.name,
                     email: user.email,
-                    password: await hash(user.password),
+                    password: await this.argon2Client.hash(user.password),
                     isAccountConfirmed: user.isAccountConfirmed,
                 }
             });
@@ -31,5 +32,13 @@ export class UserRepositoryPrisma implements UserGateway {
             throw new Error("Error registering user")
         }
 
+    }
+
+    public async login(email: string, password: string): Promise<void> {
+        const verificationUser = await this.prismaClient.user.findFirst({ where: { email: email } });
+        if (!verificationUser?.id || await !this.argon2Client.verify(verificationUser.password, password)) {
+            throw new Error("Authentication failure")
+        }
+        return;
     }
 }
