@@ -1,7 +1,7 @@
 import { Route } from ".";
 import { Api } from "..";
 import express, { Express } from "express";
-
+import { ILayer } from "express-serve-static-core";
 
 export class ApiExpress implements Api {
 
@@ -21,9 +21,14 @@ export class ApiExpress implements Api {
         routes.forEach(route => {
             const path = route.getPath();
             const method = route.getMethod();
+            const middleware = route?.getMiddleware && route?.getMiddleware();
             const handler = route.getHandler();
 
-            this.app[method](path, handler);
+            if (middleware) {
+                this.app[method](path, middleware, handler);
+            } else {
+                this.app[method](path, handler);
+            }
         })
     }
 
@@ -36,8 +41,8 @@ export class ApiExpress implements Api {
 
     private listRoutes() {
         const routes = this.app._router.stack
-            .filter((routeObj1: any) => routeObj1.route?.path)
-            .map((routeObj2: any) => ({
+            .filter((routeObj1: ILayer) => routeObj1.route?.path)
+            .map((routeObj2: ILayer) => ({
                 path: routeObj2.route?.path,
                 method: routeObj2.route?.stack[0].method
             }));

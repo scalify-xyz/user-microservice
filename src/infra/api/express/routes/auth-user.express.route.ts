@@ -3,7 +3,7 @@ import { HttpMethod, Route } from "..";
 import { AuthUserInputDto, AuthUserOutputDto, AuthUserUsecase } from "../../../../usecases/auth-user/auth-user.usecase";
 
 export type AuthUserResponseDto = {
-    jwt: string;
+    token: string;
 }
 
 export class AuthUserRoute implements Route {

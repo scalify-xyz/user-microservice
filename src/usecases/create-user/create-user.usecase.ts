@@ -19,7 +19,7 @@ export class CreateUserUsecase implements UseCase<CreateUserInputDto, CreateUser
         return new CreateUserUsecase(userGateway);
     }
 
-    public async execute({ name, email, password }: CreateUserInputDto): Promise<any> {
+    public async execute({ name, email, password }: CreateUserInputDto): Promise<CreateUserOutputDto> {
         const user = User.create(name, email, password)
 
         await this.userGateway.save(user);
