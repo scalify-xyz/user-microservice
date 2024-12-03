@@ -4,7 +4,6 @@ import express, { Express } from "express";
 import { ILayer } from "express-serve-static-core";
 
 export class ApiExpress implements Api {
-
     private app: Express;
 
     private constructor(routes: Route[]) {

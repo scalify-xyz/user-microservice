@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { HttpMethod, Route } from "..";
 import { ChangePasswordUserInputDto, ChangePasswordUserOutputDto, ChangePasswordUserUsecase } from "../../../../usecases/change-password-user/change-password-user.usecase";
 import { jsonwebtokenPackage } from "../../../packages/jsonwebtoken/package";
-import CleanBearerToken from "../../../../utils/CleanBearerToken";
+import CleanBearerToken from "../../../../utils/CleanBearerToken/CleanBearerToken";
 
 
 export type ChangePasswordUserResponseDto = {}

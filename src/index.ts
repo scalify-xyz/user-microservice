@@ -16,7 +16,7 @@ import { ApiExpress } from "./infra/api/express/api.express";
 
 
 
-function configurationRoutes() {
+export function configurationRoutes() {
     const prismaClient = prisma;
     const argon2Client = argon2Package;
     const jsonwebtokenClient = jsonwebtokenPackage;
@@ -30,7 +30,7 @@ function configurationRoutes() {
     const createUserUsecase = CreateUserUsecase.create(userRepository);
     const authUserUsecase = AuthUserUsecase.create(userRepository);
     const changePasswordUserUsecase = ChangePasswordUserUsecase.create(userRepository);
-    
+
     const createUserRoute = CreateUserRoute.create(createUserUsecase);
     const authUserRoute = AuthUserRoute.create(authUserUsecase);
     const changePasswordUserRoute = ChangePasswordUserRoute.create(changePasswordUserUsecase, jsonwebtokenClient);
