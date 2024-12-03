@@ -18,7 +18,7 @@ export class ApiExpress implements Api {
     }
 
     private addRoutes(routes: Route[]) {
-        routes.forEach(route => {
+        routes.forEach((route) => {
             const path = route.getPath();
             const method = route.getMethod();
             const middleware = route?.getMiddleware && route?.getMiddleware();
@@ -29,14 +29,14 @@ export class ApiExpress implements Api {
             } else {
                 this.app[method](path, handler);
             }
-        })
+        });
     }
 
     start(port: number): void {
         this.app.listen(port, () => {
             console.log(`Service Running on port ${port}`);
             this.listRoutes();
-        })
+        });
     }
 
     private listRoutes() {
@@ -44,7 +44,7 @@ export class ApiExpress implements Api {
             .filter((routeObj1: ILayer) => routeObj1.route?.path)
             .map((routeObj2: ILayer) => ({
                 path: routeObj2.route?.path,
-                method: routeObj2.route?.stack[0].method
+                method: routeObj2.route?.stack[0].method,
             }));
 
         console.log(routes);

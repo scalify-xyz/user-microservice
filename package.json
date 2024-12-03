@@ -2,17 +2,25 @@
    "scripts": {
       "dev": "tsx watch src/index.ts",
       "start": "ts-node src/index.ts",
-      "typeorm": "typeorm-ts-node-commonjs"
+      "lint": "eslint . ",
+      "lint:fix": "eslint . --fix "
    },
    "devDependencies": {
+      "@eslint/js": "^9.16.0",
       "@types/argon2": "^0.14.1",
       "@types/express": "^5.0.0",
       "@types/node": "^16.11.10",
+      "eslint": "^8.57.1",
+      "eslint-config-standard": "^17.1.0",
+      "eslint-plugin-import": "^2.31.0",
+      "eslint-plugin-n": "^16.6.2",
+      "eslint-plugin-promise": "^6.6.0",
+      "globals": "^15.13.0",
       "prisma": "^6.0.0",
       "ts-node": "10.9.1",
       "tsx": "^4.19.2",
-      "typeorm": "^0.3.20",
-      "typescript": "4.5.2"
+      "typescript": "4.5.2",
+      "typescript-eslint": "^8.17.0"
    },
    "dependencies": {
       "@prisma/client": "^6.0.0",
@@ -21,7 +29,6 @@
       "express": "^4.21.1",
       "jsonwebtoken": "^9.0.2",
       "pg": "^8.4.0",
-      "reflect-metadata": "^0.1.13",
-      "typeorm": "0.3.20"
+      "reflect-metadata": "^0.1.13"
    }
 }

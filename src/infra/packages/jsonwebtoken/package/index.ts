@@ -1,5 +1,5 @@
 import { sign, verify } from "jsonwebtoken";
-import { KeyObject } from 'crypto';
+import { KeyObject } from "crypto";
 
 type JwtPayload = { email: string; iat: number };
 

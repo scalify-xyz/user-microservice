@@ -1,4 +1,4 @@
-import { UseCase } from "../"
+import { UseCase } from "../";
 import { User } from "../../domain/entity/user.entity";
 import { UserGateway } from "../../domain/gateway/user.gateway";
 
@@ -21,16 +21,16 @@ export class CreateUserUsecase implements UseCase<CreateUserInputDto, CreateUser
 
     public async execute({ name, email, password }: CreateUserInputDto): Promise<CreateUserOutputDto> {
         if (password.length < 5 ) {
-            throw new Error("Password is too weak")
+            throw new Error("Password is too weak");
        }
 
-        const user = User.create(name, email, password)
+        const user = User.create(name, email, password);
 
         await this.userGateway.save(user);
 
         const output: CreateUserOutputDto = {
-            id: user.id
-        }
+            id: user.id,
+        };
 
         return output;
     }

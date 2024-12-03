@@ -17,8 +17,8 @@ export class AuthUserRoute implements Route {
         return new AuthUserRoute(
             "/login",
             HttpMethod.POST,
-            authUserService
-        )
+            authUserService,
+        );
     }
 
     public getHandler(): (request: Request, response: Response) => Promise<void> {
@@ -28,17 +28,17 @@ export class AuthUserRoute implements Route {
 
                 const input: AuthUserInputDto = {
                     email,
-                    password
-                }
+                    password,
+                };
 
                 const output: AuthUserOutputDto = await this.authUserService.execute(input);
 
-                response.status(201).json(output)
+                response.status(201).json(output);
             } catch (error) {
-                response.status(400).json({ message: error.message })
+                response.status(400).json({ message: error.message });
             }
 
-        }
+        };
     }
 
     getPath(): string {

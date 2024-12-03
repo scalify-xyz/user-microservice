@@ -1,4 +1,4 @@
-import { UseCase } from "../"
+import { UseCase } from "../";
 import { UserGateway } from "../../domain/gateway/user.gateway";
 
 export type AuthUserInputDto = {
@@ -21,8 +21,8 @@ export class AuthUserUsecase implements UseCase<AuthUserInputDto, AuthUserOutput
         const login = await this.userGateway.login(email, password);
 
         const output: AuthUserOutputDto = {
-            token: login.token
-        }
+            token: login.token,
+        };
 
         return output;
     }

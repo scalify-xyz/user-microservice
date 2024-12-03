@@ -20,12 +20,12 @@ export class ChangePasswordUserRoute implements Route {
             "/change-password",
             HttpMethod.POST,
             changePasswordUserService,
-            jsonwebtokenClient
-        )
+            jsonwebtokenClient,
+        );
     }
 
     public getMiddleware(): (request: Request, response: Response, next: NextFunction) => void {
-        const verify = this.jsonwebtokenClient.verify
+        const verify = this.jsonwebtokenClient.verify;
 
         return function (request: Request, response: Response, next: NextFunction) {
             const bearerToken = request.headers["authorization"];
@@ -40,8 +40,8 @@ export class ChangePasswordUserRoute implements Route {
                 return response.status(401).json({ message: "Unauthorized" });
             }
             response.locals.userEmail = verifiedToken?.email;
-            next()
-        }
+            next();
+        };
     }
 
     public getHandler(): (request: Request, response: Response) => Promise<void> {
@@ -51,18 +51,18 @@ export class ChangePasswordUserRoute implements Route {
                 const { password, email } = request.body;
 
                 if (userEmail !== email) {
-                    throw new Error("Authentication failure")
+                    throw new Error("Authentication failure");
                 }
 
-                const input: ChangePasswordUserInputDto = { password, email: userEmail }
+                const input: ChangePasswordUserInputDto = { password, email: userEmail };
                 const output: ChangePasswordUserOutputDto = await this.changePasswordUserService.execute(input);
 
-                response.status(201).json(output)
+                response.status(201).json(output);
             } catch (error) {
-                response.status(400).json({ message: error.message })
+                response.status(400).json({ message: error.message });
             }
 
-        }
+        };
     }
 
     getPath(): string {

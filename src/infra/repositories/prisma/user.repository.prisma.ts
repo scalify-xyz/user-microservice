@@ -17,15 +17,15 @@ export class UserRepositoryPrisma implements UserGateway {
     public static create(
         prismaClient: PrismaClient,
         argon2Client: Argon2Package,
-        jsonwebtokenClient: jsonwebtokenPackage
+        jsonwebtokenClient: jsonwebtokenPackage,
     ) {
         return new UserRepositoryPrisma(prismaClient, argon2Client, jsonwebtokenClient);
     }
 
     public async save(user: User): Promise<void> {
         const verificationUser = await this.prismaClient.user.findFirst({ where: { email: user.email } });
-        if (!!verificationUser?.id) {
-            throw new Error("Email is already being used")
+        if (verificationUser?.id) {
+            throw new Error("Email is already being used");
         }
 
         await this.prismaClient.user.create({
@@ -35,7 +35,7 @@ export class UserRepositoryPrisma implements UserGateway {
                 email: user.email,
                 password: await this.argon2Client.hash(user.password),
                 isAccountConfirmed: user.isAccountConfirmed,
-            }
+            },
         });
     }
 
@@ -45,10 +45,10 @@ export class UserRepositoryPrisma implements UserGateway {
         const isCorrectUser = await this.argon2Client.verify(verificationUser.password, password);
 
         if (!verificationUser?.id || !isCorrectUser || !token) {
-            throw new Error("Authentication failure")
+            throw new Error("Authentication failure");
         }
         if (!verificationUser.isAccountConfirmed) {
-            throw new Error("Unconfirmed email")
+            throw new Error("Unconfirmed email");
         }
         return { token: token };
     }
@@ -56,16 +56,16 @@ export class UserRepositoryPrisma implements UserGateway {
     public async changePassword(email: string, password: string): Promise<void> {
         const verificationUser = await this.prismaClient.user.findFirst({ where: { email: email } });
         if (!verificationUser?.id) {
-            throw new Error("Failed to change password")
+            throw new Error("Failed to change password");
         }
 
         await this.prismaClient.user.update({
             where: {
-                email
+                email,
             },
             data: {
-                password: await this.argon2Client.hash(password)
-            }
-        })
+                password: await this.argon2Client.hash(password),
+            },
+        });
     }
 }

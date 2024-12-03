@@ -24,7 +24,7 @@ function configurationRoutes() {
     const userRepository = UserRepositoryPrisma.create(
         prismaClient,
         argon2Client,
-        jsonwebtokenClient
+        jsonwebtokenClient,
     );
 
     const createUserUsecase = CreateUserUsecase.create(userRepository);
@@ -35,14 +35,14 @@ function configurationRoutes() {
     const authUserRoute = AuthUserRoute.create(authUserUsecase);
     const changePasswordUserRoute = ChangePasswordUserRoute.create(changePasswordUserUsecase, jsonwebtokenClient);
 
-    return [createUserRoute, authUserRoute, changePasswordUserRoute]
+    return [createUserRoute, authUserRoute, changePasswordUserRoute];
 }
 
 
 (function start() {
     const routes = configurationRoutes();
     const port = 8080;
-    const api = ApiExpress.create(routes)
+    const api = ApiExpress.create(routes);
 
     api.start(port);
 })();

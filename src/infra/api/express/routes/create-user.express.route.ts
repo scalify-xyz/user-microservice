@@ -17,8 +17,8 @@ export class CreateUserRoute implements Route {
         return new CreateUserRoute(
             "/users",
             HttpMethod.POST,
-            createUserService
-        )
+            createUserService,
+        );
     }
 
     public getHandler(): (request: Request, response: Response) => Promise<void> {
@@ -29,17 +29,17 @@ export class CreateUserRoute implements Route {
                 const input: CreateUserInputDto = {
                     name,
                     email,
-                    password
-                }
+                    password,
+                };
 
                 const output: CreateUserOutputDto = await this.createUserService.execute(input);
 
-                response.status(201).json(output)
+                response.status(201).json(output);
             } catch (error) {
-                response.status(400).json({ message: error.message })
+                response.status(400).json({ message: error.message });
             }
 
-        }
+        };
     }
 
     getPath(): string {
