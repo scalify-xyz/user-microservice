@@ -1,11 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 
-import { IUserGatewayRepository } from "../../../domain/gateway/repositories/user.gateway.repository";
+import { ChangePasswordDTO, IUserGatewayRepository, LoginDTO, LoginResponseDTO } from "../../../domain/gateway/repositories/user.gateway.repository";
 import { IArgon2GatewayProvider } from "../../../domain/gateway/providers/argon2.gateway.provider";
 import { IJsonWebTokenGatewayProvider } from "../../../domain/gateway/providers/jsonwebtoken.gateway.provider";
 
 import { User } from "../../../domain/entity/user.entity";
-import { AuthUserOutputDto } from "../../../usecases/auth-user/auth-user.usecase";
 
 
 export class UserRepositoryPrisma implements IUserGatewayRepository {
@@ -40,7 +39,7 @@ export class UserRepositoryPrisma implements IUserGatewayRepository {
         });
     }
 
-    public async login(email: string, password: string): Promise<AuthUserOutputDto> {
+    public async login({ email, password }: LoginDTO): Promise<LoginResponseDTO> {
         const verificationUser = await this.prismaClient.user.findFirst({ where: { email: email } });
         if (!verificationUser?.id) {
             throw new Error("Authentication failure");
@@ -59,7 +58,7 @@ export class UserRepositoryPrisma implements IUserGatewayRepository {
         return { token: token };
     }
 
-    public async changePassword(email: string, password: string): Promise<void> {
+    public async changePassword({ email, password }: ChangePasswordDTO): Promise<void> {
         const verificationUser = await this.prismaClient.user.findFirst({ where: { email: email } });
         if (!verificationUser?.id) {
             throw new Error("Failed to change password");

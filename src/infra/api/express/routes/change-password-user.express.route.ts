@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { HttpMethod, Route } from "..";
-import { ChangePasswordUserInputDto, ChangePasswordUserOutputDto, ChangePasswordUserUsecase } from "../../../../usecases/change-password-user/change-password-user.usecase";
+import { ChangePasswordUserUsecase } from "../../../../usecases/change-password-user/change-password-user.usecase";
 import CleanBearerToken from "../../../../utils/CleanBearerToken";
 import { IJsonWebTokenGatewayProvider } from "../../../../domain/gateway/providers/jsonwebtoken.gateway.provider";
+import { ChangePasswordDTO, ChangePasswordResponseDTO } from "../../../../domain/gateway/repositories/user.gateway.repository";
 
 
 export type ChangePasswordUserResponseDto = {}
@@ -54,8 +55,8 @@ export class ChangePasswordUserRoute implements Route {
                     throw new Error("Authentication failure");
                 }
 
-                const input: ChangePasswordUserInputDto = { password, email: userEmail };
-                const output: ChangePasswordUserOutputDto = await this.changePasswordUserService.execute(input);
+                const input: ChangePasswordDTO = { password, email: userEmail };
+                const output: ChangePasswordResponseDTO = await this.changePasswordUserService.execute(input);
 
                 response.status(201).json(output);
             } catch (error) {

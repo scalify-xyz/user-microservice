@@ -1,26 +1,18 @@
 import { UseCase } from "../";
-import { IUserGatewayRepository } from "../../domain/gateway/repositories/user.gateway.repository";
+import { IUserGatewayRepository, LoginDTO, LoginResponseDTO } from "../../domain/gateway/repositories/user.gateway.repository";
 
-export type AuthUserInputDto = {
-    email: string;
-    password: string;
-}
 
-export type AuthUserOutputDto = {
-    token: string;
-}
-
-export class AuthUserUsecase implements UseCase<AuthUserInputDto, AuthUserOutputDto> {
+export class AuthUserUsecase implements UseCase<LoginDTO, LoginResponseDTO> {
     private constructor(private readonly userRepository: IUserGatewayRepository) { }
 
     public static create(userRepository: IUserGatewayRepository) {
         return new AuthUserUsecase(userRepository);
     }
 
-    public async execute({ email, password }: AuthUserInputDto): Promise<AuthUserOutputDto> {
-        const login = await this.userRepository.login(email, password);
+    public async execute({ email, password }: LoginDTO): Promise<LoginResponseDTO> {
+        const login = await this.userRepository.login({ email, password });
 
-        const output: AuthUserOutputDto = {
+        const output: LoginResponseDTO = {
             token: login.token,
         };
 

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { HttpMethod, Route } from "..";
-import { CreateUserInputDto, CreateUserOutputDto, CreateUserUsecase } from "../../../../usecases/create-user/create-user.usecase";
+import { CreateUserUsecase } from "../../../../usecases/create-user/create-user.usecase";
+import { SaveDTO, SaveResponseDTO } from "../../../../domain/gateway/repositories/user.gateway.repository";
 
 export type CreateUserResponseDto = {
     id: string;
@@ -26,13 +27,13 @@ export class CreateUserRoute implements Route {
             try {
                 const { name, email, password } = request.body;
 
-                const input: CreateUserInputDto = {
+                const input: SaveDTO = {
                     name,
                     email,
                     password,
                 };
 
-                const output: CreateUserOutputDto = await this.createUserService.execute(input);
+                const output: SaveResponseDTO = await this.createUserService.execute(input);
 
                 response.status(201).json(output);
             } catch (error) {

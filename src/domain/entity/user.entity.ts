@@ -1,4 +1,4 @@
-export type UserProps = {
+export type IUser = {
     id: string;
     name: string;
     email: string;
@@ -9,7 +9,7 @@ export type UserProps = {
 export type UserLoginDto = (email: string, password: string) => void;
 
 export class User {
-    private constructor(private props: UserProps) {
+    private constructor(private props: IUser) {
         this.props.id = props.id;
         this.props.name = props.name;
         this.props.email = props.email;
@@ -21,7 +21,7 @@ export class User {
         return new User({ id: crypto.randomUUID().toString(), name, email, password, isAccountConfirmed: false });
     }
 
-    public static with(props: UserProps) {
+    public static with(props: IUser) {
         return new User(props);
     }
 

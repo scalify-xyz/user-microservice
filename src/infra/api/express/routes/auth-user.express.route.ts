@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { HttpMethod, Route } from "..";
-import { AuthUserInputDto, AuthUserOutputDto, AuthUserUsecase } from "../../../../usecases/auth-user/auth-user.usecase";
+import { AuthUserUsecase } from "../../../../usecases/auth-user/auth-user.usecase";
+import { LoginDTO, LoginResponseDTO } from "../../../../domain/gateway/repositories/user.gateway.repository";
 
 export type AuthUserResponseDto = {
     token: string;
@@ -26,12 +27,12 @@ export class AuthUserRoute implements Route {
             try {
                 const { email, password } = request.body;
 
-                const input: AuthUserInputDto = {
+                const input: LoginDTO = {
                     email,
                     password,
                 };
 
-                const output: AuthUserOutputDto = await this.authUserService.execute(input);
+                const output: LoginResponseDTO = await this.authUserService.execute(input);
 
                 response.status(201).json(output);
             } catch (error) {

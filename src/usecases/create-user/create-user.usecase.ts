@@ -1,25 +1,15 @@
 import { UseCase } from "../";
 import { User } from "../../domain/entity/user.entity";
-import { IUserGatewayRepository } from "../../domain/gateway/repositories/user.gateway.repository";
+import { IUserGatewayRepository, SaveDTO, SaveResponseDTO } from "../../domain/gateway/repositories/user.gateway.repository";
 
-export type CreateUserInputDto = {
-    name: string;
-    email: string;
-    password: string;
-}
-
-export type CreateUserOutputDto = {
-    id: string;
-}
-
-export class CreateUserUsecase implements UseCase<CreateUserInputDto, CreateUserOutputDto> {
+export class CreateUserUsecase implements UseCase<SaveDTO, SaveResponseDTO> {
     private constructor(private readonly userRepository: IUserGatewayRepository) { }
 
     public static create (userRepository: IUserGatewayRepository) {
         return new CreateUserUsecase(userRepository);
     }
 
-    public async execute({ name, email, password }: CreateUserInputDto): Promise<CreateUserOutputDto> {
+    public async execute({ name, email, password }: SaveDTO): Promise<SaveResponseDTO> {
         if (password.length < 5 ) {
             throw new Error("Password is too weak");
        }
@@ -28,7 +18,7 @@ export class CreateUserUsecase implements UseCase<CreateUserInputDto, CreateUser
 
         await this.userRepository.save(user);
 
-        const output: CreateUserOutputDto = {
+        const output: SaveResponseDTO = {
             id: user.id,
         };
 
