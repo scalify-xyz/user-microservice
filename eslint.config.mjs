@@ -56,12 +56,7 @@ export default [
               position: "after",
             },
             {
-              pattern: "@utils/**",
-              group: "internal",
-              position: "after",
-            },
-            {
-              pattern: "@exceptions/**",
+              pattern: "@shared/**",
               group: "internal",
               position: "after",
             },

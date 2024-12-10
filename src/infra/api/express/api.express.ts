@@ -2,7 +2,8 @@ import express, { Express } from "express";
 // eslint-disable-next-line import/no-unresolved
 import { ILayer } from "express-serve-static-core";
 
-import { ErrorHandlerMiddleware } from "@exceptions/index";
+
+import { ErrorHandlerMiddleware } from "@shared/middlewares/error-handler.middleware";
 
 import { Api } from "..";
 
@@ -25,17 +26,17 @@ export class ApiExpress implements Api {
         routes.forEach((route) => {
             const path = route.getPath();
             const method = route.getMethod();
-            const middleware = route?.getMiddleware && route?.getMiddleware();
+            const middlewares = route?.getMiddlewares && route?.getMiddlewares();
             const handler = route.getHandler();
 
-            if (middleware) {
-                this.app[method](path, middleware, handler);
+            if (middlewares) {
+                this.app[method](path, middlewares, handler);
             } else {
                 this.app[method](path, handler);
             }
-        });
 
-        // Add Middleware
+        });
+        // Add Global Middlewares
         this.app.use(ErrorHandlerMiddleware);
     }
 

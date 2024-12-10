@@ -11,11 +11,8 @@
          "@infra/*": [
             "src/infra/*"
          ],
-         "@utils/*": [
-            "src/utils/*"
-         ],
-         "@exceptions/*": [
-            "src/exceptions/*"
+         "@shared/*": [
+            "src/shared/*"
          ],
       },
       "lib": [

@@ -51,4 +51,8 @@ export class AuthUserRoute implements Route {
     getMethod(): HttpMethod {
         return this.method;
     }
+
+    getMiddlewares(): Middlewares[] {
+        return [];
+    }
 }

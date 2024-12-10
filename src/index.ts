@@ -12,9 +12,10 @@ import { Argon2Provider } from "@infra/providers/argon2.provider";
 import { JsonWebTokenProvider } from "@infra/providers/jsonwebtoken.provider";
 import { UserRepositoryPrisma } from "@infra/repositories/prisma/user.repository.prisma";
 
+import { AuthenticateMiddleware } from "@shared/middlewares/authenticate.middleware";
+
 interface Dependencies {
   userRepository: UserRepositoryPrisma;
-  argon2Client: Argon2Provider;
   jsonwebtokenClient: JsonWebTokenProvider;
 }
 
@@ -27,7 +28,6 @@ function createDependencies(): Dependencies {
 
   return {
     userRepository,
-    argon2Client,
     jsonwebtokenClient,
   };
 }
@@ -39,8 +39,10 @@ function configurationRoutes(dependencies: Dependencies) {
 
   const createUserRoute = CreateUserRoute.create(createUserUsecase);
   const authUserRoute = AuthUserRoute.create(authUserUsecase);
-  const changePasswordUserRoute = ChangePasswordUserRoute.create(changePasswordUserUsecase, dependencies.jsonwebtokenClient);
-
+  const changePasswordUserRoute = ChangePasswordUserRoute.create(changePasswordUserUsecase);
+  
+  changePasswordUserRoute.getMiddlewares = () => [AuthenticateMiddleware(dependencies.jsonwebtokenClient)];
+  
   return [createUserRoute, authUserRoute, changePasswordUserRoute];
 }
 

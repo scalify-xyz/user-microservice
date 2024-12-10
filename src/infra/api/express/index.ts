@@ -11,5 +11,5 @@ export interface Route {
     getHandler(): (request: Request, response: Response, next: NextFunction) => Promise<void>;
     getPath(): string;
     getMethod(): HttpMethod;
-    getMiddleware?: () => (request: Request, response: Response, next: NextFunction) => void;
+    getMiddlewares(): Middlewares[];
 }

@@ -5,10 +5,7 @@ import { ChangePasswordDTO, ChangePasswordResponseDTO } from "@domain/gateway/re
 
 import { ChangePasswordUserUsecase } from "@usecases/change-password-user/change-password-user.usecase";
 
-import CleanBearerToken from "@utils/CleanBearerToken";
-
 import { HttpMethod, Route } from "..";
-
 
 export type ChangePasswordUserResponseDto = {}
 
@@ -17,36 +14,14 @@ export class ChangePasswordUserRoute implements Route {
         private readonly path: string,
         private readonly method: HttpMethod,
         private readonly changePasswordUserService: ChangePasswordUserUsecase,
-        private readonly jsonwebtokenClient: IJsonWebTokenGatewayProvider,
     ) { }
 
-    public static create(changePasswordUserService: ChangePasswordUserUsecase, jsonwebtokenClient: IJsonWebTokenGatewayProvider) {
+    public static create(changePasswordUserService: ChangePasswordUserUsecase) {
         return new ChangePasswordUserRoute(
             "/change-password",
             HttpMethod.POST,
             changePasswordUserService,
-            jsonwebtokenClient,
         );
-    }
-
-    public getMiddleware(): (request: Request, response: Response, next: NextFunction) => void {
-        const verify = this.jsonwebtokenClient.verify;
-
-        return function (request: Request, response: Response, next: NextFunction) {
-            const bearerToken = request.headers["authorization"];
-            if (!bearerToken) {
-                return response.status(401).json({ message: "Unauthorized" });
-            }
-            const token = CleanBearerToken.create(bearerToken).getToken();
-
-            const verifiedToken = verify(token, process.env.JWT_SECRET, {});
-
-            if (!verifiedToken?.email) {
-                return response.status(401).json({ message: "Unauthorized" });
-            }
-            response.locals.userEmail = verifiedToken?.email;
-            next();
-        };
     }
 
     public getHandler(): (request: Request, response: Response, next: NextFunction) => Promise<void> {
@@ -76,5 +51,9 @@ export class ChangePasswordUserRoute implements Route {
 
     getMethod(): HttpMethod {
         return this.method;
+    }
+
+    getMiddlewares(): Middlewares[] {
+        return [];
     }
 }
