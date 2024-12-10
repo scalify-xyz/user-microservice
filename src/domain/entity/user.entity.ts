@@ -6,6 +6,8 @@ export type UserProps = {
     isAccountConfirmed: boolean;
 }
 
+export type UserLoginDto = (email: string, password: string) => void;
+
 export class User {
     private constructor(private props: UserProps) {
         this.props.id = props.id;

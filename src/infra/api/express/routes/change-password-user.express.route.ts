@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { HttpMethod, Route } from "..";
 import { ChangePasswordUserInputDto, ChangePasswordUserOutputDto, ChangePasswordUserUsecase } from "../../../../usecases/change-password-user/change-password-user.usecase";
-import { jsonwebtokenPackage } from "../../../packages/jsonwebtoken/package";
-import CleanBearerToken from "../../../../utils/CleanBearerToken/CleanBearerToken";
+import CleanBearerToken from "../../../../utils/CleanBearerToken";
+import { IJsonWebTokenGatewayProvider } from "../../../../domain/gateway/providers/jsonwebtoken.gateway.provider";
 
 
 export type ChangePasswordUserResponseDto = {}
@@ -12,10 +12,10 @@ export class ChangePasswordUserRoute implements Route {
         private readonly path: string,
         private readonly method: HttpMethod,
         private readonly changePasswordUserService: ChangePasswordUserUsecase,
-        private readonly jsonwebtokenClient: jsonwebtokenPackage,
+        private readonly jsonwebtokenClient: IJsonWebTokenGatewayProvider,
     ) { }
 
-    public static create(changePasswordUserService: ChangePasswordUserUsecase, jsonwebtokenClient: jsonwebtokenPackage) {
+    public static create(changePasswordUserService: ChangePasswordUserUsecase, jsonwebtokenClient: IJsonWebTokenGatewayProvider) {
         return new ChangePasswordUserRoute(
             "/change-password",
             HttpMethod.POST,

@@ -1,5 +1,5 @@
 import { UseCase } from "../";
-import { UserGateway } from "../../domain/gateway/user.gateway";
+import { IUserGatewayRepository } from "../../domain/gateway/repositories/user.gateway.repository";
 
 export type AuthUserInputDto = {
     email: string;
@@ -11,14 +11,14 @@ export type AuthUserOutputDto = {
 }
 
 export class AuthUserUsecase implements UseCase<AuthUserInputDto, AuthUserOutputDto> {
-    private constructor(private readonly userGateway: UserGateway) { }
+    private constructor(private readonly userRepository: IUserGatewayRepository) { }
 
-    public static create(userGateway: UserGateway) {
-        return new AuthUserUsecase(userGateway);
+    public static create(userRepository: IUserGatewayRepository) {
+        return new AuthUserUsecase(userRepository);
     }
 
     public async execute({ email, password }: AuthUserInputDto): Promise<AuthUserOutputDto> {
-        const login = await this.userGateway.login(email, password);
+        const login = await this.userRepository.login(email, password);
 
         const output: AuthUserOutputDto = {
             token: login.token,

@@ -1,23 +1,24 @@
 import { PrismaClient } from "@prisma/client";
-import { Argon2Package } from "../../packages/argon2/package";
 
-import { UserGateway } from "../../../domain/gateway/user.gateway";
+import { IUserGatewayRepository } from "../../../domain/gateway/repositories/user.gateway.repository";
+import { IArgon2GatewayProvider } from "../../../domain/gateway/providers/argon2.gateway.provider";
+import { IJsonWebTokenGatewayProvider } from "../../../domain/gateway/providers/jsonwebtoken.gateway.provider";
+
 import { User } from "../../../domain/entity/user.entity";
-import { jsonwebtokenPackage } from "../../packages/jsonwebtoken/package";
 import { AuthUserOutputDto } from "../../../usecases/auth-user/auth-user.usecase";
 
 
-export class UserRepositoryPrisma implements UserGateway {
+export class UserRepositoryPrisma implements IUserGatewayRepository {
     private constructor(
         private readonly prismaClient: PrismaClient,
-        private readonly argon2Client: Argon2Package,
-        private readonly jsonwebtokenClient: jsonwebtokenPackage,
+        private readonly argon2Client: IArgon2GatewayProvider,
+        private readonly jsonwebtokenClient: IJsonWebTokenGatewayProvider,
     ) { }
 
     public static create(
         prismaClient: PrismaClient,
-        argon2Client: Argon2Package,
-        jsonwebtokenClient: jsonwebtokenPackage,
+        argon2Client: IArgon2GatewayProvider,
+        jsonwebtokenClient: IJsonWebTokenGatewayProvider,
     ) {
         return new UserRepositoryPrisma(prismaClient, argon2Client, jsonwebtokenClient);
     }
@@ -41,10 +42,15 @@ export class UserRepositoryPrisma implements UserGateway {
 
     public async login(email: string, password: string): Promise<AuthUserOutputDto> {
         const verificationUser = await this.prismaClient.user.findFirst({ where: { email: email } });
-        const token = await this.jsonwebtokenClient.sign({ email: verificationUser.email }, process.env.JWT_SECRET);
-        const isCorrectUser = await this.argon2Client.verify(verificationUser.password, password);
+        if (!verificationUser?.id) {
+            throw new Error("Authentication failure");
+        }
 
-        if (!verificationUser?.id || !isCorrectUser || !token) {
+        const token = await this.jsonwebtokenClient.sign({ email: verificationUser?.email }, process.env.JWT_SECRET);
+        const isCorrectUser = await this.argon2Client.verify(verificationUser?.password, password);
+
+
+        if (!isCorrectUser || !token) {
             throw new Error("Authentication failure");
         }
         if (!verificationUser.isAccountConfirmed) {

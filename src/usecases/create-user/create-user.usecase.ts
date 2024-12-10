@@ -1,6 +1,6 @@
 import { UseCase } from "../";
 import { User } from "../../domain/entity/user.entity";
-import { UserGateway } from "../../domain/gateway/user.gateway";
+import { IUserGatewayRepository } from "../../domain/gateway/repositories/user.gateway.repository";
 
 export type CreateUserInputDto = {
     name: string;
@@ -13,10 +13,10 @@ export type CreateUserOutputDto = {
 }
 
 export class CreateUserUsecase implements UseCase<CreateUserInputDto, CreateUserOutputDto> {
-    private constructor(private readonly userGateway: UserGateway) { }
+    private constructor(private readonly userRepository: IUserGatewayRepository) { }
 
-    public static create (userGateway: UserGateway) {
-        return new CreateUserUsecase(userGateway);
+    public static create (userRepository: IUserGatewayRepository) {
+        return new CreateUserUsecase(userRepository);
     }
 
     public async execute({ name, email, password }: CreateUserInputDto): Promise<CreateUserOutputDto> {
@@ -26,7 +26,7 @@ export class CreateUserUsecase implements UseCase<CreateUserInputDto, CreateUser
 
         const user = User.create(name, email, password);
 
-        await this.userGateway.save(user);
+        await this.userRepository.save(user);
 
         const output: CreateUserOutputDto = {
             id: user.id,

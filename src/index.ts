@@ -1,6 +1,6 @@
-import { prisma } from "./infra/repositories/prisma/package";
-import { argon2Package } from "./infra/packages/argon2/package";
-import { jsonwebtokenPackage } from "./infra/packages/jsonwebtoken/package";
+import { PrismaClient } from "@prisma/client";
+import { Argon2Provider } from "./infra/providers/argon2.provider";
+import { JsonWebTokenProvider } from "./infra/providers/jsonwebtoken.provider";
 
 import { UserRepositoryPrisma } from "./infra/repositories/prisma/user.repository.prisma";
 
@@ -17,9 +17,9 @@ import { ApiExpress } from "./infra/api/express/api.express";
 
 
 export function configurationRoutes() {
-    const prismaClient = prisma;
-    const argon2Client = argon2Package;
-    const jsonwebtokenClient = jsonwebtokenPackage;
+    const prismaClient = new PrismaClient();
+    const argon2Client = new Argon2Provider();
+    const jsonwebtokenClient = new JsonWebTokenProvider();
 
     const userRepository = UserRepositoryPrisma.create(
         prismaClient,
