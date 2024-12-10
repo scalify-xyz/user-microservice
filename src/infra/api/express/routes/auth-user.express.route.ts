@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { LoginDTO, LoginResponseDTO } from "@domain/gateway/repositories/user.gateway.repository";
+import { LoginDTO, LoginResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
 import { AuthUserUsecase } from "@usecases/auth-user/auth-user.usecase";
 

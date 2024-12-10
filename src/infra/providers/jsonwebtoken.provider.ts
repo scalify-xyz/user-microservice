@@ -2,7 +2,7 @@ import { KeyObject } from "crypto";
 
 import { sign, verify } from "jsonwebtoken";
 
-import { IJsonWebTokenGatewayProvider } from "@domain/gateway/providers/jsonwebtoken.gateway.provider";
+import { IJsonWebTokenGatewayProvider } from "@infra/interfaces/providers/jsonwebtoken.interface.provider";
 
 type JwtPayload = { email: string; iat: number };
 

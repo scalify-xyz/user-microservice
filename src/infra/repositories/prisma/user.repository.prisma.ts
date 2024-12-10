@@ -1,9 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 
 import { User } from "@domain/entity/user.entity";
-import { IArgon2GatewayProvider } from "@domain/gateway/providers/argon2.gateway.provider";
-import { IJsonWebTokenGatewayProvider } from "@domain/gateway/providers/jsonwebtoken.gateway.provider";
-import { ChangePasswordDTO, IUserGatewayRepository, LoginDTO, LoginResponseDTO, SaveResponseDTO } from "@domain/gateway/repositories/user.gateway.repository";
+import { ChangePasswordDTO, IUserGatewayRepository, LoginDTO, LoginResponseDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
+
+import { IArgon2GatewayProvider } from "@infra/interfaces/providers/argon2.interface.provider";
+import { IJsonWebTokenGatewayProvider } from "@infra/interfaces/providers/jsonwebtoken.interface.provider";
 
 
 export class UserRepositoryPrisma implements IUserGatewayRepository {

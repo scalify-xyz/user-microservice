@@ -1,4 +1,4 @@
-import { IUserGatewayRepository, LoginDTO, LoginResponseDTO } from "@domain/gateway/repositories/user.gateway.repository";
+import { IUserGatewayRepository, LoginDTO, LoginResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
 import { UseCase } from "@usecases/index";
 

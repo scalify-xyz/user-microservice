@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { IJsonWebTokenGatewayProvider } from "@domain/gateway/providers/jsonwebtoken.gateway.provider";
-import { ChangePasswordDTO, ChangePasswordResponseDTO } from "@domain/gateway/repositories/user.gateway.repository";
+import { ChangePasswordDTO, ChangePasswordResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
 import { ChangePasswordUserUsecase } from "@usecases/change-password-user/change-password-user.usecase";
 

@@ -1,4 +1,4 @@
-import CleanBearerToken from "./CleanBearerToken";
+import CleanBearerToken from "./clean-bearer-token.util";
 
 describe("CleanBearerToken", () => {
 

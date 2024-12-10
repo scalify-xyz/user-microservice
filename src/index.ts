@@ -11,7 +11,7 @@ import { JsonWebTokenProvider } from "@infra/providers/jsonwebtoken.provider";
 import { PrismaProvider } from "@infra/providers/prisma.provider";
 import { UserRepositoryPrisma } from "@infra/repositories/prisma/user.repository.prisma";
 
-import { AuthenticateMiddleware } from "@shared/middlewares/authenticate.middleware";
+import { AuthenticationMiddleware } from "@shared/middlewares/authentication.middleware";
 
 interface Dependencies {
   userRepository: UserRepositoryPrisma;
@@ -40,12 +40,12 @@ function configurationRoutes(dependencies: Dependencies) {
   const authUserRoute = AuthUserRoute.create(authUserUsecase);
   const changePasswordUserRoute = ChangePasswordUserRoute.create(changePasswordUserUsecase);
   
-  changePasswordUserRoute.getMiddlewares = () => [AuthenticateMiddleware(dependencies.jsonwebtokenClient)];
+  changePasswordUserRoute.getMiddlewares = () => [AuthenticationMiddleware(dependencies.jsonwebtokenClient)];
   
   return [createUserRoute, authUserRoute, changePasswordUserRoute];
 }
 
-function startServer(): void {
+function start(): void {
   const dependencies = createDependencies();
   const routes = configurationRoutes(dependencies);
 
@@ -54,4 +54,4 @@ function startServer(): void {
   api.start(port);
 }
 
-startServer();
+start();

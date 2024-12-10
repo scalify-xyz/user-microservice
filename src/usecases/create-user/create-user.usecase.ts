@@ -1,5 +1,5 @@
 import { User } from "@domain/entity/user.entity";
-import { IUserGatewayRepository, SaveDTO, SaveResponseDTO } from "@domain/gateway/repositories/user.gateway.repository";
+import { IUserGatewayRepository, SaveDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
 import { UseCase } from "@usecases/index";
 
