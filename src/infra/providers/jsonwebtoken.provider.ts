@@ -7,6 +7,11 @@ import { IJsonWebTokenGatewayProvider } from "@domain/gateway/providers/jsonwebt
 type JwtPayload = { email: string; iat: number };
 
 export class JsonWebTokenProvider implements IJsonWebTokenGatewayProvider {
+
+    static create() {
+        return new JsonWebTokenProvider();
+    }
+
     sign(
         payload: string | object,
         secretOrPrivateKey: string | Buffer | KeyObject,
