@@ -1,4 +1,4 @@
-import { User } from "../../entity/user.entity";
+import { User } from "@domain/entity/user.entity";
 
 export interface LoginDTO {
     email: string;

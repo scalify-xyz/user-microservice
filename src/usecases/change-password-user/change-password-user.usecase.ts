@@ -1,5 +1,6 @@
-import { UseCase } from "../";
-import { ChangePasswordDTO, ChangePasswordResponseDTO, IUserGatewayRepository } from "../../domain/gateway/repositories/user.gateway.repository";
+import { ChangePasswordDTO, ChangePasswordResponseDTO, IUserGatewayRepository } from "@domain/gateway/repositories/user.gateway.repository";
+
+import { UseCase } from "@usecases/index";
 
 export class ChangePasswordUserUsecase implements UseCase<ChangePasswordDTO, ChangePasswordResponseDTO> {
     private constructor(private readonly userRepository: IUserGatewayRepository) { }

@@ -1,9 +1,13 @@
 import { NextFunction, Request, Response } from "express";
+
+import { IJsonWebTokenGatewayProvider } from "@domain/gateway/providers/jsonwebtoken.gateway.provider";
+import { ChangePasswordDTO, ChangePasswordResponseDTO } from "@domain/gateway/repositories/user.gateway.repository";
+
+import { ChangePasswordUserUsecase } from "@usecases/change-password-user/change-password-user.usecase";
+
+import CleanBearerToken from "@utils/CleanBearerToken";
+
 import { HttpMethod, Route } from "..";
-import { ChangePasswordUserUsecase } from "../../../../usecases/change-password-user/change-password-user.usecase";
-import CleanBearerToken from "../../../../utils/CleanBearerToken";
-import { IJsonWebTokenGatewayProvider } from "../../../../domain/gateway/providers/jsonwebtoken.gateway.provider";
-import { ChangePasswordDTO, ChangePasswordResponseDTO } from "../../../../domain/gateway/repositories/user.gateway.repository";
 
 
 export type ChangePasswordUserResponseDto = {}

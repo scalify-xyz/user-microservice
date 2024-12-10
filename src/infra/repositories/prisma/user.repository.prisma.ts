@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
-import { ChangePasswordDTO, IUserGatewayRepository, LoginDTO, LoginResponseDTO } from "../../../domain/gateway/repositories/user.gateway.repository";
-import { IArgon2GatewayProvider } from "../../../domain/gateway/providers/argon2.gateway.provider";
-import { IJsonWebTokenGatewayProvider } from "../../../domain/gateway/providers/jsonwebtoken.gateway.provider";
-
-import { User } from "../../../domain/entity/user.entity";
+import { User } from "@domain/entity/user.entity";
+import { IArgon2GatewayProvider } from "@domain/gateway/providers/argon2.gateway.provider";
+import { IJsonWebTokenGatewayProvider } from "@domain/gateway/providers/jsonwebtoken.gateway.provider";
+import { ChangePasswordDTO, IUserGatewayRepository, LoginDTO, LoginResponseDTO, SaveResponseDTO } from "@domain/gateway/repositories/user.gateway.repository";
 
 
 export class UserRepositoryPrisma implements IUserGatewayRepository {
@@ -22,7 +21,7 @@ export class UserRepositoryPrisma implements IUserGatewayRepository {
         return new UserRepositoryPrisma(prismaClient, argon2Client, jsonwebtokenClient);
     }
 
-    public async save(user: User): Promise<void> {
+    public async save(user: User): Promise<SaveResponseDTO> {
         const verificationUser = await this.prismaClient.user.findFirst({ where: { email: user.email } });
         if (verificationUser?.id) {
             throw new Error("Email is already being used");
@@ -37,6 +36,8 @@ export class UserRepositoryPrisma implements IUserGatewayRepository {
                 isAccountConfirmed: user.isAccountConfirmed,
             },
         });
+
+        return { id: user.id };
     }
 
     public async login({ email, password }: LoginDTO): Promise<LoginResponseDTO> {

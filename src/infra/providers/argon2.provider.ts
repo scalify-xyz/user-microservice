@@ -1,5 +1,6 @@
 import { hash, verify } from "argon2";
-import { IArgon2GatewayProvider, IHashOptions, IVerifyOptions } from "../../domain/gateway/providers/argon2.gateway.provider";
+
+import { IArgon2GatewayProvider, IHashOptions, IVerifyOptions } from "@domain/gateway/providers/argon2.gateway.provider";
 
 export class Argon2Provider implements IArgon2GatewayProvider {
     async hash(password: string | Buffer, options?: IHashOptions): Promise<string> {

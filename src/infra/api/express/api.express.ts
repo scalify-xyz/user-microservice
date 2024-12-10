@@ -1,7 +1,10 @@
-import { Route } from ".";
-import { Api } from "..";
 import express, { Express } from "express";
+// eslint-disable-next-line import/no-unresolved
 import { ILayer } from "express-serve-static-core";
+
+import { Api } from "..";
+
+import { Route } from ".";
 
 export class ApiExpress implements Api {
     private app: Express;

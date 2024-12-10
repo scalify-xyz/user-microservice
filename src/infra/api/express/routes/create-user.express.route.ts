@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
+
+import { SaveDTO, SaveResponseDTO } from "@domain/gateway/repositories/user.gateway.repository";
+
+import { CreateUserUsecase } from "@usecases/create-user/create-user.usecase";
+
 import { HttpMethod, Route } from "..";
-import { CreateUserUsecase } from "../../../../usecases/create-user/create-user.usecase";
-import { SaveDTO, SaveResponseDTO } from "../../../../domain/gateway/repositories/user.gateway.repository";
 
 export type CreateUserResponseDto = {
     id: string;

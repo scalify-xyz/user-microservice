@@ -1,6 +1,8 @@
-import { sign, verify } from "jsonwebtoken";
 import { KeyObject } from "crypto";
-import { IJsonWebTokenGatewayProvider } from "../../domain/gateway/providers/jsonwebtoken.gateway.provider";
+
+import { sign, verify } from "jsonwebtoken";
+
+import { IJsonWebTokenGatewayProvider } from "@domain/gateway/providers/jsonwebtoken.gateway.provider";
 
 type JwtPayload = { email: string; iat: number };
 

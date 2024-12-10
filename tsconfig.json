@@ -1,5 +1,20 @@
 {
    "compilerOptions": {
+      "baseUrl": "./",
+      "paths": {
+         "@domain/*": [
+            "src/domain/*"
+         ],
+         "@usecases/*": [
+            "src/usecases/*"
+         ],
+         "@infra/*": [
+            "src/infra/*"
+         ],
+         "@utils/*": [
+            "src/utils/*"
+         ],
+      },
       "lib": [
          "es5",
          "es6"
@@ -11,6 +26,6 @@
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "sourceMap": true,
-      "allowSyntheticDefaultImports": true
+      "allowSyntheticDefaultImports": true,
    }
 }

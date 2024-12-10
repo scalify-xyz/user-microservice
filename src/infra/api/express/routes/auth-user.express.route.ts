@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
+
+import { LoginDTO, LoginResponseDTO } from "@domain/gateway/repositories/user.gateway.repository";
+
+import { AuthUserUsecase } from "@usecases/auth-user/auth-user.usecase";
+
 import { HttpMethod, Route } from "..";
-import { AuthUserUsecase } from "../../../../usecases/auth-user/auth-user.usecase";
-import { LoginDTO, LoginResponseDTO } from "../../../../domain/gateway/repositories/user.gateway.repository";
 
 export type AuthUserResponseDto = {
     token: string;

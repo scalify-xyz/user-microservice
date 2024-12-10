@@ -1,5 +1,6 @@
-import { UseCase } from "../";
-import { IUserGatewayRepository, LoginDTO, LoginResponseDTO } from "../../domain/gateway/repositories/user.gateway.repository";
+import { IUserGatewayRepository, LoginDTO, LoginResponseDTO } from "@domain/gateway/repositories/user.gateway.repository";
+
+import { UseCase } from "@usecases/index";
 
 
 export class AuthUserUsecase implements UseCase<LoginDTO, LoginResponseDTO> {

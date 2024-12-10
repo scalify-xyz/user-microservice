@@ -1,18 +1,17 @@
 import { PrismaClient } from "@prisma/client";
-import { Argon2Provider } from "./infra/providers/argon2.provider";
-import { JsonWebTokenProvider } from "./infra/providers/jsonwebtoken.provider";
 
-import { UserRepositoryPrisma } from "./infra/repositories/prisma/user.repository.prisma";
+import { AuthUserUsecase } from "@usecases/auth-user/auth-user.usecase";
+import { ChangePasswordUserUsecase } from "@usecases/change-password-user/change-password-user.usecase";
+import { CreateUserUsecase } from "@usecases/create-user/create-user.usecase";
 
-import { CreateUserUsecase } from "./usecases/create-user/create-user.usecase";
-import { AuthUserUsecase } from "./usecases/auth-user/auth-user.usecase";
-import { ChangePasswordUserUsecase } from "./usecases/change-password-user/change-password-user.usecase";
+import { ApiExpress } from "@infra/api/express/api.express";
+import { AuthUserRoute } from "@infra/api/express/routes/auth-user.express.route";
+import { ChangePasswordUserRoute } from "@infra/api/express/routes/change-password-user.express.route";
+import { CreateUserRoute } from "@infra/api/express/routes/create-user.express.route";
+import { Argon2Provider } from "@infra/providers/argon2.provider";
+import { JsonWebTokenProvider } from "@infra/providers/jsonwebtoken.provider";
+import { UserRepositoryPrisma } from "@infra/repositories/prisma/user.repository.prisma";
 
-import { CreateUserRoute } from "./infra/api/express/routes/create-user.express.route";
-import { AuthUserRoute } from "./infra/api/express/routes/auth-user.express.route";
-import { ChangePasswordUserRoute } from "./infra/api/express/routes/change-password-user.express.route";
-
-import { ApiExpress } from "./infra/api/express/api.express";
 
 
 
