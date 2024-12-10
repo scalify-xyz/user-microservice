@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 import { LoginDTO, LoginResponseDTO } from "@domain/gateway/repositories/user.gateway.repository";
 
@@ -25,8 +25,8 @@ export class AuthUserRoute implements Route {
         );
     }
 
-    public getHandler(): (request: Request, response: Response) => Promise<void> {
-        return async (request: Request, response: Response) => {
+    public getHandler(): (request: Request, response: Response, next: NextFunction) => Promise<void> {
+        return async (request: Request, response: Response, next: NextFunction) => {
             try {
                 const { email, password } = request.body;
 
@@ -39,9 +39,8 @@ export class AuthUserRoute implements Route {
 
                 response.status(201).json(output);
             } catch (error) {
-                response.status(400).json({ message: error.message });
+                next(error);
             }
-
         };
     }
 

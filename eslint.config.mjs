@@ -60,6 +60,11 @@ export default [
               group: "internal",
               position: "after",
             },
+            {
+              pattern: "@exceptions/**",
+              group: "internal",
+              position: "after",
+            },
           ],
           pathGroupsExcludedImportTypes: ["builtin"],
           "newlines-between": "always",

@@ -49,8 +49,8 @@ export class ChangePasswordUserRoute implements Route {
         };
     }
 
-    public getHandler(): (request: Request, response: Response) => Promise<void> {
-        return async (request: Request, response: Response) => {
+    public getHandler(): (request: Request, response: Response, next: NextFunction) => Promise<void> {
+        return async (request: Request, response: Response, next: NextFunction) => {
             try {
                 const userEmail = response.locals.userEmail as string;
                 const { password, email } = request.body;
@@ -64,7 +64,7 @@ export class ChangePasswordUserRoute implements Route {
 
                 response.status(201).json(output);
             } catch (error) {
-                response.status(400).json({ message: error.message });
+                next(error);
             }
 
         };

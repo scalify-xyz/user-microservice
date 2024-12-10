@@ -12,38 +12,45 @@ import { Argon2Provider } from "@infra/providers/argon2.provider";
 import { JsonWebTokenProvider } from "@infra/providers/jsonwebtoken.provider";
 import { UserRepositoryPrisma } from "@infra/repositories/prisma/user.repository.prisma";
 
-
-
-
-export function configurationRoutes() {
-    const prismaClient = new PrismaClient();
-    const argon2Client = new Argon2Provider();
-    const jsonwebtokenClient = new JsonWebTokenProvider();
-
-    const userRepository = UserRepositoryPrisma.create(
-        prismaClient,
-        argon2Client,
-        jsonwebtokenClient,
-    );
-
-    const createUserUsecase = CreateUserUsecase.create(userRepository);
-    const authUserUsecase = AuthUserUsecase.create(userRepository);
-    const changePasswordUserUsecase = ChangePasswordUserUsecase.create(userRepository);
-
-    const createUserRoute = CreateUserRoute.create(createUserUsecase);
-    const authUserRoute = AuthUserRoute.create(authUserUsecase);
-    const changePasswordUserRoute = ChangePasswordUserRoute.create(changePasswordUserUsecase, jsonwebtokenClient);
-
-    return [createUserRoute, authUserRoute, changePasswordUserRoute];
+interface Dependencies {
+  userRepository: UserRepositoryPrisma;
+  argon2Client: Argon2Provider;
+  jsonwebtokenClient: JsonWebTokenProvider;
 }
 
+function createDependencies(): Dependencies {
+  const prismaClient = new PrismaClient();
+  const argon2Client = new Argon2Provider();
+  const jsonwebtokenClient = new JsonWebTokenProvider();
 
-(function start() {
-    const routes = configurationRoutes();
-    const port = 8080;
-    const api = ApiExpress.create(routes);
+  const userRepository = UserRepositoryPrisma.create(prismaClient, argon2Client, jsonwebtokenClient);
 
-    api.start(port);
-})();
+  return {
+    userRepository,
+    argon2Client,
+    jsonwebtokenClient,
+  };
+}
 
+function configurationRoutes(dependencies: Dependencies) {
+  const createUserUsecase = CreateUserUsecase.create(dependencies.userRepository);
+  const authUserUsecase = AuthUserUsecase.create(dependencies.userRepository);
+  const changePasswordUserUsecase = ChangePasswordUserUsecase.create(dependencies.userRepository);
 
+  const createUserRoute = CreateUserRoute.create(createUserUsecase);
+  const authUserRoute = AuthUserRoute.create(authUserUsecase);
+  const changePasswordUserRoute = ChangePasswordUserRoute.create(changePasswordUserUsecase, dependencies.jsonwebtokenClient);
+
+  return [createUserRoute, authUserRoute, changePasswordUserRoute];
+}
+
+function startServer(): void {
+  const dependencies = createDependencies();
+  const routes = configurationRoutes(dependencies);
+
+  const api = ApiExpress.create(routes);
+  const port = 8080;
+  api.start(port);
+}
+
+startServer();
