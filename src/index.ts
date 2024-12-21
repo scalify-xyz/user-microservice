@@ -1,6 +1,6 @@
-import { AuthUserUsecase } from "src/application/usecases/auth-user/auth-user.usecase";
-import { UpdatePasswordUserUsecase } from "src/application/usecases/change-password-user/change-password-user.usecase";
-import { CreateUserUsecase } from "src/application/usecases/create-user/create-user.usecase";
+import { AuthUsecase } from "src/application/usecases/auth/auth.usecase";
+import { CreateUsecase } from "src/application/usecases/create/create.usecase";
+import { UpdatePasswordUsecase } from "src/application/usecases/update-password/update-password.usecase";
 
 import { ApiExpress } from "@infra/api/express/api.express";
 import { AuthUserRoute } from "@infra/api/express/routes/auth-user.express.route";
@@ -20,13 +20,13 @@ function start(): void {
 
   const userRepository = UserRepositoryPrisma.create(prismaProvider, encryptProvider);
 
-  const createUserUsecase = CreateUserUsecase.create(userRepository);
-  const authUserUsecase = AuthUserUsecase.create(userRepository, encryptProvider, jsonwebtokenProvider);
-  const updatePasswordUserUsecase = UpdatePasswordUserUsecase.create(userRepository, encryptProvider);
+  const createUsecase = CreateUsecase.create(userRepository);
+  const authUsecase = AuthUsecase.create(userRepository, encryptProvider, jsonwebtokenProvider);
+  const updatePasswordUsecase = UpdatePasswordUsecase.create(userRepository, encryptProvider);
 
-  const createUserRoute = CreateUserRoute.create(createUserUsecase);
-  const authUserRoute = AuthUserRoute.create(authUserUsecase);
-  const changePasswordUserRoute = ChangePasswordUserRoute.create(updatePasswordUserUsecase);
+  const createUserRoute = CreateUserRoute.create(createUsecase);
+  const authUserRoute = AuthUserRoute.create(authUsecase);
+  const changePasswordUserRoute = ChangePasswordUserRoute.create(updatePasswordUsecase);
 
   changePasswordUserRoute.addMiddleware(AuthenticationMiddleware(jsonwebtokenProvider));
 

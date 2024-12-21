@@ -4,15 +4,14 @@ import { ChangePasswordDTO, ChangePasswordResponseDTO, IUserRepository } from "@
 
 import { IEncryptProvider } from "@infra/interfaces/providers/encrypt.interface.provider";
 
-
-export class UpdatePasswordUserUsecase implements UseCase<ChangePasswordDTO, ChangePasswordResponseDTO> {
+export class UpdatePasswordUsecase implements UseCase<ChangePasswordDTO, ChangePasswordResponseDTO> {
     private constructor(
         private readonly userRepository: IUserRepository,
         private readonly encryptProvider: IEncryptProvider,
     ) { }
 
     public static create(userRepository: IUserRepository, encryptProvider: IEncryptProvider) {
-        return new UpdatePasswordUserUsecase(userRepository, encryptProvider);
+        return new UpdatePasswordUsecase(userRepository, encryptProvider);
     }
 
     public async execute({ email, password }: ChangePasswordDTO): Promise<ChangePasswordResponseDTO> {

@@ -4,11 +4,11 @@ import { User } from "@domain/entity/user.entity";
 import { IUserRepository, SaveDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
 
-export class CreateUserUsecase implements UseCase<SaveDTO, SaveResponseDTO> {
+export class CreateUsecase implements UseCase<SaveDTO, SaveResponseDTO> {
     private constructor(private readonly userRepository: IUserRepository) { }
 
     public static create(userRepository: IUserRepository) {
-        return new CreateUserUsecase(userRepository);
+        return new CreateUsecase(userRepository);
     }
 
     public async execute({ name, email, password }: SaveDTO): Promise<SaveResponseDTO> {

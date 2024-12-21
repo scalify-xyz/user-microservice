@@ -7,7 +7,7 @@ import { IJsonWebTokenProvider } from "@infra/interfaces/providers/jsonwebtoken.
 
 
 
-export class AuthUserUsecase implements UseCase<LoginDTO, LoginResponseDTO> {
+export class AuthUsecase implements UseCase<LoginDTO, LoginResponseDTO> {
     private constructor(
         private readonly userRepository: IUserRepository,
         private readonly encryptProvider: IEncryptProvider,
@@ -15,7 +15,7 @@ export class AuthUserUsecase implements UseCase<LoginDTO, LoginResponseDTO> {
     ) { }
 
     public static create(userRepository: IUserRepository, encryptProvider: IEncryptProvider, jwtProvider: IJsonWebTokenProvider) {
-        return new AuthUserUsecase(userRepository, encryptProvider, jwtProvider);
+        return new AuthUsecase(userRepository, encryptProvider, jwtProvider);
     }
 
     public async execute({ email, password }: LoginDTO): Promise<LoginResponseDTO> {

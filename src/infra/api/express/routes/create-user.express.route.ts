@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { CreateUserUsecase } from "src/application/usecases/create-user/create-user.usecase";
+import { CreateUserUsecase } from "src/application/usecases/create/create.usecase";
 
 import { SaveDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { UpdatePasswordUserUsecase } from "src/application/usecases/change-password-user/change-password-user.usecase";
+import { UpdatePasswordUserUsecase } from "src/application/usecases/update-password/update-password.usecase";
 
 import { ChangePasswordDTO, ChangePasswordResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
