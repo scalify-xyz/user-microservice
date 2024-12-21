@@ -75,4 +75,3 @@ docker-compose down
 ## License
 
 Licensed under the [MIT License](LICENSE).
-```
