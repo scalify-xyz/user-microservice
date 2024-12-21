@@ -22,6 +22,12 @@ git clone https://github.com/username/user-microservice.git
 cd user-microservice
 ```
 
+1. Setup Husky:
+
+```bash
+npm run prepare
+```
+
 2. Install dependencies:
 
 ```bash
