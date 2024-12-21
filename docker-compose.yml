@@ -13,11 +13,10 @@ services:
       - POSTGRES_DB=database
 
   rabbitmq:
-    image: rabbitmq:3.12-management
-    container_name: rabbitmq-container
+    image: rabbitmq:3.13.7-management
     ports:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: rabbitmq
-      RABBITMQ_DEFAULT_PASS: rabbitmq
+      RABBITMQ_DEFAULT_USER: docker
+      RABBITMQ_DEFAULT_PASS: docker

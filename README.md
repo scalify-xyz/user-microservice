@@ -31,7 +31,7 @@ npm install
 3. Set up the database with Docker Compose:
 
 ```bash
-docker-compose up -d
+docker-compose up --build
 ```
 
 4. Apply Prisma migrations:

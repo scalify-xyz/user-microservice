@@ -70,5 +70,10 @@ export default [
         },
       ],
     },
+    ignores: [
+      "build/**/*",
+      "!build/test.js",
+    ],
   },
+
 ];

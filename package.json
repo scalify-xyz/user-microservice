@@ -2,6 +2,8 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "ts-node src/index.ts",
+    "build": "tsc",
+    "start:prod": "node dist/index.js",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint . ",
