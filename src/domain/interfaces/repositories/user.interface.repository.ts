@@ -1,19 +1,20 @@
 import { User } from "@domain/entity/user.entity";
 
-export interface LoginDTO {
+export type LoginDTO = {
     email: string;
     password: string;
 }
 
-export interface LoginResponseDTO {
+export type LoginResponseDTO = {
     token: string;
 }
 
-export interface ChangePasswordDTO {
+export type ChangePasswordDTO = {
     email: string;
     password: string;
 }
-export interface ChangePasswordResponseDTO {
+
+export type ChangePasswordResponseDTO = {
 }
 
 export type SaveDTO = {
@@ -26,8 +27,13 @@ export type SaveResponseDTO = {
     id: string;
 }
 
-export interface IUserGatewayRepository {
+export type UserCreatedEventDTO = {
+    id: string;
+    email: string;
+}
+
+export type IUserRepository = {
     save(user: User): Promise<SaveResponseDTO>;
-    login(data: LoginDTO): Promise<LoginResponseDTO>;
-    changePassword(data: ChangePasswordDTO): Promise<void>;
+    findByEmail(email: string): Promise<User | null>;
+    updatePassword(id: string, password: string): Promise<void>;
 }

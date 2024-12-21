@@ -5,8 +5,8 @@
          "@domain/*": [
             "src/domain/*"
          ],
-         "@usecases/*": [
-            "src/usecases/*"
+         "@application/*": [
+            "src/application/application/*"
          ],
          "@infra/*": [
             "src/infra/*"

@@ -26,7 +26,7 @@ export class ApiExpress implements Api {
         routes.forEach((route) => {
             const path = route.getPath();
             const method = route.getMethod();
-            const middlewares = route?.getMiddlewares && route?.getMiddlewares();
+            const middlewares = route?.getMiddlewares();
             const handler = route.getHandler();
 
             if (middlewares) {

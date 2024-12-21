@@ -2,7 +2,7 @@ import { KeyObject } from "crypto";
 
 type JwtPayload = { email: string; iat: number };
 
-export interface IJsonWebTokenGatewayProvider {
+export type IJsonWebTokenProvider = {
     sign(
         payload: string | object,
         secretOrPrivateKey: string | Buffer | KeyObject,

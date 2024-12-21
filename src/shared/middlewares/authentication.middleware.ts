@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 
-import { IJsonWebTokenGatewayProvider } from "@infra/interfaces/providers/jsonwebtoken.interface.provider";
+import { IJsonWebTokenProvider } from "@infra/interfaces/providers/jsonwebtoken.interface.provider";
 
 import CleanBearerToken from "@shared/utils/clean-bearer-token.util";
 
-export const AuthenticationMiddleware = (jsonwebtokenClient: IJsonWebTokenGatewayProvider) => {
+export const AuthenticationMiddleware = (jsonwebtokenClient: IJsonWebTokenProvider) => {
     return function (request: Request, response: Response, next: NextFunction): void {
         const bearerToken = request.headers["authorization"];
         if (!bearerToken) {

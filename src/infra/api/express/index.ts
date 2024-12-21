@@ -7,7 +7,7 @@ export const HttpMethod = {
     POST: "post" as HttpMethod,
 } as const;
 
-export interface Route {
+export type Route = {
     getHandler(): (request: Request, response: Response, next: NextFunction) => Promise<void>;
     getPath(): string;
     getMethod(): HttpMethod;

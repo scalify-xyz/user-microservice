@@ -1,13 +1,13 @@
-export interface IArgon2GatewayProvider {
-    hash(password: string | Buffer, options?: IHashOptions): Promise<string>; // Sempre retornando string
+export type IEncryptProvider = {
+    hash(password: string | Buffer, options?: IHashOptions): Promise<string>;
     verify(digest: string, password: string | Buffer, options?: IVerifyOptions): Promise<boolean>;
 }
 
-export interface IVerifyOptions {
+export type IVerifyOptions = {
     secret?: Buffer;
 }
 
-export interface IHashOptions {
+export type IHashOptions = {
     raw?: boolean;
     salt?: Buffer;
     hashLength?: number;

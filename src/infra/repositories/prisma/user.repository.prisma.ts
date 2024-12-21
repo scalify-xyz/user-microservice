@@ -1,25 +1,22 @@
 import { PrismaClient } from "@prisma/client";
 
 import { User } from "@domain/entity/user.entity";
-import { ChangePasswordDTO, IUserGatewayRepository, LoginDTO, LoginResponseDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
+import { ChangePasswordDTO, IUserRepository, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
-import { IArgon2GatewayProvider } from "@infra/interfaces/providers/argon2.interface.provider";
-import { IJsonWebTokenGatewayProvider } from "@infra/interfaces/providers/jsonwebtoken.interface.provider";
+import { IEncryptProvider } from "@infra/interfaces/providers/encrypt.interface.provider";
 
 
-export class UserRepositoryPrisma implements IUserGatewayRepository {
+export class UserRepositoryPrisma implements IUserRepository {
     private constructor(
         private readonly prismaClient: PrismaClient,
-        private readonly argon2Client: IArgon2GatewayProvider,
-        private readonly jsonwebtokenClient: IJsonWebTokenGatewayProvider,
+        private readonly encryptClient: IEncryptProvider,
     ) { }
 
     public static create(
         prismaClient: PrismaClient,
-        argon2Client: IArgon2GatewayProvider,
-        jsonwebtokenClient: IJsonWebTokenGatewayProvider,
+        encryptClient: IEncryptProvider,
     ) {
-        return new UserRepositoryPrisma(prismaClient, argon2Client, jsonwebtokenClient);
+        return new UserRepositoryPrisma(prismaClient, encryptClient);
     }
 
     public async save(user: User): Promise<SaveResponseDTO> {
@@ -33,46 +30,24 @@ export class UserRepositoryPrisma implements IUserGatewayRepository {
                 id: user.id,
                 name: user.name,
                 email: user.email,
-                password: await this.argon2Client.hash(user.password),
+                password: await this.encryptClient.hash(user.password),
                 isAccountConfirmed: user.isAccountConfirmed,
             },
         });
 
         return { id: user.id };
     }
-
-    public async login({ email, password }: LoginDTO): Promise<LoginResponseDTO> {
-        const verificationUser = await this.prismaClient.user.findFirst({ where: { email: email } });
-        if (!verificationUser?.id) {
-            throw new Error("Authentication failure");
-        }
-
-        const token = await this.jsonwebtokenClient.sign({ email: verificationUser?.email }, process.env.JWT_SECRET);
-        const isCorrectUser = await this.argon2Client.verify(verificationUser?.password, password);
-
-
-        if (!isCorrectUser || !token) {
-            throw new Error("Authentication failure");
-        }
-        if (!verificationUser.isAccountConfirmed) {
-            throw new Error("Unconfirmed email");
-        }
-        return { token: token };
+    
+    public async findByEmail(email: string) {
+        const user = await this.prismaClient.user.findFirst({ where: { email } });
+        if (!user?.id) return;
+        return User.create({id: user.id, name: user.name, email: user.email, password: user.password});
     }
 
-    public async changePassword({ email, password }: ChangePasswordDTO): Promise<void> {
-        const verificationUser = await this.prismaClient.user.findFirst({ where: { email: email } });
-        if (!verificationUser?.id) {
-            throw new Error("Failed to change password");
-        }
-
+    public async updatePassword(id: string, password: string): Promise<void> {
         await this.prismaClient.user.update({
-            where: {
-                email,
-            },
-            data: {
-                password: await this.argon2Client.hash(password),
-            },
+            where: { id: id },
+            data: { password },
         });
     }
 }

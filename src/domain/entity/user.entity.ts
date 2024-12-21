@@ -6,7 +6,10 @@ export type IUser = {
     isAccountConfirmed: boolean;
 }
 
-export type UserLoginDto = (email: string, password: string) => void;
+export type IUserWithoutIdAndConfirmed = Omit<IUser, "id" | "isAccountConfirmed"> & { 
+    id?: string;
+    isAccountConfirmed?: boolean;
+};
 
 export class User {
     private constructor(private props: IUser) {
@@ -17,8 +20,8 @@ export class User {
         this.props.isAccountConfirmed = props.isAccountConfirmed;
     }
 
-    public static create(name: string, email: string, password: string) {
-        return new User({ id: crypto.randomUUID().toString(), name, email, password, isAccountConfirmed: false });
+    public static create({ id, name, email, password }: IUserWithoutIdAndConfirmed) {
+        return new User({ id: id || crypto.randomUUID().toString(), name, email, password, isAccountConfirmed: false });
     }
 
     public static with(props: IUser) {

@@ -1,3 +1,3 @@
-export interface Api {
+export type Api = {
     start(port: number): void;
 }

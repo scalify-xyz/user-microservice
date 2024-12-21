@@ -8,9 +8,9 @@ This is a **User Microservice** built with **TypeScript**, **Node.js**, **Prisma
 ```
 src/
 ├── Infra/        # Database implementation and external communication
-├── Usecase/      # Application logic and use cases
+├── Application/  # Application logic and use cases
 ├── Domain/       # Entities and domain rules
-├── Utils/        # Utility functions and helpers
+├── Shared/       # Utility Shared functions and helpers
 ```
 
 ## Installation

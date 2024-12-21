@@ -1,8 +1,8 @@
 import { hash, verify } from "argon2";
 
-import { IArgon2GatewayProvider, IHashOptions, IVerifyOptions } from "@infra/interfaces/providers/argon2.interface.provider";
+import { IEncryptProvider, IHashOptions, IVerifyOptions } from "@infra/interfaces/providers/encrypt.interface.provider";
 
-export class Argon2Provider implements IArgon2GatewayProvider {
+export class Argon2Provider implements IEncryptProvider {
     
     static create() {
         return new Argon2Provider();

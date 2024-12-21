@@ -46,7 +46,7 @@ export default [
               position: "after",
             },
             {
-              pattern: "@usecases/**",
+              pattern: "@application/**",
               group: "internal",
               position: "after",
             },

@@ -2,11 +2,11 @@ import { KeyObject } from "crypto";
 
 import { sign, verify } from "jsonwebtoken";
 
-import { IJsonWebTokenGatewayProvider } from "@infra/interfaces/providers/jsonwebtoken.interface.provider";
+import { IJsonWebTokenProvider } from "@infra/interfaces/providers/jsonwebtoken.interface.provider";
 
 type JwtPayload = { email: string; iat: number };
 
-export class JsonWebTokenProvider implements IJsonWebTokenGatewayProvider {
+export class JsonWebTokenProvider implements IJsonWebTokenProvider {
 
     static create() {
         return new JsonWebTokenProvider();
