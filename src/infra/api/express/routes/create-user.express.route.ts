@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-import { CreateUserUsecase } from "src/application/usecases/create/create.usecase";
+import { CreateUsecase } from "src/application/usecases/create/create.usecase";
 
 import { SaveDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
 
-import { HttpMethod, Route } from "..";
+import { HttpMethod, Route } from "../../../interfaces/api/route.interface";
 
 export type CreateUserResponseDto = {
     id: string;
@@ -15,10 +15,10 @@ export class CreateUserRoute implements Route {
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly createUserService: CreateUserUsecase,
+        private readonly createUserService: CreateUsecase,
     ) { }
 
-    public static create(createUserService: CreateUserUsecase) {
+    public static create(createUserService: CreateUsecase) {
         return new CreateUserRoute(
             "/user",
             HttpMethod.POST,

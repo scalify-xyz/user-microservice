@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-import { AuthUserUsecase } from "src/application/usecases/auth/auth.usecase";
+import { AuthUsecase } from "src/application/usecases/auth/auth.usecase";
 
 import { LoginDTO, LoginResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
 
-import { HttpMethod, Route } from "..";
+import { HttpMethod, Route } from "../../../interfaces/api/route.interface";
 
 export type AuthUserResponseDto = {
     token: string;
@@ -15,10 +15,10 @@ export class AuthUserRoute implements Route {
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly authUserService: AuthUserUsecase,
+        private readonly authUserService: AuthUsecase,
     ) { }
 
-    public static create(authUserService: AuthUserUsecase) {
+    public static create(authUserService: AuthUsecase) {
         return new AuthUserRoute(
             "/login",
             HttpMethod.POST,

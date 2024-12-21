@@ -5,9 +5,8 @@ import { ILayer } from "express-serve-static-core";
 
 import { ErrorHandlerMiddleware } from "@shared/middlewares/error-handler.middleware";
 
-import { Api } from "..";
-
-import { Route } from ".";
+import { Api } from "../../interfaces/api/api.interface";
+import { Route } from "../../interfaces/api/route.interface";
 
 export class ApiExpress implements Api {
     private app: Express;

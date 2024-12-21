@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-import { UpdatePasswordUserUsecase } from "src/application/usecases/update-password/update-password.usecase";
+import { UpdatePasswordUsecase } from "src/application/usecases/update-password/update-password.usecase";
 
 import { ChangePasswordDTO, ChangePasswordResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
 
-import { HttpMethod, Route } from "..";
+import { HttpMethod, Route } from "../../../interfaces/api/route.interface";
 
 export type ChangePasswordUserResponseDto = {}
 
@@ -13,13 +13,13 @@ export class ChangePasswordUserRoute implements Route {
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly changePasswordUserService: UpdatePasswordUserUsecase,
+        private readonly changePasswordUserService: UpdatePasswordUsecase,
         private readonly middlewares?: Middlewares[],
     ) {
         this.middlewares = [];
      }
 
-    public static create(changePasswordUserService: UpdatePasswordUserUsecase) {
+    public static create(changePasswordUserService: UpdatePasswordUsecase) {
         return new ChangePasswordUserRoute(
             "/change-password",
             HttpMethod.POST,
