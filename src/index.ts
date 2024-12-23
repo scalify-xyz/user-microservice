@@ -14,8 +14,6 @@ import { UserRepositoryPrisma } from "@infra/repositories/prisma/user.repository
 
 import { AuthenticationMiddleware } from "@shared/middlewares/authentication.middleware";
 
-const amqp = require("amqplib");
-
 async function start(): Promise<void> {
   const prismaProvider = PrismaProvider.create();
   const encryptProvider = Argon2Provider.create();

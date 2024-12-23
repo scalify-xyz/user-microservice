@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 import { User } from "@domain/entity/user.entity";
-import { ChangePasswordDTO, IUserRepository, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
+import { IUserRepository, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
 import { IEncryptProvider } from "@infra/interfaces/providers/encrypt.interface.provider";
 
@@ -37,11 +37,14 @@ export class UserRepositoryPrisma implements IUserRepository {
 
         return { id: user.id };
     }
-    
+
     public async findByEmail(email: string) {
         const user = await this.prismaClient.user.findFirst({ where: { email } });
-        if (!user?.id) return;
-        return User.create({id: user.id, name: user.name, email: user.email, password: user.password});
+        if (!user?.id) {
+            throw new Error("Cannot find user");
+        }
+        
+        return User.create({ id: user.id, name: user.name, email: user.email, password: user.password });
     }
 
     public async updatePassword(id: string, password: string): Promise<void> {

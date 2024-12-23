@@ -21,7 +21,7 @@ export class AuthUsecase implements UseCase<LoginDTO, LoginResponseDTO> {
     public async execute({ email, password }: LoginDTO): Promise<LoginResponseDTO> {
         const user = await this.userRepository.findByEmail(email);
 
-        const token = this.jwtProvider.sign({ userId: user?.id, email: user?.email }, process.env.JWT_SECRET);
+        const token = this.jwtProvider.sign({ id: user?.id, email: user?.email }, process.env.JWT_SECRET);
         
         if (!token || !user || !(await this.encryptProvider.verify(user.password, password))) {
             throw new Error("Authentication failure");
