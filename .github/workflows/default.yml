@@ -56,9 +56,10 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run test:coverage
-  
+
   deploy:
     runs-on: ubuntu-latest
+    needs: coverage
     steps:
     - name: Get Github action IP
       id: ip
