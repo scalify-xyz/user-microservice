@@ -1,4 +1,5 @@
-import express, { Express } from "express";
+import * as express from "express";
+import { Express } from "express";
 // eslint-disable-next-line import/no-unresolved
 import { ILayer } from "express-serve-static-core";
 

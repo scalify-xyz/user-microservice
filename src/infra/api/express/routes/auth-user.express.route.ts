@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 
-import { AuthUsecase } from "src/application/usecases/auth/auth.usecase";
-
 import { LoginDTO, LoginResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
+
+import { AuthUsecase } from "@application/usecases/auth/auth.usecase";
+
 
 
 import { HttpMethod, Route } from "../../../interfaces/api/route.interface";

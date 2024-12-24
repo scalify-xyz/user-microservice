@@ -1,6 +1,6 @@
-import { AuthUsecase } from "src/application/usecases/auth/auth.usecase";
-import { CreateUsecase } from "src/application/usecases/create/create.usecase";
-import { UpdatePasswordUsecase } from "src/application/usecases/update-password/update-password.usecase";
+import { AuthUsecase } from "@application/usecases/auth/auth.usecase";
+import { CreateUsecase } from "@application/usecases/create/create.usecase";
+import { UpdatePasswordUsecase } from "@application/usecases/update-password/update-password.usecase";
 
 import { ApiExpress } from "@infra/api/express/api.express";
 import { AuthUserRoute } from "@infra/api/express/routes/auth-user.express.route";

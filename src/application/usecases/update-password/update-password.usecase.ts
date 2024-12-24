@@ -1,6 +1,7 @@
-import { UseCase } from "src/application/interfaces/usecase.interface";
-
 import { ChangePasswordDTO, ChangePasswordResponseDTO, IUserRepository } from "@domain/interfaces/repositories/user.interface.repository";
+
+import { UseCase } from "@application/interfaces/usecase.interface";
+
 
 import { IEncryptProvider } from "@infra/interfaces/providers/encrypt.interface.provider";
 

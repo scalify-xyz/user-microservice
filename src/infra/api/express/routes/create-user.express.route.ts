@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 
-import { CreateUsecase } from "src/application/usecases/create/create.usecase";
-
 import { SaveDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
+
+import { CreateUsecase } from "@application/usecases/create/create.usecase";
+
 
 
 import { HttpMethod, Route } from "../../../interfaces/api/route.interface";

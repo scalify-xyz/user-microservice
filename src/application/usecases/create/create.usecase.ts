@@ -1,7 +1,8 @@
-import { UseCase } from "src/application/interfaces/usecase.interface";
 
 import { User } from "@domain/entity/user.entity";
 import { IUserRepository, SaveDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
+
+import { UseCase } from "@application/interfaces/usecase.interface";
 
 import { IRabbitMQProvider } from "@infra/interfaces/providers/rabbitmq.interface.provider";
 
