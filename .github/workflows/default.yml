@@ -110,12 +110,14 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SSH_KEY }}
           script: |
+            cd /home/ec2-user/deploy/downloaded-artifact
+            rm -rf /home/ec2-user/deploy/downloaded-artifact/build
+            mkdir -p /home/ec2-user/deploy/downloaded-artifact/build
+            tar -xzf /home/ec2-user/deploy/downloaded-artifact/build.tar.gz -C /home/ec2-user/deploy/downloaded-artifact/build
             ls -la
-            pwd
-            cd /home/
-            ls -la            
+            cd /build
+            ls -la
             # cd /home/ec2-user/deploy
-            # npm install
             # pm2 restart all
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
