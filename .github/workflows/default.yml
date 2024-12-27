@@ -82,9 +82,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-      - name: Test SSH connection
-        run: |
-          ssh -v -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.HOST_IP }} "echo SSH connection successful"
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.HOST_IP }} "echo SSH connection successful"
       - name: Install NVM and Node.js on EC2
         run: |
           ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} << 'EOF'
