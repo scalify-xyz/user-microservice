@@ -96,14 +96,8 @@ jobs:
           path: ./downloaded-artifact/
       - name: List downloaded artifact contents
         run: |
-          ls -la ./downloaded-artifact/
-          ls -la ./downloaded-artifact/build/
-      - name: Extract build artifact
-        run: |
-          tar -xzf ./downloaded-artifact/build.tar.gz -C ./downloaded-artifact/
-      - name: List extracted contents
-        run: |
-          ls -la ./downloaded-artifact/build/
+          ls -la /home/runner/work/user-microservice/user-microservice/downloaded-artifact/
+          ls -la /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build/
       - name: Deploy build to prod server
         uses: appleboy/ssh-action@master
         with:
