@@ -94,9 +94,6 @@ jobs:
         with:
           name: build-artifact
           path: .
-      - name: Verify Folder
-        run: |
-          ls -la
       - name: Deploy build to prod server
         uses: appleboy/ssh-action@master
         with:
@@ -104,12 +101,13 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SSH_KEY }}
           script: |
+            ls -la
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            tar -xzf build.tar.gz -C /home/ec2-user/user-microservice
-            cd /home/ec2-user/user-microservice && npm install --production && pm2 restart user-microservice
+            tar -xzf build.tar.gz
+            cd /build && npm install --production && pm2 restart user-microservice
             npm install
-            pm2 restart nodejs-ssl-server      
+            pm2 restart user-microservice      
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           HOST_IP: ${{ secrets.HOST_IP }}
