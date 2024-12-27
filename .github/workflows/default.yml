@@ -32,7 +32,7 @@ jobs:
       - name: Archive build
         run: tar -czf build.tar.gz ./build
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifact
           path: build.tar.gz
@@ -90,32 +90,30 @@ jobs:
             npm install -g pm2
           EOF
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-artifact
           path: ./downloaded-artifact/
+      - name: Copy Artifact To Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ec2-user
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          source: distfiles/*
+          target: /home/ec2-user/deploy
       - name: List downloaded artifact contents
-        run: |
-          ls -la /home/runner/work/user-microservice/user-microservice/downloaded-artifact/
-      - name: Extract build artifact
-        run: |
-          mkdir -p /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build
-          tar -xzf /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build.tar.gz -C /home/runner/work/user-microservice/user-microservice/downloaded-artifact/
-      - name: List extracted contents
-        run: |
-          ls -la /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build/
-      - name: Deploy build to prod server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_IP }}
           username: ec2-user
           key: ${{ secrets.SSH_KEY }}
           script: |
-            echo "Deploying build to remote server"
-            scp -r /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build/ /home/ec2-user/deploy/
             ls -la
-            ls -la /home/ec2-user/deploy/
-            # ls -la /home/ec2-user/deploy
+            pwd
+            cd /home/
+            ls -la            
             # cd /home/ec2-user/deploy
             # npm install
             # pm2 restart all
