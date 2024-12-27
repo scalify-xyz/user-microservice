@@ -74,43 +74,44 @@ jobs:
     runs-on: ubuntu-latest
     needs: add-ip
     steps:
-    - name: Download build artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: build-artifact
-        path: .
-    - name: Set up SSH key
-      run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-    - name: Test SSH connection
-      run: |
-        ssh -v -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.HOST_IP }} "echo SSH connection successful"
-    - name: Install NVM and Node.js on EC2
-      run: |
-        ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} << 'EOF'
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-          source ~/.bashrc
-          nvm install 22
-          nvm use 22
-          npm install -g pm2
-        EOF
-    - name: Deploy build to prod server
-      uses: appleboy/scp-action@v0.1.0
-      with:
-        host: ${{ secrets.HOST_IP }}
-        username: ec2-user
-        source: ./build.tar.gz
-        target: /home/ec2-user/user-microservice
-        key: ${{ secrets.SSH_KEY }}
-    - name: Extract build on EC2
-      run: |
-        ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} "tar -xzf /home/ec2-user/user-microservice/build.tar.gz -C /home/ec2-user/user-microservice"
-        ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} "cd /home/ec2-user/user-microservice && npm install --production && pm2 restart user-microservice"
-    env:
-      SSH_KEY: ${{ secrets.SSH_KEY }}
-      HOST_IP: ${{ secrets.HOST_IP }}
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: .
+      
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+      
+      - name: Test SSH connection
+        run: |
+          ssh -v -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.HOST_IP }} "echo SSH connection successful"
+      
+      - name: Install NVM and Node.js on EC2
+        run: |
+          ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} << 'EOF'
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+            source ~/.bashrc
+            nvm install 22
+            nvm use 22
+            npm install -g pm2
+          EOF
+      
+      - name: Deploy build to prod server
+        run: |
+          ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} "mkdir -p /home/ec2-user/user-microservice"
+          scp -i ~/.ssh/id_rsa ./build.tar.gz ec2-user@${{ secrets.HOST_IP }}:/home/ec2-user/user-microservice/build.tar.gz
+
+      - name: Extract build on EC2
+        run: |
+          ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} "tar -xzf /home/ec2-user/user-microservice/build.tar.gz -C /home/ec2-user/user-microservice"
+          ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} "cd /home/ec2-user/user-microservice && npm install --production && pm2 restart user-microservice"
+      env:
+        SSH_KEY: ${{ secrets.SSH_KEY }}
+        HOST_IP: ${{ secrets.HOST_IP }}
 
   remove-ip:
     runs-on: ubuntu-latest
