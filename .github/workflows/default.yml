@@ -45,8 +45,10 @@ jobs:
             echo "Build folder is missing or empty. Failing the job."
             exit 1
           fi
-      - name: Copy package.json to build folder
-        run: cp package.json ./build
+      - name: Copy Dependencies to Build Folder
+        run: |
+          cp package.json ./build
+          cp ./prisma ./build
       - name: Archive build
         run: tar -czf build.tar.gz ./build
       - name: Upload build artifact
@@ -117,7 +119,6 @@ jobs:
             tar -xzf /home/ec2-user/deploy/downloaded-artifact/build.tar.gz -C /home/ec2-user/deploy/downloaded-artifact/
             cd /home/ec2-user/deploy/downloaded-artifact/build
             npm install
-            ls -la
             # pm2 restart all
             # pm2 restart all
         env:

@@ -13,11 +13,13 @@ export class AmpqProvider implements IRabbitMQProvider {
   }
 
   async connect(): Promise<void> {
-    this.connection = await connect(this.uri, { heartbeat: 10 });
-    this.connection.on("error", (err) => console.error("RabbitMQ connection error:", err));
-    this.connection.on("close", () => console.warn("RabbitMQ connection closed!"));
-    this.channel = await this.connection.createChannel();
-    console.log("RabbitMQ Connected!");
+    try {
+      this.connection = await connect(this.uri, { heartbeat: 10 });
+      this.channel = await this.connection.createChannel();
+      console.log("RabbitMQ Connected!");
+    } catch (error) {
+      console.error("RabbitMQ connection Failed");
+    }
   }
 
   private async ensureConnection(): Promise<void> {
