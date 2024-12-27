@@ -100,7 +100,7 @@ jobs:
       - name: Extract build artifact
         run: |
           mkdir -p /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build
-          tar -xzf /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build.tar.gz -C /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build
+          tar -xzf /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build.tar.gz -C /home/runner/work/user-microservice/user-microservice/downloaded-artifact/
       - name: List extracted contents
         run: |
           ls -la /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build/
