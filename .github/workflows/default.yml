@@ -68,7 +68,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
-  Continuous-Deployment_Deploy-Code:
+  Continuous-Deployment_Delivery-AWS_EC2:
     runs-on: ubuntu-latest
     needs: Continuous-Deployment_Authorize-Ip
     steps:
@@ -88,6 +88,7 @@ jobs:
             nvm install 22
             nvm use 22
             npm install -g pm2
+            npm install -g tslib
           EOF
       - name: Download build artifact
         uses: actions/download-artifact@v4
@@ -123,7 +124,7 @@ jobs:
 
   Continuous-Deployment_Revoke-Ip:
     runs-on: ubuntu-latest
-    needs: Continuous-Deployment_Deploy-Code
+    needs: Continuous-Deployment_Delivery-AWS_EC2
     steps:
       - name: Get Github action IP
         id: ip
