@@ -80,11 +80,6 @@ jobs:
       - name: Test SSH connection
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.HOST_IP }} "echo SSH connection successful"
-      - name: Download build artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifact
-          path: .
       - name: Install NVM and Node.js on EC2
         run: |
           ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} << 'EOF'
@@ -94,6 +89,14 @@ jobs:
             nvm use 22
             npm install -g pm2
           EOF
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: .
+      - name: Verify Folder
+        run: |
+          ls -la
       - name: Deploy build to prod server
         run: |
           scp -i ~/.ssh/id_rsa ./build.tar.gz ec2-user@${{ secrets.HOST_IP }}:/home/ec2-user/user-microservice/build.tar.gz
