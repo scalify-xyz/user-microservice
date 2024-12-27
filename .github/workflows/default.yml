@@ -108,7 +108,7 @@ jobs:
           git stash
           git pull origin feature/github-action
           npm install
-          pm2 restart user-microservice
+          pm2 start user-microservice || pm2 restart user-microservice
     env:
       SSH_KEY: ${{ secrets.SSH_KEY }}
 
