@@ -97,6 +97,9 @@ jobs:
           git pull origin feature/github-action
           npm install
           pm2 restart user-microservice
+    env:
+      HOST_IP: ${{ secrets.HOST_IP }}
+      SSH_KEY: ${{ secrets.SSH_KEY }}
 
   remove-ip:
     runs-on: ubuntu-latest
