@@ -112,9 +112,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             echo "Deploying build to remote server"
-            mkdir -p /home/ec2-user/deploy
+            scp -r /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build/ /home/ec2-user/deploy/
             ls -la
-            # cp -r /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build/* /home/ec2-user/deploy/
+            ls -la /home/ec2-user/deploy/
             # ls -la /home/ec2-user/deploy
             # cd /home/ec2-user/deploy
             # npm install
