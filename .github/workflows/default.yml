@@ -7,8 +7,24 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  Continuous-Integration/Testing:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test
+
+  Continuous-Integration/Build:
+    runs-on: ubuntu-latest
+    needs: Continuous-Integration/Testing
     strategy:
       matrix:
         node-version: [22.x]
@@ -37,25 +53,9 @@ jobs:
           name: build-artifact
           path: build.tar.gz
 
-  test:
+  Continuous-Deployment/Authorize-Ip:
     runs-on: ubuntu-latest
-    needs: build
-    strategy:
-      matrix:
-        node-version: [22.x]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run test
-
-  authorize-ip:
-    runs-on: ubuntu-latest
-    needs: test
+    needs: Continuous-Integration/Build
     steps:
       - name: Get Github action IP
         id: ip
@@ -68,9 +68,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
-  deploy-code:
+  Continuous-Deployment/Deploy-Code:
     runs-on: ubuntu-latest
-    needs: authorize-ip
+    needs: Continuous-Deployment/Authorize-Ip
     steps:
       - name: Set up SSH key
         run: |
@@ -121,9 +121,9 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           HOST_IP: ${{ secrets.HOST_IP }}
 
-  revoke-ip:
+  Continuous-Deployment/Revoke-Ip:
     runs-on: ubuntu-latest
-    needs: deploy-code
+    needs: Continuous-Deployment/Deploy-Code
     steps:
       - name: Get Github action IP
         id: ip
