@@ -104,8 +104,8 @@ jobs:
             ls -la
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            tar -xzf build.tar.gz
-            cd /build && npm install --production && pm2 restart user-microservice   
+            tar -xzf /home/runner/work/user-microservice/user-microservice/build.tar.gz
+            cd /home/runner/work/user-microservice/user-microservice/build && npm install --production && pm2 restart user-microservice   
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           HOST_IP: ${{ secrets.HOST_IP }}
