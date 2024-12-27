@@ -96,13 +96,13 @@ jobs:
           path: ./downloaded-artifact/
       - name: List downloaded artifact contents
         run: |
-          ls -la ./home/runner/work/user-microservice/user-microservice/downloaded-artifact/
+          ls -la /home/runner/work/user-microservice/user-microservice/downloaded-artifact/
       - name: Extract build artifact
         run: |
-          tar -xzf ./home/runner/work/user-microservice/user-microservice/downloaded-artifact/build.tar.gz -C ./home/runner/work/user-microservice/user-microservice/downloaded-artifact/
+          tar -xzf /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build.tar.gz  
       - name: List extracted contents
         run: |
-          ls -la ./home/runner/work/user-microservice/user-microservice/downloaded-artifact/build/
+          ls -la /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build/
       - name: Deploy build to prod server
         uses: appleboy/ssh-action@master
         with:
@@ -113,7 +113,7 @@ jobs:
             echo "Deploying build to remote server"
             mkdir -p /home/ec2-user/deploy
             ls -la
-            cp -r ./home/runner/work/user-microservice/user-microservice/downloaded-artifact/build/* /home/ec2-user/deploy/
+            cp -r /home/runner/work/user-microservice/user-microservice/downloaded-artifact/build/* /home/ec2-user/deploy/
             ls -la /home/ec2-user/deploy
             cd /home/ec2-user/deploy
             npm install
