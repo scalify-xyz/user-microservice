@@ -94,9 +94,16 @@ jobs:
         with:
           name: build-artifact
           path: ./downloaded-artifact/
+      - name: List downloaded artifact contents
+        run: |
+          ls -la ./downloaded-artifact/
+          ls -la ./downloaded-artifact/build/
       - name: Extract build artifact
         run: |
           tar -xzf ./downloaded-artifact/build.tar.gz -C ./downloaded-artifact/
+      - name: List extracted contents
+        run: |
+          ls -la ./downloaded-artifact/build/
       - name: Deploy build to prod server
         uses: appleboy/ssh-action@master
         with:
@@ -106,7 +113,9 @@ jobs:
           script: |
             echo "Deploying build to remote server"
             mkdir -p /home/ec2-user/deploy
+            ls -la
             cp -r ./downloaded-artifact/build/* /home/ec2-user/deploy/
+            ls -la /home/ec2-user/deploy
             cd /home/ec2-user/deploy
             npm install
             pm2 restart all
