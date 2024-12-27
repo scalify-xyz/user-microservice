@@ -30,8 +30,21 @@ jobs:
           echo "Build folder is missing or empty. Failing the job."
           exit 1
         fi
+    - name: Inspect build folder
+      run: |
+        echo "Contents of build folder:"
+        ls -la ./build
     - name: Archive build
-      run: tar -czf build.tar.gz ./build
+      run: |
+        tar -czvf build.tar.gz ./build
+        echo "Tar archive created successfully."
+    - name: Validate tar archive
+      run: |
+        if [ ! -f build.tar.gz ]; then
+          echo "Tar archive not found! Failing the job."
+          exit 1
+        fi
+        echo "Tar archive found."
 
   test:
     runs-on: ubuntu-latest
@@ -90,7 +103,7 @@ jobs:
     - name: Set up SSH key
       run: |
         mkdir -p ~/.ssh
-        echo "$SSH_KEY" > ~/.ssh/id_rsa  # Verifique se SSH_KEY está configurado nos segredos
+        echo "$SSH_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
     - name: Test SSH connection
       run: |
@@ -103,7 +116,6 @@ jobs:
           nvm install 22
           nvm use 22
           npm install -g pm2
-          sudo yum install -y git
         EOF
     - name: Deploy build to prod server
       uses: appleboy/scp-action@v0.1.0
