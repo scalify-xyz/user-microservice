@@ -75,11 +75,10 @@ jobs:
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
       - name: Test SSH connection
         run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.HOST_IP }} "echo SSH connection successful"
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.HOST_IP }}
       - name: Install NVM and Node.js on EC2
         run: |
           ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} << 'EOF'
@@ -114,7 +113,9 @@ jobs:
             mkdir -p /home/ec2-user/deploy/downloaded-artifact/build
             tar -xzf /home/ec2-user/deploy/downloaded-artifact/build.tar.gz -C /home/ec2-user/deploy/downloaded-artifact/
             cd /home/ec2-user/deploy/downloaded-artifact/build
-            pm2 restart all
+            ls -la
+            # pm2 restart all
+            # pm2 restart all
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           HOST_IP: ${{ secrets.HOST_IP }}
