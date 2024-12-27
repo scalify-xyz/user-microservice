@@ -6,6 +6,7 @@ import { ApiExpress } from "@infra/api/express/api.express";
 import { AuthUserRoute } from "@infra/api/express/routes/auth-user.express.route";
 import { ChangePasswordUserRoute } from "@infra/api/express/routes/change-password-user.express.route";
 import { CreateUserRoute } from "@infra/api/express/routes/create-user.express.route";
+import { StatusRoute } from "@infra/api/express/routes/status.express.route";
 import { AmpqProvider } from "@infra/providers/ampq.provider";
 import { Argon2Provider } from "@infra/providers/argon2.provider";
 import { JsonWebTokenProvider } from "@infra/providers/jsonwebtoken.provider";
@@ -32,11 +33,12 @@ async function start(): Promise<void> {
   const createUserRoute = CreateUserRoute.create(createUsecase);
   const authUserRoute = AuthUserRoute.create(authUsecase);
   const changePasswordUserRoute = ChangePasswordUserRoute.create(updatePasswordUsecase);
+  const statusRoute = StatusRoute.create();
 
   changePasswordUserRoute.addMiddleware(AuthenticationMiddleware(jsonwebtokenProvider));
 
-  const api = ApiExpress.create([createUserRoute, authUserRoute, changePasswordUserRoute]);
-  const port = 8080;
+  const api = ApiExpress.create([createUserRoute, authUserRoute, changePasswordUserRoute, statusRoute]);
+  const port = 3000;
   api.start(port);
 }
 
