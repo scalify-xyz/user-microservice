@@ -64,7 +64,7 @@ jobs:
     - name: Get Github action IP
       id: ip
       uses: haythem/public-ip@v1.2
-
+        
     - name: Add Github Actions IP to Security group
       run: |
         aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32    
@@ -82,13 +82,25 @@ jobs:
         mkdir -p ~/.ssh
         echo "$SSH_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-
+    - name: Test SSH connection
+      run: |
+        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.HOST_IP }} "echo SSH connection successful"
+    - name: Install NVM and Node.js on EC2
+      run: |
+        ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} << 'EOF'
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+          source ~/.bashrc
+          nvm install 22
+          nvm use 22
+          npm install -g pm2
+          sudo yum install -y git
+        EOF
     - name: Deploy to prod server
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST_IP }}
         username: ec2-user
-        key: ${{ secrets.SSH_KEY }}
+        port: 22
         script: |
           export NVM_DIR=~/.nvm
           source ~/.nvm/nvm.sh
@@ -98,7 +110,6 @@ jobs:
           npm install
           pm2 restart user-microservice
     env:
-      HOST_IP: ${{ secrets.HOST_IP }}
       SSH_KEY: ${{ secrets.SSH_KEY }}
 
   remove-ip:
