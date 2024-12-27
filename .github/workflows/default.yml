@@ -113,8 +113,8 @@ jobs:
             rm -rf /home/ec2-user/deploy/downloaded-artifact/build
             mkdir -p /home/ec2-user/deploy/downloaded-artifact/build
             tar -xzf /home/ec2-user/deploy/downloaded-artifact/build.tar.gz -C /home/ec2-user/deploy/downloaded-artifact/
-            # cd /home/ec2-user/deploy
-            # pm2 restart all
+            cd /home/ec2-user/deploy/downloaded-artifact/build
+            pm2 restart all
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           HOST_IP: ${{ secrets.HOST_IP }}
