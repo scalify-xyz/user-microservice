@@ -74,7 +74,7 @@ jobs:
     steps:
       - name: Set up SSH key
         run: |
-          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
       - name: Test SSH connection
         run: |
@@ -94,15 +94,9 @@ jobs:
             npm install -g pm2
           EOF
       - name: Deploy build to prod server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_IP }}
-          username: ubuntu
-          key: ~/.ssh/id_rsa
         run: |
-          ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} "mkdir -p /home/ec2-user/user-microservice"
           scp -i ~/.ssh/id_rsa ./build.tar.gz ec2-user@${{ secrets.HOST_IP }}:/home/ec2-user/user-microservice/build.tar.gz
-      - name: Extract build on EC2
+      - name: Extract build on EC2 and start application
         run: |
           ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} "tar -xzf /home/ec2-user/user-microservice/build.tar.gz -C /home/ec2-user/user-microservice"
           ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} "cd /home/ec2-user/user-microservice && npm install --production && pm2 restart user-microservice"
