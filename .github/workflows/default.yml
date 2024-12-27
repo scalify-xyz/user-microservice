@@ -21,7 +21,15 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm run build --if-present
+    - run: npm run build
+    - name: Validate build folder
+      run: |
+        if [ -d build ] && [ "$(ls -A build)" ]; then
+          echo "Build folder exists and is not empty."
+        else
+          echo "Build folder is missing or empty. Failing the job."
+          exit 1
+        fi
     - name: Archive build
       run: tar -czf build.tar.gz ./build
 
@@ -102,10 +110,9 @@ jobs:
       with:
         host: ${{ secrets.HOST_IP }}
         username: ec2-user
-        port: 22
         source: ./build.tar.gz
         target: /home/ec2-user/user-microservice
-        private_key: ${{ secrets.SSH_KEY }}
+        key: ${{ secrets.SSH_KEY }}
     - name: Extract build on EC2
       run: |
         ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} "tar -xzf /home/ec2-user/user-microservice/build.tar.gz -C /home/ec2-user/user-microservice"
