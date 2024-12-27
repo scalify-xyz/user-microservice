@@ -106,7 +106,7 @@ jobs:
           script: |
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            tar -xzf ./build.tar.gz -C /home/ec2-user/user-microservice
+            tar -xzf build.tar.gz -C /home/ec2-user/user-microservice
             cd /home/ec2-user/user-microservice && npm install --production && pm2 restart user-microservice
             npm install
             pm2 restart nodejs-ssl-server      
