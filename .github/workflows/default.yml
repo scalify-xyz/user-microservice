@@ -53,7 +53,7 @@ jobs:
       - run: npm ci
       - run: npm run test
 
-  add-ip:
+  authorize-ip:
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -70,7 +70,7 @@ jobs:
 
   deploy-code:
     runs-on: ubuntu-latest
-    needs: add-ip
+    needs: authorize-ip
     steps:
       - name: Set up SSH key
         run: |
@@ -110,8 +110,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/ec2-user/deploy/downloaded-artifact
-            rm -rf /home/ec2-user/deploy/
-            mkdir -p /home/ec2-user/deploy/
+            rm -rf /home/ec2-user/deploy/downloaded-artifact/build
+            mkdir -p /home/ec2-user/deploy/downloaded-artifact/build
             tar -xzf /home/ec2-user/deploy/downloaded-artifact/build.tar.gz -C /home/ec2-user/deploy/downloaded-artifact/
             # cd /home/ec2-user/deploy
             # pm2 restart all
@@ -119,7 +119,7 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           HOST_IP: ${{ secrets.HOST_IP }}
 
-  remove-ip:
+  revoke-ip:
     runs-on: ubuntu-latest
     needs: deploy-code
     steps:
