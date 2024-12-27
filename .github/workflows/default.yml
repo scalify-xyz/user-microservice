@@ -22,7 +22,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
-    - name: Archive production build
+    - name: Archive build
       run: tar -czf build.tar.gz ./build
 
   test:
@@ -69,7 +69,7 @@ jobs:
         
     - name: Add Github Actions IP to Security group
       run: |
-        aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32    
+        aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -82,11 +82,21 @@ jobs:
     - name: Set up SSH key
       run: |
         mkdir -p ~/.ssh
-        echo "$SSH_KEY" > ~/.ssh/id_rsa
+        echo "$SSH_KEY" > ~/.ssh/id_rsa  # Verifique se SSH_KEY está configurado nos segredos
         chmod 600 ~/.ssh/id_rsa
     - name: Test SSH connection
       run: |
         ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.HOST_IP }} "echo SSH connection successful"
+    - name: Install NVM and Node.js on EC2
+      run: |
+        ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} << 'EOF'
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+          source ~/.bashrc
+          nvm install 22
+          nvm use 22
+          npm install -g pm2
+          sudo yum install -y git
+        EOF
     - name: Deploy build to prod server
       uses: appleboy/scp-action@v0.1.0
       with:
@@ -100,8 +110,8 @@ jobs:
       run: |
         ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} "tar -xzf /home/ec2-user/user-microservice/build.tar.gz -C /home/ec2-user/user-microservice"
         ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} "cd /home/ec2-user/user-microservice && npm install --production && pm2 restart user-microservice"
-      env:
-        SSH_KEY: ${{ secrets.SSH_KEY }}
+    env:
+      SSH_KEY: ${{ secrets.SSH_KEY }}
 
   remove-ip:
     runs-on: ubuntu-latest
