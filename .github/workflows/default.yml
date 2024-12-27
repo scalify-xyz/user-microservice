@@ -93,7 +93,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-artifact
-          path: .
+          path: ./build
       - name: Deploy build to prod server
         uses: appleboy/ssh-action@master
         with:
@@ -102,10 +102,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             ls -la
+            ls -la /home/runner/work/user-microservice/user-microservice
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            tar -xzf /home/runner/work/user-microservice/user-microservice/build.tar.gz
-            cd /home/runner/work/user-microservice/user-microservice/build && npm install --production && pm2 restart user-microservice   
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           HOST_IP: ${{ secrets.HOST_IP }}
