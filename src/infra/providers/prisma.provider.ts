@@ -12,8 +12,9 @@ export class PrismaProvider {
     static async connection() {
         try {
             await PrismaProvider.client.$queryRaw`SELECT 1`;
+             console.log("Prisma Connected!");
         } catch (error) {
-            console.error("Prisma Connection Failed");
+            console.error("Prisma connection Failed");
         }
     }
 }
