@@ -100,10 +100,9 @@ jobs:
           host: ${{ secrets.HOST_IP }}
           username: ec2-user
           key: ${{ secrets.SSH_KEY }}
-          port: 22
           source: downloaded-artifact/*
           target: /home/ec2-user/deploy
-      - name: List downloaded artifact contents
+      - name: Extract Downloaded Artifact Contents and Run PM2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_IP }}
@@ -111,12 +110,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/ec2-user/deploy/downloaded-artifact
-            rm -rf /home/ec2-user/deploy/downloaded-artifact/build
-            mkdir -p /home/ec2-user/deploy/downloaded-artifact/build
-            tar -xzf /home/ec2-user/deploy/downloaded-artifact/build.tar.gz -C /home/ec2-user/deploy/downloaded-artifact/build
-            ls -la
-            cd /build
-            ls -la
+            rm -rf /home/ec2-user/deploy/
+            mkdir -p /home/ec2-user/deploy/
+            tar -xzf /home/ec2-user/deploy/downloaded-artifact/build.tar.gz -C /home/ec2-user/deploy/downloaded-artifact/
             # cd /home/ec2-user/deploy
             # pm2 restart all
         env:
