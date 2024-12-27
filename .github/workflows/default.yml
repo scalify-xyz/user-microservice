@@ -93,7 +93,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-artifact
-          path: ./build
+          path: ./downloaded-artifact/
+      - name: Extract build artifact
+        run: |
+          tar -xzf ./downloaded-artifact/build.tar.gz -C ./downloaded-artifact/
       - name: Deploy build to prod server
         uses: appleboy/ssh-action@master
         with:
@@ -101,10 +104,12 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SSH_KEY }}
           script: |
-            ls -la
-            ls -la /home/runner/work/user-microservice/user-microservice
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
+            echo "Deploying build to remote server"
+            mkdir -p /home/ec2-user/deploy
+            cp -r ./downloaded-artifact/build/* /home/ec2-user/deploy/
+            cd /home/ec2-user/deploy
+            npm install
+            pm2 restart all
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           HOST_IP: ${{ secrets.HOST_IP }}
