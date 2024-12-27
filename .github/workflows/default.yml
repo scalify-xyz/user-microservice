@@ -101,7 +101,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SSH_KEY }}
           port: 22
-          source: distfiles/*
+          source: downloaded-artifact/*
           target: /home/ec2-user/deploy
       - name: List downloaded artifact contents
         uses: appleboy/ssh-action@master
