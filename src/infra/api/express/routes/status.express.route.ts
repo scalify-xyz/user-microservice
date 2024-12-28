@@ -23,7 +23,7 @@ export class StatusRoute implements Route {
         return async (request: Request, response: Response, next: NextFunction) => {
             try {
                 const output = {
-                    status: "ok",
+                    status: 200,
                 };
                 response.status(201).json(output);
             } catch (error) {
