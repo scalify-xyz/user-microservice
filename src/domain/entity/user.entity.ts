@@ -3,12 +3,12 @@ export type IUser = {
     name: string;
     email: string;
     password: string;
-    isAccountConfirmed: boolean;
+    isEmailVerified: boolean;
 }
 
-export type IUserWithoutIdAndConfirmed = Omit<IUser, "id" | "isAccountConfirmed"> & { 
+export type IUserWithoutIdAndConfirmed = Omit<IUser, "id" | "isEmailVerified"> & { 
     id?: string;
-    isAccountConfirmed?: boolean;
+    isEmailVerified?: boolean;
 };
 
 export class User {
@@ -17,11 +17,11 @@ export class User {
         this.props.name = props.name;
         this.props.email = props.email;
         this.props.password = props.password;
-        this.props.isAccountConfirmed = props.isAccountConfirmed;
+        this.props.isEmailVerified = props.isEmailVerified;
     }
 
     public static create({ id, name, email, password }: IUserWithoutIdAndConfirmed) {
-        return new User({ id: id || crypto.randomUUID().toString(), name, email, password, isAccountConfirmed: false });
+        return new User({ id: id || crypto.randomUUID().toString(), name, email, password, isEmailVerified: false });
     }
 
     public static with(props: IUser) {
@@ -44,7 +44,7 @@ export class User {
         return this.props.password;
     }
 
-    public get isAccountConfirmed() {
-        return this.props.isAccountConfirmed;
+    public get isEmailVerified() {
+        return this.props.isEmailVerified;
     }
 }

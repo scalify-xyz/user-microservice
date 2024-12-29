@@ -31,7 +31,7 @@ export class UserRepositoryPrisma implements IUserRepository {
                 name: user.name,
                 email: user.email,
                 password: await this.encryptClient.hash(user.password),
-                isAccountConfirmed: user.isAccountConfirmed,
+                isEmailVerified: user.isEmailVerified,
             },
         });
 
