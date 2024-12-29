@@ -28,6 +28,7 @@ export default class SecretsManager {
 
   async loadSecrets(): Promise<void> {
     if (process.env.NODE_ENV === "prod") {
+      console.log("Production environment detected. Loading aws sdk");
       for (const [envKey, secretId] of Object.entries(AWS_MAP_KEYS)) {
         try {
           const response = await this.client.send(
@@ -40,7 +41,7 @@ export default class SecretsManager {
           const secretValue = response.SecretString && JSON.parse(response.SecretString);
           process.env[envKey] = secretValue[envKey] || secretValue;
         } catch (error) {
-          console.error(`Failed to fetch secret for ${envKey}:`, error);
+          console.error(`Failed to fetch secret for ${envKey}:`);
         }
       }
     } else {
