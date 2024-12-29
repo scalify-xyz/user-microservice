@@ -14,10 +14,16 @@ import { PrismaProvider } from "@infra/providers/prisma.provider";
 import { UserRepositoryPrisma } from "@infra/repositories/prisma/user.repository.prisma";
 
 import { AuthenticationMiddleware } from "@shared/middlewares/authentication.middleware";
-import SecretsManager from "@shared/utils/secrets-manager";
+import AWSSecretsManager from "@shared/utils/aws-secrets-manager";
 
 async function start(): Promise<void> {
-  await SecretsManager.create();
+  await AWSSecretsManager.create({
+    region: "sa-east-1",
+    secretsMap: {
+      "RABBITMQ_URL": "rabbitmq/production/scalableecommerce",
+      "JWT_SECRET": "jwt/production/scalableecommerce", 
+    },
+  });
 
   const prismaProvider = PrismaProvider.create();  
   const encryptProvider = Argon2Provider.create();
