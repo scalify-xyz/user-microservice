@@ -4,13 +4,13 @@ import {
 } from "@aws-sdk/client-secrets-manager";
 
 export enum Keys {
-  POSTGRES_DATABASE_URL = "POSTGRES_DATABASE_URL",
+  POSTGRES_URL = "POSTGRES_URL",
   RABBITMQ_URL = "RABBITMQ_URL",
   JWT_SECRET = "JWT_SECRET",
 }
 
 const AWS_MAP_KEYS = {
-  [Keys.POSTGRES_DATABASE_URL]: "postgres/production/scalableecommerce",
+  [Keys.POSTGRES_URL]: "postgres/production/scalableecommerce",
   [Keys.RABBITMQ_URL]: "rabbitmq/production/scalableecommerce",
   [Keys.JWT_SECRET]: "jwt/production/scalableecommerce",
 };
