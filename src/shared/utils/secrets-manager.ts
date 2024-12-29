@@ -38,6 +38,7 @@ export default class SecretsManager {
             }),
           );
 
+          console.log(`Secret ${envKey} loaded successfully.`);
           const secretValue = response.SecretString && JSON.parse(response.SecretString);
           process.env[envKey] = secretValue[envKey] || secretValue;
         } catch (error) {
