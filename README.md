@@ -1,4 +1,3 @@
-
 # user-microservice
 
 This is a **User Microservice** built with **TypeScript**, **Node.js**, **Prisma**, following **DDD** and **Clean Code** principles, and using **Docker Compose** for database setup.
