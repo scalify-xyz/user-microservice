@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start:dev": "NODE_ENV=dev tsx watch src/index.ts",
-    "start:prod": "NODE_ENV=prod node -r ts-node/register/transpile-only -r tsconfig-paths/register build/index.js",
+    "start:prod": "NODE_ENV=prod pm2 restart ecosystem.config.js --env production",
     "build": "tsc && tsc-alias --project tsconfig.json",
     "test": "NODE_ENV=test jest",
     "test:coverage": "NODE_ENV=test jest --coverage",
