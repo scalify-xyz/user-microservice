@@ -14,8 +14,11 @@ import { PrismaProvider } from "@infra/providers/prisma.provider";
 import { UserRepositoryPrisma } from "@infra/repositories/prisma/user.repository.prisma";
 
 import { AuthenticationMiddleware } from "@shared/middlewares/authentication.middleware";
+import SecretsManager from "@shared/utils/secrets-manager";
 
 async function start(): Promise<void> {
+  SecretsManager.create();
+
   const prismaProvider = PrismaProvider.create();  
   const encryptProvider = Argon2Provider.create();
   const jsonwebtokenProvider = JsonWebTokenProvider.create();

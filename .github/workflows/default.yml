@@ -48,6 +48,7 @@ jobs:
       - name: Copy Dependencies to Build Folder
         run: |
           cp package.json ./build
+          cp ecosystem.config.js ./build
           cp -r ./prisma ./build
       - name: Archive build
         run: tar -czf build.tar.gz ./build
