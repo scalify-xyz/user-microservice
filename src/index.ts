@@ -17,7 +17,7 @@ import { AuthenticationMiddleware } from "@shared/middlewares/authentication.mid
 import SecretsManager from "@shared/utils/secrets-manager";
 
 async function start(): Promise<void> {
-  SecretsManager.create();
+  await SecretsManager.create();
 
   const prismaProvider = PrismaProvider.create();  
   const encryptProvider = Argon2Provider.create();
