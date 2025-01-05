@@ -68,13 +68,13 @@ jobs:
       - name: Get Github action IP
         id: ip
         uses: haythem/public-ip@v1.2
-      - name: Add Github Actions IP to Security group
-        run: |
-          aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      - name: Save IP to file
+        run: echo "${{ steps.ip.outputs.ipv4 }}" > ip_address.txt
+      - name: Upload IP as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-action-ip
+          path: ip_address.txt
 
   Continuous-Deployment_Database-Migration:
     runs-on: ubuntu-latest
@@ -157,14 +157,22 @@ jobs:
       matrix:
         node-version: [22.x]
     steps:
-      - name: Get Github action IP
-        id: ip
-        uses: haythem/public-ip@v1.2
+      - name: Download IP artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-action-ip
+          path: ./downloaded-ip/
+      - name: Read IP from file
+        id: read-ip
+        run: echo "IP to revoke: $(cat ./downloaded-ip/ip_address.txt)"
       - name: Remove Github Actions IP from security group
         run: |
-          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr $(cat ./downloaded-ip/ip_address.txt)/32
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
         if: always()
+      - name: Remove IP file
+        run: |
+          rm -f ./downloaded-ip/ip_address.txt
