@@ -164,7 +164,8 @@ jobs:
           path: ./downloaded-ip/
       - name: Read IP from file
         id: read-ip
-        run: echo "IP to revoke: $(cat ./downloaded-ip/ip_address.txt)"
+        run: |
+          echo "IP to revoke: $(cat ./downloaded-ip/ip_address.txt)"
       - name: Remove Github Actions IP from security group
         run: |
           aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr $(cat ./downloaded-ip/ip_address.txt)/32
