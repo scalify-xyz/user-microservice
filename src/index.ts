@@ -2,16 +2,17 @@ import { AuthUsecase } from "@application/usecases/auth/auth.usecase";
 import { CreateUsecase } from "@application/usecases/create/create.usecase";
 import { UpdatePasswordUsecase } from "@application/usecases/update-password/update-password.usecase";
 
-import { ApiExpress } from "@infra/api/express/api.express";
-import { AuthUserRoute } from "@infra/api/express/routes/auth-user.express.route";
-import { ChangePasswordUserRoute } from "@infra/api/express/routes/change-password-user.express.route";
-import { CreateUserRoute } from "@infra/api/express/routes/create-user.express.route";
-import { StatusRoute } from "@infra/api/express/routes/status.express.route";
 import { AmpqProvider } from "@infra/providers/ampq.provider";
 import { Argon2Provider } from "@infra/providers/argon2.provider";
 import { JsonWebTokenProvider } from "@infra/providers/jsonwebtoken.provider";
 import { PrismaProvider } from "@infra/providers/prisma.provider";
 import { UserRepositoryPrisma } from "@infra/repositories/prisma/user.repository.prisma";
+
+import { ApiExpress } from "@main/api/express/api.express";
+import { AuthUserRoute } from "@main/api/express/routes/auth-user.express.route";
+import { ChangePasswordUserRoute } from "@main/api/express/routes/change-password-user.express.route";
+import { CreateUserRoute } from "@main/api/express/routes/create-user.express.route";
+import { StatusRoute } from "@main/api/express/routes/status.express.route";
 
 import { AuthenticationMiddleware } from "@shared/middlewares/authentication.middleware";
 import AWSSecretsManager from "@shared/utils/aws-secrets-manager";

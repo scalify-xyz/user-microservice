@@ -56,6 +56,11 @@ export default [
               position: "after",
             },
             {
+              pattern: "@main/**",
+              group: "internal",
+              position: "after",
+            },
+            {
               pattern: "@shared/**",
               group: "internal",
               position: "after",

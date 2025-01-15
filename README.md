@@ -6,10 +6,21 @@ This is a **User Microservice** built with **TypeScript**, **Node.js**, **Prisma
 
 ```
 src/
-├── Infra/        # Database implementation and external communication
-├── Application/  # Application logic and use cases
-├── Domain/       # Entities and domain rules
-├── Shared/       # Utility Shared functions and helpers
+├── application/          # Use cases
+│   ├── usecases/
+├── domain/               # Entities (pure business rules)
+│   ├── entities/
+├── infrastructure/       # Infrastructure (drivers and frameworks)
+│   ├── models/
+│   ├── controllers/
+│   ├── repositories/
+├── main/                 # Interface adapters (API)
+│       ├── api/
+│       │   ├── routes/
+├── shared/               # Shared modules
+│   ├── utils/
+│   └── index.ts
+└── index.ts              # Entry point
 ```
 
 ## Installation
