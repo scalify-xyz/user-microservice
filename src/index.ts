@@ -20,16 +20,18 @@ async function start(): Promise<void> {
   await AWSSecretsManager.create({
     region: "sa-east-1",
     secretsMap: {
+      "JWT_SECRET": "jwt/production/scalableecommerce",
       "POSTGRESDB_URL": "postgres/production/scalableecommerce",
       "RABBITMQ_URL": "rabbitmq/production/scalableecommerce",
-      "JWT_SECRET": "jwt/production/scalableecommerce", 
     },
   });
 
-  const prismaProvider = PrismaProvider.create();  
+  console.log("[DEBUG]", process.env);
+
+  const prismaProvider = PrismaProvider.create();
   const encryptProvider = Argon2Provider.create();
   const jsonwebtokenProvider = JsonWebTokenProvider.create();
-  
+
   const ampqProvider = AmpqProvider.create(process.env.RABBITMQ_URL);
   ampqProvider.connect();
 
