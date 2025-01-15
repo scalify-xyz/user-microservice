@@ -21,12 +21,10 @@ async function start(): Promise<void> {
     region: "sa-east-1",
     secretsMap: {
       "JWT_SECRET": "jwt/production/scalableecommerce",
-      "POSTGRESDB_URL": "postgres/production/scalableecommerce",
+      "POSTGRESDB_URL": "postgresdb/production/scalableecommerce",
       "RABBITMQ_URL": "rabbitmq/production/scalableecommerce",
     },
   });
-
-  console.log("[DEBUG]", process.env);
 
   const prismaProvider = PrismaProvider.create();
   const encryptProvider = Argon2Provider.create();
