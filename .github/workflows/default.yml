@@ -93,7 +93,7 @@ jobs:
       - name: Apply all pending migrations to the database
         run: npx prisma migrate deploy
         env:
-          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          POSTGRESDB_URL: ${{ secrets.POSTGRESDB_URL }}
   
   Continuous-Deployment_Delivery-AWS_EC2:
     runs-on: ubuntu-latest

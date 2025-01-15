@@ -20,7 +20,7 @@ async function start(): Promise<void> {
   await AWSSecretsManager.create({
     region: "sa-east-1",
     secretsMap: {
-      "POSTGRES_URL": "postgres/production/scalableecommerce",
+      "POSTGRESDB_URL": "postgres/production/scalableecommerce",
       "RABBITMQ_URL": "rabbitmq/production/scalableecommerce",
       "JWT_SECRET": "jwt/production/scalableecommerce", 
     },
