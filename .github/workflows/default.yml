@@ -58,124 +58,124 @@ jobs:
           name: build-artifact
           path: build.tar.gz
 
-  Continuous-Deployment_Authorize-Ip:
-    runs-on: ubuntu-latest
-    needs: Continuous-Integration_Build
-    strategy:
-      matrix:
-        node-version: [22.x]
-    steps:
-      - name: Get Github action IP
-        id: ip
-        uses: haythem/public-ip@v1.2
-      - name: Save IP to file
-        run: echo "${{ steps.ip.outputs.ipv4 }}" > ip_address.txt
-      - name: Upload IP as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: github-action-ip
-          path: ip_address.txt
+  # Continuous-Deployment_Authorize-Ip:
+  #   runs-on: ubuntu-latest
+  #   needs: Continuous-Integration_Build
+  #   strategy:
+  #     matrix:
+  #       node-version: [22.x]
+  #   steps:
+  #     - name: Get Github action IP
+  #       id: ip
+  #       uses: haythem/public-ip@v1.2
+  #     - name: Save IP to file
+  #       run: echo "${{ steps.ip.outputs.ipv4 }}" > ip_address.txt
+  #     - name: Upload IP as artifact
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: github-action-ip
+  #         path: ip_address.txt
 
-  Continuous-Deployment_Database-Migration:
-    runs-on: ubuntu-latest
-    needs: Continuous-Deployment_Authorize-Ip
-    strategy:
-      matrix:
-        node-version: [22.x]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm ci
-      - name: Apply all pending migrations to the database
-        run: |
-          npx prisma generate
-          npx prisma migrate deploy
-        env:
-          POSTGRESDB_URL: ${{ secrets.POSTGRESDB_URL }}
+  # Continuous-Deployment_Database-Migration:
+  #   runs-on: ubuntu-latest
+  #   needs: Continuous-Deployment_Authorize-Ip
+  #   strategy:
+  #     matrix:
+  #       node-version: [22.x]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #         cache: 'npm'
+  #     - run: npm ci
+  #     - name: Apply all pending migrations to the database
+  #       run: |
+  #         npx prisma generate
+  #         npx prisma migrate deploy
+  #       env:
+  #         POSTGRESDB_URL: ${{ secrets.POSTGRESDB_URL }}
   
-  Continuous-Deployment_Delivery-AWS_EC2:
-    runs-on: ubuntu-latest
-    needs: Continuous-Deployment_Database-Migration
-    strategy:
-      matrix:
-        node-version: [22.x]
-    steps:
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-      - name: Test SSH connection
-        run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.HOST_IP }}
-      - name: Install NVM and Node.js on EC2
-        run: |
-          ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} << 'EOF'
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-            source ~/.bashrc
-            nvm install 22
-            nvm use 22
-            npm install -g pm2
-          EOF
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifact
-          path: ./downloaded-artifact/
-      - name: Copy Artifact To Server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.HOST_IP }}
-          username: ec2-user
-          key: ${{ secrets.SSH_KEY }}
-          source: downloaded-artifact/*
-          target: /home/ec2-user/deploy
-      - name: Extract Downloaded Artifact Contents and Run PM2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_IP }}
-          username: ec2-user
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            cd /home/ec2-user/deploy/downloaded-artifact
-            rm -rf /home/ec2-user/deploy/downloaded-artifact/build
-            mkdir -p /home/ec2-user/deploy/downloaded-artifact/build
-            tar -xzf /home/ec2-user/deploy/downloaded-artifact/build.tar.gz -C /home/ec2-user/deploy/downloaded-artifact/
-            cd /home/ec2-user/deploy/downloaded-artifact/build
-            npm install
-            npm run start:prod
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          HOST_IP: ${{ secrets.HOST_IP }}
+  # Continuous-Deployment_Delivery-AWS_EC2:
+  #   runs-on: ubuntu-latest
+  #   needs: Continuous-Deployment_Database-Migration
+  #   strategy:
+  #     matrix:
+  #       node-version: [22.x]
+  #   steps:
+  #     - name: Set up SSH key
+  #       run: |
+  #         mkdir -p ~/.ssh
+  #         echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+  #         chmod 600 ~/.ssh/id_rsa
+  #     - name: Test SSH connection
+  #       run: |
+  #         ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.HOST_IP }}
+  #     - name: Install NVM and Node.js on EC2
+  #       run: |
+  #         ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.HOST_IP }} << 'EOF'
+  #           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  #           source ~/.bashrc
+  #           nvm install 22
+  #           nvm use 22
+  #           npm install -g pm2
+  #         EOF
+  #     - name: Download build artifact
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: build-artifact
+  #         path: ./downloaded-artifact/
+  #     - name: Copy Artifact To Server
+  #       uses: appleboy/scp-action@v0.1.7
+  #       with:
+  #         host: ${{ secrets.HOST_IP }}
+  #         username: ec2-user
+  #         key: ${{ secrets.SSH_KEY }}
+  #         source: downloaded-artifact/*
+  #         target: /home/ec2-user/deploy
+  #     - name: Extract Downloaded Artifact Contents and Run PM2
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.HOST_IP }}
+  #         username: ec2-user
+  #         key: ${{ secrets.SSH_KEY }}
+  #         script: |
+  #           cd /home/ec2-user/deploy/downloaded-artifact
+  #           rm -rf /home/ec2-user/deploy/downloaded-artifact/build
+  #           mkdir -p /home/ec2-user/deploy/downloaded-artifact/build
+  #           tar -xzf /home/ec2-user/deploy/downloaded-artifact/build.tar.gz -C /home/ec2-user/deploy/downloaded-artifact/
+  #           cd /home/ec2-user/deploy/downloaded-artifact/build
+  #           npm install
+  #           npm run start:prod
+  #       env:
+  #         SSH_KEY: ${{ secrets.SSH_KEY }}
+  #         HOST_IP: ${{ secrets.HOST_IP }}
 
-  Continuous-Deployment_Revoke-Ip:
-    runs-on: ubuntu-latest
-    needs: Continuous-Deployment_Delivery-AWS_EC2
-    strategy:
-      matrix:
-        node-version: [22.x]
-    steps:
-      - name: Download IP artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: github-action-ip
-          path: ./downloaded-ip/
-      - name: Read IP from file
-        id: read-ip
-        run: |
-          echo "IP to revoke: $(cat ./downloaded-ip/ip_address.txt)"
-      - name: Remove Github Actions IP from security group
-        run: |
-          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr $(cat ./downloaded-ip/ip_address.txt)/32
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-        if: always()
-      - name: Remove IP file
-        run: |
-          rm -f ./downloaded-ip/ip_address.txt
+  # Continuous-Deployment_Revoke-Ip:
+  #   runs-on: ubuntu-latest
+  #   needs: Continuous-Deployment_Delivery-AWS_EC2
+  #   strategy:
+  #     matrix:
+  #       node-version: [22.x]
+  #   steps:
+  #     - name: Download IP artifact
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: github-action-ip
+  #         path: ./downloaded-ip/
+  #     - name: Read IP from file
+  #       id: read-ip
+  #       run: |
+  #         echo "IP to revoke: $(cat ./downloaded-ip/ip_address.txt)"
+  #     - name: Remove Github Actions IP from security group
+  #       run: |
+  #         aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr $(cat ./downloaded-ip/ip_address.txt)/32
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+  #       if: always()
+  #     - name: Remove IP file
+  #       run: |
+  #         rm -f ./downloaded-ip/ip_address.txt
