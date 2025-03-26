@@ -1,15 +1,16 @@
 import { IEncryptProvider } from "@infrastructure/providers/interfaces/encrypt.interface.provider";
-import { ChangePasswordDTO, ChangePasswordResponseDTO, IUserRepository } from "@infrastructure/repositories/interfaces/user.interface.repository";
+import { ChangePasswordDTO, ChangePasswordResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
+import { UserRepository } from "@infrastructure/repositories/prisma/user.repository.prisma";
 
 
 
 export class UpdatePasswordUsecase {
     private constructor(
-        private readonly userRepository: IUserRepository,
+        private readonly userRepository: UserRepository,
         private readonly encryptProvider: IEncryptProvider,
     ) { }
 
-    public static create(userRepository: IUserRepository, encryptProvider: IEncryptProvider) {
+    public static create(userRepository: UserRepository, encryptProvider: IEncryptProvider) {
         return new UpdatePasswordUsecase(userRepository, encryptProvider);
     }
 

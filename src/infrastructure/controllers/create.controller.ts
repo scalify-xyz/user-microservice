@@ -14,7 +14,7 @@ export class CreateUserController {
         return new CreateUserController(createUserUseCase);
     }
 
-    public async execute(request: Request, response: Response, next: NextFunction) {
+    public execute = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const { name, email, password } = request.body;
 
@@ -23,14 +23,11 @@ export class CreateUserController {
                 email,
                 password,
             };
-            console.log(input);
+            const output: SaveResponseDTO = await this.createUserUseCase.execute(input);
 
-            // const output: SaveResponseDTO = await this.createUserUseCase.execute(input);
-
-            response.status(201).json(input);
+            response.status(201).json(output);
         } catch (error) {
             next(error);
         }
-
-    }
+    };
 }

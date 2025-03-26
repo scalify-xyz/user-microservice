@@ -31,9 +31,3 @@ export type UserCreatedEventDTO = {
     id: string;
     email: string;
 }
-
-export type IUserRepository = {
-    save(user: User): Promise<SaveResponseDTO>;
-    findByEmail(email: string): Promise<User | null>;
-    updatePassword(id: string, password: string): Promise<void>;
-}

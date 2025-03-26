@@ -1,32 +1,31 @@
-import { PrismaClient } from "@prisma/client";
-
 import { User } from "@domain/entity/user.entity";
 
+import { UserModel } from "@infrastructure/models/user.model";
 import { IEncryptProvider } from "@infrastructure/providers/interfaces/encrypt.interface.provider";
-import { IUserRepository, SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
+import { SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
 
 
 
-export class UserRepository implements IUserRepository {
+export class UserRepository {
     private constructor(
-        private readonly prismaClient: PrismaClient,
+        private readonly userModel: UserModel,
         private readonly encryptClient: IEncryptProvider,
     ) { }
 
     public static create(
-        prismaClient: PrismaClient,
+        userModel: UserModel,
         encryptClient: IEncryptProvider,
     ) {
-        return new UserRepository(prismaClient, encryptClient);
+        return new UserRepository(userModel, encryptClient);
     }
 
     public async save(user: User): Promise<SaveResponseDTO> {
-        const verificationUser = await this.prismaClient.user.findFirst({ where: { email: user.email } });
+        const verificationUser = await this.userModel.user.findFirst({ where: { email: user.email } });
         if (verificationUser?.id) {
             throw new Error("Email is already being used");
         }
 
-        await this.prismaClient.user.create({
+        await this.userModel.user.create({
             data: {
                 id: user.id,
                 name: user.name,
@@ -40,7 +39,7 @@ export class UserRepository implements IUserRepository {
     }
 
     public async findByEmail(email: string) {
-        const user = await this.prismaClient.user.findFirst({ where: { email } });
+        const user = await this.userModel.user.findFirst({ where: { email } });
         if (!user?.id) {
             throw new Error("Cannot find user");
         }
@@ -49,7 +48,7 @@ export class UserRepository implements IUserRepository {
     }
 
     public async updatePassword(id: string, password: string): Promise<void> {
-        await this.prismaClient.user.update({
+        await this.userModel.user.update({
             where: { id: id },
             data: { password },
         });

@@ -1,16 +1,17 @@
 
 import { IEncryptProvider } from "@infrastructure/providers/interfaces/encrypt.interface.provider";
 import { IJsonWebTokenProvider } from "@infrastructure/providers/interfaces/jsonwebtoken.interface.provider";
-import { IUserRepository, LoginDTO, LoginResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
+import { LoginDTO, LoginResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
+import { UserRepository } from "@infrastructure/repositories/prisma/user.repository.prisma";
 
 export class AuthUsecase {
     private constructor(
-        private readonly userRepository: IUserRepository,
+        private readonly userRepository: UserRepository,
         private readonly encryptProvider: IEncryptProvider,
         private readonly jwtProvider: IJsonWebTokenProvider,
     ) { }
 
-    public static create(userRepository: IUserRepository, encryptProvider: IEncryptProvider, jwtProvider: IJsonWebTokenProvider) {
+    public static create(userRepository: UserRepository, encryptProvider: IEncryptProvider, jwtProvider: IJsonWebTokenProvider) {
         return new AuthUsecase(userRepository, encryptProvider, jwtProvider);
     }
 

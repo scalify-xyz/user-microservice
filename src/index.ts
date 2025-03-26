@@ -5,6 +5,7 @@ import { CreateUserUsecase } from "@application/usecases/create.usecase";
 import { UpdatePasswordUsecase } from "@application/usecases/update-password.usecase";
 
 import { CreateUserController } from "@infrastructure/controllers/create.controller";
+import { UserModel } from "@infrastructure/models/user.model";
 import { AmpqProvider } from "@infrastructure/providers/ampq.provider";
 import { Argon2Provider } from "@infrastructure/providers/argon2.provider";
 import { JsonWebTokenProvider } from "@infrastructure/providers/jsonwebtoken.provider";
@@ -32,7 +33,9 @@ async function start(): Promise<void> {
   const prismaProvider = PrismaProvider.create();
   const encryptProvider = Argon2Provider.create();
 
-  const userRepository = UserRepository.create(prismaProvider, encryptProvider);
+  const userModel = UserModel.create(prismaProvider);
+
+  const userRepository = UserRepository.create(userModel, encryptProvider);
 
   const jsonwebtokenProvider = JsonWebTokenProvider.create();
   const ampqProvider = AmpqProvider.create(process.env.RABBITMQ_URL);
