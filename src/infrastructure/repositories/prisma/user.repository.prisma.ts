@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { User } from "@domain/entity/user.entity";
 import { IUserRepository, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
-import { IEncryptProvider } from "@infra/interfaces/providers/encrypt.interface.provider";
+import { IEncryptProvider } from "@infrastructure/interfaces/providers/encrypt.interface.provider";
 
 
 export class UserRepositoryPrisma implements IUserRepository {

@@ -4,7 +4,7 @@ import { IUserRepository, SaveDTO, SaveResponseDTO } from "@domain/interfaces/re
 
 import { UseCase } from "@application/interfaces/usecase.interface";
 
-import { IRabbitMQProvider } from "@infra/interfaces/providers/rabbitmq.interface.provider";
+import { IRabbitMQProvider } from "@infrastructure/interfaces/providers/rabbitmq.interface.provider";
 
 import { RABBITMQ_USER_CREATED_QUEUE_NAME } from "@shared/constants/rabbit-mq.constants";
 

@@ -3,7 +3,7 @@ import { ChangePasswordDTO, ChangePasswordResponseDTO, IUserRepository } from "@
 import { UseCase } from "@application/interfaces/usecase.interface";
 
 
-import { IEncryptProvider } from "@infra/interfaces/providers/encrypt.interface.provider";
+import { IEncryptProvider } from "@infrastructure/interfaces/providers/encrypt.interface.provider";
 
 export class UpdatePasswordUsecase implements UseCase<ChangePasswordDTO, ChangePasswordResponseDTO> {
     private constructor(

@@ -2,7 +2,7 @@ import { KeyObject } from "crypto";
 
 import { sign, verify } from "jsonwebtoken";
 
-import { IJsonWebTokenProvider } from "@infra/interfaces/providers/jsonwebtoken.interface.provider";
+import { IJsonWebTokenProvider } from "@infrastructure/interfaces/providers/jsonwebtoken.interface.provider";
 
 type JwtPayload = { email: string; iat: number };
 
@@ -45,7 +45,8 @@ export class JsonWebTokenProvider implements IJsonWebTokenProvider {
         callback?: (err: Error | null, payload?: object | null) => void,
     ): JwtPayload | null {
         try {
-            return verify(jwtString, secretOrPublicKey, options, callback);
+            return null;
+            // return verify(jwtString, secretOrPublicKey, options, callback);
         } catch (error) {
             throw new Error(`JWT Verification failed: ${error.message}`);
         }

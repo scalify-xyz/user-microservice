@@ -2,11 +2,11 @@ import { AuthUsecase } from "@application/usecases/auth/auth.usecase";
 import { CreateUsecase } from "@application/usecases/create/create.usecase";
 import { UpdatePasswordUsecase } from "@application/usecases/update-password/update-password.usecase";
 
-import { AmpqProvider } from "@infra/providers/ampq.provider";
-import { Argon2Provider } from "@infra/providers/argon2.provider";
-import { JsonWebTokenProvider } from "@infra/providers/jsonwebtoken.provider";
-import { PrismaProvider } from "@infra/providers/prisma.provider";
-import { UserRepositoryPrisma } from "@infra/repositories/prisma/user.repository.prisma";
+import { AmpqProvider } from "@infrastructure/providers/ampq.provider";
+import { Argon2Provider } from "@infrastructure/providers/argon2.provider";
+import { JsonWebTokenProvider } from "@infrastructure/providers/jsonwebtoken.provider";
+import { PrismaProvider } from "@infrastructure/providers/prisma.provider";
+import { UserRepositoryPrisma } from "@infrastructure/repositories/prisma/user.repository.prisma";
 
 import { ApiExpress } from "@main/api/express/api.express";
 import { AuthUserRoute } from "@main/api/express/routes/auth-user.express.route";

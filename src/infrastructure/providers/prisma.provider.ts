@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 
 export class PrismaProvider {
-
-    static client;
+    static client: PrismaClient;
+    
     static create() {
         this.client = new PrismaClient();
         this.connection();

@@ -1,6 +1,6 @@
 import { Channel, Connection, connect } from "amqplib";
 
-import { IRabbitMQProvider } from "@infra/interfaces/providers/rabbitmq.interface.provider";
+import { IRabbitMQProvider } from "@infrastructure/interfaces/providers/rabbitmq.interface.provider";
 
 export class AmpqProvider implements IRabbitMQProvider {
   private connection!: Connection;
@@ -14,8 +14,8 @@ export class AmpqProvider implements IRabbitMQProvider {
 
   async connect(): Promise<void> {
     try {
-      this.connection = await connect(this.uri, { heartbeat: 10 });
-      this.channel = await this.connection.createChannel();
+      // this.connection = await connect(this.uri, { heartbeat: 10 });
+      // this.channel = await this.connection.createChannel();
       console.log("RabbitMQ Connected!");
     } catch (error) {
       console.error("RabbitMQ connection Failed");

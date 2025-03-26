@@ -1,41 +1,11 @@
 {
+   "extends": "./node_modules/@scalify/shared-microservice/tsconfig.json",
    "compilerOptions": {
-      "baseUrl": ".",
-      "paths": {
-         "@domain/*": [
-            "src/domain/*"
-         ],
-         "@application/*": [
-            "src/application/*"
-         ],
-         "@infra/*": [
-            "src/infra/*"
-         ],
-         "@main/*": [
-            "src/main/*"
-         ],
-         "@shared/*": [
-            "src/shared/*"
-         ]
-      },
-      "lib": [
-         "es5",
-         "es6"
-      ],
-      "target": "ES2015",
-      "module": "commonjs",
-      "moduleResolution": "node",
       "outDir": "./build",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "sourceMap": true,
-      "allowSyntheticDefaultImports": true,
-      "importHelpers": true,
-      "esModuleInterop": true,
+      "baseUrl": ".",
    },
-   "include": ["src", "src/**/*.ts", "types/**/*.ts"],
-   "exclude": ["node_modules", ".vscode"],
-   "ts-node": {
-      "require": ["tsconfig-paths/register"]
-   }
+   "include": [
+      "src/**/*",
+      "types/**/*"
+   ],
 }

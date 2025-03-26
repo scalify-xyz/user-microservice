@@ -3,8 +3,8 @@ import { IUserRepository, LoginDTO, LoginResponseDTO } from "@domain/interfaces/
 import { UseCase } from "@application/interfaces/usecase.interface";
 
 
-import { IEncryptProvider } from "@infra/interfaces/providers/encrypt.interface.provider";
-import { IJsonWebTokenProvider } from "@infra/interfaces/providers/jsonwebtoken.interface.provider";
+import { IEncryptProvider } from "@infrastructure/interfaces/providers/encrypt.interface.provider";
+import { IJsonWebTokenProvider } from "@infrastructure/interfaces/providers/jsonwebtoken.interface.provider";
 
 
 
