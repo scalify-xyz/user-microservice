@@ -23,6 +23,7 @@ export class CreateUserController {
                 email,
                 password,
             };
+
             const output: SaveResponseDTO = await this.createUserUseCase.execute(input);
 
             response.status(201).json(output);

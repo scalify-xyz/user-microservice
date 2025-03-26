@@ -1,7 +1,6 @@
 import { User } from "@domain/entity/user.entity";
 
 import { UserModel } from "@infrastructure/models/user.model";
-import { IEncryptProvider } from "@infrastructure/providers/interfaces/encrypt.interface.provider";
 import { SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
 
 
@@ -9,14 +8,12 @@ import { SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.in
 export class UserRepository {
     private constructor(
         private readonly userModel: UserModel,
-        private readonly encryptClient: IEncryptProvider,
     ) { }
 
     public static create(
         userModel: UserModel,
-        encryptClient: IEncryptProvider,
     ) {
-        return new UserRepository(userModel, encryptClient);
+        return new UserRepository(userModel);
     }
 
     public async save(user: User): Promise<SaveResponseDTO> {
@@ -30,7 +27,7 @@ export class UserRepository {
                 id: user.id,
                 name: user.name,
                 email: user.email,
-                password: await this.encryptClient.hash(user.password),
+                password: user.password,
                 isEmailVerified: user.isEmailVerified,
             },
         });
