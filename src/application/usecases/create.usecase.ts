@@ -1,6 +1,3 @@
-
-import { User } from "@domain/entity/user.entity";
-
 import { SaveDTO, SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
 import { UserRepository } from "@infrastructure/repositories/prisma/user.repository.prisma";
 
@@ -18,8 +15,7 @@ export class CreateUserUsecase {
             throw new Error("Password is too weak");
         }
 
-        const user = User.create({ name, email, password });
-        const output: SaveResponseDTO = await this.userRepository.save(user);
+        const output: SaveResponseDTO = await this.userRepository.save({ name, email, password });
 
         return output;
     }

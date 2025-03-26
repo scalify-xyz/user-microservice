@@ -1,8 +1,7 @@
-import { User } from "@domain/entity/user.entity";
+import { UserEntity } from "@domain/entity/user.entity";
 
 import { UserModel } from "@infrastructure/models/user.model";
-import { SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
-
+import { SaveDTO, SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
 
 
 export class UserRepository {
@@ -10,18 +9,17 @@ export class UserRepository {
         private readonly userModel: UserModel,
     ) { }
 
-    public static create(
-        userModel: UserModel,
-    ) {
+    public static create(userModel: UserModel) {
         return new UserRepository(userModel);
     }
 
-    public async save(user: User): Promise<SaveResponseDTO> {
-        const verificationUser = await this.userModel.user.findFirst({ where: { email: user.email } });
+    public async save({ name, email, password }: SaveDTO): Promise<SaveResponseDTO> {
+        const verificationUser = await this.userModel.user.findFirst({ where: { email } });
         if (verificationUser?.id) {
             throw new Error("Email is already being used");
         }
 
+        const user = UserEntity.create({ name, email, password });
         await this.userModel.user.create({
             data: {
                 id: user.id,
@@ -40,8 +38,8 @@ export class UserRepository {
         if (!user?.id) {
             throw new Error("Cannot find user");
         }
-        
-        return User.create({ id: user.id, name: user.name, email: user.email, password: user.password });
+
+        return UserEntity.create({ id: user.id, name: user.name, email: user.email, password: user.password });
     }
 
     public async updatePassword(id: string, password: string): Promise<void> {

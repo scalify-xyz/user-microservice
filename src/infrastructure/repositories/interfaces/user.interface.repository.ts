@@ -1,5 +1,3 @@
-import { User } from "@domain/entity/user.entity";
-
 export type LoginDTO = {
     email: string;
     password: string;

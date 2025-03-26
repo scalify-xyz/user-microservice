@@ -11,7 +11,7 @@ export type IUserWithoutIdAndConfirmed = Omit<IUser, "id" | "isEmailVerified"> &
     isEmailVerified?: boolean;
 };
 
-export class User {
+export class UserEntity {
     private constructor(private props: IUser) {
         this.props.id = props.id;
         this.props.name = props.name;
@@ -21,11 +21,11 @@ export class User {
     }
 
     public static create({ id, name, email, password }: IUserWithoutIdAndConfirmed) {
-        return new User({ id: id || crypto.randomUUID().toString(), name, email, password, isEmailVerified: false });
+        return new UserEntity({ id: id || crypto.randomUUID().toString(), name, email, password, isEmailVerified: false });
     }
 
     public static with(props: IUser) {
-        return new User(props);
+        return new UserEntity(props);
     }
 
     public get id() {
