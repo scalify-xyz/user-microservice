@@ -1,14 +1,9 @@
 import { IUserRepository, LoginDTO, LoginResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
-import { UseCase } from "@application/interfaces/usecase.interface";
-
-
 import { IEncryptProvider } from "@infrastructure/interfaces/providers/encrypt.interface.provider";
 import { IJsonWebTokenProvider } from "@infrastructure/interfaces/providers/jsonwebtoken.interface.provider";
 
-
-
-export class AuthUsecase implements UseCase<LoginDTO, LoginResponseDTO> {
+export class AuthUsecase {
     private constructor(
         private readonly userRepository: IUserRepository,
         private readonly encryptProvider: IEncryptProvider,

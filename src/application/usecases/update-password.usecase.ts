@@ -1,11 +1,9 @@
 import { ChangePasswordDTO, ChangePasswordResponseDTO, IUserRepository } from "@domain/interfaces/repositories/user.interface.repository";
 
-import { UseCase } from "@application/interfaces/usecase.interface";
-
 
 import { IEncryptProvider } from "@infrastructure/interfaces/providers/encrypt.interface.provider";
 
-export class UpdatePasswordUsecase implements UseCase<ChangePasswordDTO, ChangePasswordResponseDTO> {
+export class UpdatePasswordUsecase {
     private constructor(
         private readonly userRepository: IUserRepository,
         private readonly encryptProvider: IEncryptProvider,

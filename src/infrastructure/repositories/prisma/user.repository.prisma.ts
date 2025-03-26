@@ -6,7 +6,7 @@ import { IUserRepository, SaveResponseDTO } from "@domain/interfaces/repositorie
 import { IEncryptProvider } from "@infrastructure/interfaces/providers/encrypt.interface.provider";
 
 
-export class UserRepositoryPrisma implements IUserRepository {
+export class UserRepository implements IUserRepository {
     private constructor(
         private readonly prismaClient: PrismaClient,
         private readonly encryptClient: IEncryptProvider,
@@ -16,7 +16,7 @@ export class UserRepositoryPrisma implements IUserRepository {
         prismaClient: PrismaClient,
         encryptClient: IEncryptProvider,
     ) {
-        return new UserRepositoryPrisma(prismaClient, encryptClient);
+        return new UserRepository(prismaClient, encryptClient);
     }
 
     public async save(user: User): Promise<SaveResponseDTO> {

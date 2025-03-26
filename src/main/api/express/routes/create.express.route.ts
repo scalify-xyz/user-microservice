@@ -2,9 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { SaveDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
-import { CreateUsecase } from "@application/usecases/create/create.usecase";
-
-
+import { CreateUserController } from "@infrastructure/controllers/create.controller";
 
 import { HttpMethod, Route } from "../../../interfaces/api/route.interface";
 
@@ -16,36 +14,19 @@ export class CreateUserRoute implements Route {
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly createUserService: CreateUsecase,
+        private readonly createUserController: CreateUserController,
     ) { }
 
-    public static create(createUserService: CreateUsecase) {
+    public static create(createUserController: CreateUserController) {
         return new CreateUserRoute(
             "/user",
             HttpMethod.POST,
-            createUserService,
+            createUserController,
         );
     }
 
     public getHandler(): (request: Request, response: Response, next: NextFunction) => Promise<void> {
-        return async (request: Request, response: Response, next: NextFunction) => {
-            try {
-                const { name, email, password } = request.body;
-
-                const input: SaveDTO = {
-                    name,
-                    email,
-                    password,
-                };
-
-                const output: SaveResponseDTO = await this.createUserService.execute(input);
-
-                response.status(201).json(output);
-            } catch (error) {
-                next(error);
-            }
-
-        };
+        return this.createUserController.execute;
     }
 
     getPath(): string {

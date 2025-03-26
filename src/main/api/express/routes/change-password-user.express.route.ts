@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { ChangePasswordDTO, ChangePasswordResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
-import { UpdatePasswordUsecase } from "@application/usecases/update-password/update-password.usecase";
+import { UpdatePasswordUsecase } from "@application/usecases/update-password.usecase";
 
 import { HttpMethod, Route } from "../../../interfaces/api/route.interface";
 

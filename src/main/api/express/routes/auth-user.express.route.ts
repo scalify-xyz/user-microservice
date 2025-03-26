@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { LoginDTO, LoginResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
-import { AuthUsecase } from "@application/usecases/auth/auth.usecase";
+import { AuthUsecase } from "@application/usecases/auth.usecase";
 
 
 
