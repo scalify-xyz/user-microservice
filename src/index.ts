@@ -1,3 +1,5 @@
+import { AWSSecretsManager } from "@scalify/shared-microservice";
+
 import { AuthUsecase } from "@application/usecases/auth/auth.usecase";
 import { CreateUsecase } from "@application/usecases/create/create.usecase";
 import { UpdatePasswordUsecase } from "@application/usecases/update-password/update-password.usecase";
@@ -15,7 +17,6 @@ import { CreateUserRoute } from "@main/api/express/routes/create-user.express.ro
 import { StatusRoute } from "@main/api/express/routes/status.express.route";
 
 import { AuthenticationMiddleware } from "@shared/middlewares/authentication.middleware";
-import AWSSecretsManager from "@shared/utils/aws-secrets-manager";
 
 async function start(): Promise<void> {
   await AWSSecretsManager.create({
@@ -29,28 +30,34 @@ async function start(): Promise<void> {
 
   const prismaProvider = PrismaProvider.create();
   const encryptProvider = Argon2Provider.create();
-  const jsonwebtokenProvider = JsonWebTokenProvider.create();
-
-  const ampqProvider = AmpqProvider.create(process.env.RABBITMQ_URL);
-  ampqProvider.connect();
-
 
   const userRepository = UserRepositoryPrisma.create(prismaProvider, encryptProvider);
 
-  const createUsecase = CreateUsecase.create(userRepository, ampqProvider);
-  const authUsecase = AuthUsecase.create(userRepository, encryptProvider, jsonwebtokenProvider);
-  const updatePasswordUsecase = UpdatePasswordUsecase.create(userRepository, encryptProvider);
+  const jsonwebtokenProvider = JsonWebTokenProvider.create();
+  const ampqProvider = AmpqProvider.create(process.env.RABBITMQ_URL);
 
-  const createUserRoute = CreateUserRoute.create(createUsecase);
-  const authUserRoute = AuthUserRoute.create(authUsecase);
-  const changePasswordUserRoute = ChangePasswordUserRoute.create(updatePasswordUsecase);
-  const statusRoute = StatusRoute.create();
+  ampqProvider.connect();
 
-  changePasswordUserRoute.addMiddleware(AuthenticationMiddleware(jsonwebtokenProvider));
+  const createUserRoute = CreateUserRoute.create(
+    CreateUsecase.create(userRepository, ampqProvider),
+  );
 
-  const api = ApiExpress.create([createUserRoute, authUserRoute, changePasswordUserRoute, statusRoute]);
-  const port = 3000;
-  api.start(port);
+  const authUserRoute = AuthUserRoute.create(
+    AuthUsecase.create(userRepository, encryptProvider, jsonwebtokenProvider),
+  );
+
+  const changePasswordUserRoute = ChangePasswordUserRoute.create(
+    UpdatePasswordUsecase.create(userRepository, encryptProvider),
+  ).addMiddleware(AuthenticationMiddleware(jsonwebtokenProvider));
+
+  const api = ApiExpress.create([
+    createUserRoute,
+    authUserRoute,
+    changePasswordUserRoute,
+    StatusRoute.create(),
+  ]);
+
+  api.start(3000);
 }
 
 start();

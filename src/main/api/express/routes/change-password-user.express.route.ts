@@ -61,5 +61,6 @@ export class ChangePasswordUserRoute implements Route {
 
     addMiddleware(middleware: Middlewares) {
         this.middlewares.push(middleware);
+        return this;
     }
 }
