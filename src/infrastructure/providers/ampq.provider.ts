@@ -1,6 +1,6 @@
 import { Channel, Connection, connect } from "amqplib";
 
-import { IRabbitMQProvider } from "@infrastructure/interfaces/providers/rabbitmq.interface.provider";
+import { IRabbitMQProvider } from "@infrastructure/providers/interfaces/rabbitmq.interface.provider";
 
 export class AmpqProvider implements IRabbitMQProvider {
   private connection!: Connection;

@@ -1,7 +1,7 @@
-import { IUserRepository, LoginDTO, LoginResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
-import { IEncryptProvider } from "@infrastructure/interfaces/providers/encrypt.interface.provider";
-import { IJsonWebTokenProvider } from "@infrastructure/interfaces/providers/jsonwebtoken.interface.provider";
+import { IEncryptProvider } from "@infrastructure/providers/interfaces/encrypt.interface.provider";
+import { IJsonWebTokenProvider } from "@infrastructure/providers/interfaces/jsonwebtoken.interface.provider";
+import { IUserRepository, LoginDTO, LoginResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
 
 export class AuthUsecase {
     private constructor(

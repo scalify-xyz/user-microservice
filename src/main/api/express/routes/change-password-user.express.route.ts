@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-import { ChangePasswordDTO, ChangePasswordResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
-
 import { UpdatePasswordUsecase } from "@application/usecases/update-password.usecase";
 
-import { HttpMethod, Route } from "../../../interfaces/api/route.interface";
+import { ChangePasswordDTO, ChangePasswordResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
+
+
+import { HttpMethod, Route } from "./interfaces/route.interface";
 
 export type ChangePasswordUserResponseDto = {}
 

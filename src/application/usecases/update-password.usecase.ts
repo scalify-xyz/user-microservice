@@ -1,7 +1,7 @@
-import { ChangePasswordDTO, ChangePasswordResponseDTO, IUserRepository } from "@domain/interfaces/repositories/user.interface.repository";
+import { IEncryptProvider } from "@infrastructure/providers/interfaces/encrypt.interface.provider";
+import { ChangePasswordDTO, ChangePasswordResponseDTO, IUserRepository } from "@infrastructure/repositories/interfaces/user.interface.repository";
 
 
-import { IEncryptProvider } from "@infrastructure/interfaces/providers/encrypt.interface.provider";
 
 export class UpdatePasswordUsecase {
     private constructor(

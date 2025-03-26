@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { HttpMethod, Route } from "../../../interfaces/api/route.interface";
+import { HttpMethod, Route } from "./interfaces/route.interface";
 
 export type CreateUserResponseDto = {
     id: string;

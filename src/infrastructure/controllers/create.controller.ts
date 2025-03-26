@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 
-import { SaveDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
-
 import { CreateUserUsecase } from "@application/usecases/create.usecase";
+
+import { SaveDTO, SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
+
 
 export class CreateUserController {
     private constructor(

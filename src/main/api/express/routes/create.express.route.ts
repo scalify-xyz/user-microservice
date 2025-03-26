@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 
-import { SaveDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
-
 import { CreateUserController } from "@infrastructure/controllers/create.controller";
+import { SaveDTO, SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
 
-import { HttpMethod, Route } from "../../../interfaces/api/route.interface";
+
+import { HttpMethod, Route } from "./interfaces/route.interface";
 
 export type CreateUserResponseDto = {
     id: string;

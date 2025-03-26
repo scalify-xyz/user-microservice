@@ -1,8 +1,9 @@
 
 import { User } from "@domain/entity/user.entity";
-import { IUserRepository, SaveDTO, SaveResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
 
-import { IRabbitMQProvider } from "@infrastructure/interfaces/providers/rabbitmq.interface.provider";
+import { IRabbitMQProvider } from "@infrastructure/providers/interfaces/rabbitmq.interface.provider";
+import { IUserRepository, SaveDTO, SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
+
 
 import { RABBITMQ_USER_CREATED_QUEUE_NAME } from "@shared/constants/rabbit-mq.constants";
 

@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 
-import { LoginDTO, LoginResponseDTO } from "@domain/interfaces/repositories/user.interface.repository";
-
 import { AuthUsecase } from "@application/usecases/auth.usecase";
 
+import { LoginDTO, LoginResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
 
 
-import { HttpMethod, Route } from "../../../interfaces/api/route.interface";
+
+
+import { HttpMethod, Route } from "./interfaces/route.interface";
 
 export type AuthUserResponseDto = {
     token: string;
