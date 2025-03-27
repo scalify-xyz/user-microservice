@@ -20,7 +20,7 @@ export class UserEntity {
         this.props.isEmailVerified = props.isEmailVerified;
     }
 
-    public static create({ id, name, email, password }: IUserWithoutIdAndConfirmed) {
+    public static create({ id, name, email, password }: IUserWithoutIdAndConfirmed) {     
         return new UserEntity({ id: id || crypto.randomUUID().toString(), name, email, password, isEmailVerified: false });
     }
 

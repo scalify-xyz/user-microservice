@@ -1,6 +1,6 @@
 import { AWSSecretsManager, RabbitMQProvider } from "@scalify/shared-microservice";
 
-import { Argon2Provider } from "@infrastructure/providers/encrypt/argon2.provider";
+import { Argon2Provider } from "@infrastructure/providers/argon2.provider";
 
 import { ApiExpress } from "@main/api/express/api.express";
 import { StatusRoute } from "@main/api/express/routes/status.express.route";

@@ -17,10 +17,6 @@ export class CreateUserUsecase {
             throw new Error("Email is already being used");
         }
 
-        if (password.length < 5) {
-            throw new Error("Password is too weak");
-        }
-
         const output = await this.userRepository.save({ name, email, password });
 
         return { id: output.id };

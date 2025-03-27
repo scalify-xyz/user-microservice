@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from "express";
 import { CreateUserDTO, CreateUserResponseDTO } from "@application/usecases/create-user/create.schema";
 import { CreateUserUsecase } from "@application/usecases/create-user/create.usecase";
 
-import { Argon2Provider } from "@infrastructure/providers/encrypt/argon2.provider";
+import { Argon2Provider } from "@infrastructure/providers/argon2.provider";
 
 const RABBITMQ_QUEUE_NAME = "notifications";
 
@@ -32,6 +32,10 @@ export class CreateUserController {
         try {
             const { name, email, password } = request.body;
 
+            if (password.length < 5) {
+                throw new Error("Password is too weak");
+            }
+            
             const input: CreateUserDTO = {
                 name,
                 email,
