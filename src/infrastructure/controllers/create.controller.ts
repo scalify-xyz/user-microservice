@@ -1,9 +1,10 @@
+import { RabbitMQProvider } from "@scalify/shared-microservice";
+
 import { NextFunction, Request, Response } from "express";
 
 import { CreateUserUsecase } from "@application/usecases/create.usecase";
 
 import { Argon2Provider } from "@infrastructure/providers/encrypt/argon2.provider";
-import { RabbitMQProvider } from "@infrastructure/providers/rabbitmq.provider";
 import { SaveDTO, SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
 
 import { RABBITMQ_USER_CREATED_QUEUE_NAME } from "@shared/constants/rabbit-mq.constants";
