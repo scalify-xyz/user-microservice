@@ -1,6 +1,7 @@
 import { AWSSecretsManager } from "@scalify/shared-microservice";
 
 import { Argon2Provider } from "@infrastructure/providers/encrypt/argon2.provider";
+import { RabbitMQProvider } from "@infrastructure/providers/rabbitmq.provider";
 
 import { ApiExpress } from "@main/api/express/api.express";
 import { StatusRoute } from "@main/api/express/routes/status.express.route";
@@ -16,15 +17,17 @@ async function start(): Promise<void> {
       "RABBITMQ_URL": "rabbitmq/production/scalableecommerce",
     },
   });
-  const encryptProvider = Argon2Provider.create();
+
   const userRepository = UserRepositoryFactory.create();
+  const encryptProvider = Argon2Provider.create();
+  const rabbitMqProvider = RabbitMQProvider.create(process.env.RABBITMQ_URL);
 
-  // const jsonwebtokenProvider = JsonWebTokenProvider.create();
-  // const ampqProvider = AmpqProvider.create(process.env.RABBITMQ_URL);
 
-  // ampqProvider.connect();
-
-  const createUserRoute = CreateUserFactory.create(userRepository, encryptProvider);
+  const createUserRoute = CreateUserFactory.create(
+    userRepository,
+    encryptProvider,
+    rabbitMqProvider,
+  );
 
   const api = ApiExpress.create([
     createUserRoute,
