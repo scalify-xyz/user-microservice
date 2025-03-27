@@ -5,11 +5,11 @@ export class PrismaProvider {
     
     static create() {
         this.client = new PrismaClient();
-        this.connection();
+        this.execute();
         return this.client;
     }
 
-    static async connection() {
+    static async execute() {
         try {
             await PrismaProvider.client.$queryRaw`SELECT 1`;
              console.log("Prisma Connected!");

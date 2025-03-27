@@ -4,8 +4,10 @@ import { UserRepository } from "@infrastructure/repositories/prisma/user.reposit
 
 export class UserRepositoryFactory {
     static create(): UserRepository {
-        const prisma = PrismaProvider.create();
-        const userModel = UserModel.create(prisma);
-        return UserRepository.create(userModel);
+        return UserRepository.create(
+            UserModel.create(
+                PrismaProvider.create(),
+            ),
+        );
     }
 }

@@ -20,12 +20,11 @@ export class StatusRoute implements Route {
     }
 
     public getHandler(): (request: Request, response: Response, next: NextFunction) => Promise<void> {
-        return async (request: Request, response: Response, next: NextFunction) => {
+        return async (_: Request, response: Response, next: NextFunction) => {
             try {
-                const output = {
+                response.status(200).json({
                     status: 200,
-                };
-                response.status(201).json(output);
+                });
             } catch (error) {
                 next(error);
             }

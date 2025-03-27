@@ -14,12 +14,12 @@ export class CreateUserFactory {
         encryptProvider: Argon2Provider,
         rabbitMqProvider: RabbitMQProvider,
     ) {
-        const usecase = CreateUserUsecase.create(userRepository);
-        const controller = CreateUserController.create(
-            usecase,
-            encryptProvider,
-            rabbitMqProvider,
+        return CreateUserRoute.create(
+            CreateUserController.create(
+                CreateUserUsecase.create(userRepository),
+                encryptProvider,
+                rabbitMqProvider,
+            ),
         );
-        return CreateUserRoute.create(controller);
     }
 }
