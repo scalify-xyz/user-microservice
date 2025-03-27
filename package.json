@@ -45,7 +45,7 @@
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.716.0",
     "@prisma/client": "^6.0.0",
-    "@scalify/shared-microservice": "^1.0.17",
+    "@scalify/shared-microservice": "^1.0.20",
     "amqplib": "^0.10.5",
     "argon2": "^0.41.1",
     "body-parser": "^1.19.1",

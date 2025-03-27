@@ -7,8 +7,7 @@ import { CreateUserUsecase } from "@application/usecases/create-user/create.usec
 
 import { Argon2Provider } from "@infrastructure/providers/encrypt/argon2.provider";
 
-import { RABBITMQ_USER_CREATED_QUEUE_NAME } from "@shared/constants/rabbit-mq.constants";
-
+const RABBITMQ_QUEUE_NAME = "notifications";
 
 export class CreateUserController {
     private constructor(
@@ -42,7 +41,7 @@ export class CreateUserController {
             const output: CreateUserResponseDTO = await this.createUserUseCase.execute(input);
             
             this.rabbitMqProvider.publish(
-                RABBITMQ_USER_CREATED_QUEUE_NAME,
+                RABBITMQ_QUEUE_NAME,
                 { status: "200" },
             );
 

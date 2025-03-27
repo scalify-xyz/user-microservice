@@ -19,7 +19,7 @@ async function start(): Promise<void> {
 
   const userRepository = UserRepositoryFactory.create();
   const encryptProvider = Argon2Provider.create();
-  const rabbitMqProvider = RabbitMQProvider.create(process.env.RABBITMQ_URL);
+  const rabbitMqProvider = await RabbitMQProvider.create(process.env.RABBITMQ_URL);
 
 
   const createUserRoute = CreateUserFactory.create(
