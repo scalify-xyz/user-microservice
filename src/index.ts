@@ -1,5 +1,7 @@
 import { AWSSecretsManager } from "@scalify/shared-microservice";
 
+import { Argon2Provider } from "@infrastructure/providers/encrypt/argon2.provider";
+
 import { ApiExpress } from "@main/api/express/api.express";
 import { StatusRoute } from "@main/api/express/routes/status.express.route";
 import { CreateUserFactory } from "@main/factories/create.factory";
@@ -14,8 +16,7 @@ async function start(): Promise<void> {
       "RABBITMQ_URL": "rabbitmq/production/scalableecommerce",
     },
   });
-  // const encryptProvider = Argon2Provider.create();
-
+  const encryptProvider = Argon2Provider.create();
   const userRepository = UserRepositoryFactory.create();
 
   // const jsonwebtokenProvider = JsonWebTokenProvider.create();
@@ -23,20 +24,10 @@ async function start(): Promise<void> {
 
   // ampqProvider.connect();
 
-  const createUserRoute = CreateUserFactory.create(userRepository);
-
-  // const authUserRoute = AuthUserRoute.create(
-  //   AuthUsecase.create(userRepository, encryptProvider, jsonwebtokenProvider),
-  // );
-
-  // const changePasswordUserRoute = ChangePasswordUserRoute.create(
-  //   UpdatePasswordUsecase.create(userRepository, encryptProvider),
-  // ).addMiddleware(AuthenticationMiddleware(jsonwebtokenProvider));
+  const createUserRoute = CreateUserFactory.create(userRepository, encryptProvider);
 
   const api = ApiExpress.create([
     createUserRoute,
-    // authUserRoute,
-    // changePasswordUserRoute,
     StatusRoute.create(),
   ]);
 

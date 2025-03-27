@@ -13,30 +13,25 @@ export class UserRepository {
         return new UserRepository(userModel);
     }
 
-    public async save({ name, email, password }: SaveDTO): Promise<SaveResponseDTO> {
-        const verificationUser = await this.userModel.user.findFirst({ where: { email } });
-        if (verificationUser?.id) {
-            throw new Error("Email is already being used");
-        }
-
+    public async save({ name, email, password }: SaveDTO) {
         const user = UserEntity.create({ name, email, password });
-        await this.userModel.user.create({
-            data: {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                password: user.password,
-                isEmailVerified: user.isEmailVerified,
-            },
-        });
+        // await this.userModel.user.create({
+        //     data: {
+        //         id: user.id,
+        //         name: user.name,
+        //         email: user.email,
+        //         password: user.password,
+        //         isEmailVerified: user.isEmailVerified,
+        //     },
+        // });
 
-        return { id: user.id };
+        return user;
     }
 
     public async findByEmail(email: string) {
         const user = await this.userModel.user.findFirst({ where: { email } });
         if (!user?.id) {
-            throw new Error("Cannot find user");
+            return null;
         }
 
         return UserEntity.create({ id: user.id, name: user.name, email: user.email, password: user.password });

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { IJsonWebTokenProvider } from "@infrastructure/providers/interfaces/jsonwebtoken.interface.provider";
+import { IJsonWebTokenProvider } from "@infrastructure/providers/jsonwebtoken/jsonwebtoken.interface.provider";
 
 import CleanBearerToken from "@shared/utils/clean-bearer-token.util";
 

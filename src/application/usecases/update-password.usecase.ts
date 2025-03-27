@@ -1,4 +1,4 @@
-import { IEncryptProvider } from "@infrastructure/providers/interfaces/encrypt.interface.provider";
+import { IEncryptProvider } from "@infrastructure/providers/encrypt/encrypt.interface.provider";
 import { ChangePasswordDTO, ChangePasswordResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
 import { UserRepository } from "@infrastructure/repositories/prisma/user.repository.prisma";
 

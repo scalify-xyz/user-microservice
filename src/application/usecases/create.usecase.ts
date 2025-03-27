@@ -11,6 +11,11 @@ export class CreateUserUsecase {
     }
 
     public async execute({ name, email, password }: SaveDTO): Promise<SaveResponseDTO> {
+        const verificationUser = await this.userRepository.findByEmail(email);
+        if (verificationUser?.id) {
+            throw new Error("Email is already being used");
+        }
+
         if (password.length < 5) {
             throw new Error("Password is too weak");
         }
