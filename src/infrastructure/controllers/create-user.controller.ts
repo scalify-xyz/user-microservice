@@ -2,10 +2,10 @@ import { RabbitMQProvider } from "@scalify/shared-microservice";
 
 import { NextFunction, Request, Response } from "express";
 
-import { CreateUserUsecase } from "@application/usecases/create.usecase";
+import { CreateUserDTO, CreateUserResponseDTO } from "@application/usecases/create-user/create.schema";
+import { CreateUserUsecase } from "@application/usecases/create-user/create.usecase";
 
 import { Argon2Provider } from "@infrastructure/providers/encrypt/argon2.provider";
-import { SaveDTO, SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
 
 import { RABBITMQ_USER_CREATED_QUEUE_NAME } from "@shared/constants/rabbit-mq.constants";
 
@@ -33,13 +33,13 @@ export class CreateUserController {
         try {
             const { name, email, password } = request.body;
 
-            const input: SaveDTO = {
+            const input: CreateUserDTO = {
                 name,
                 email,
                 password: await this.encryptProvider.hash(password),
             };
 
-            const output: SaveResponseDTO = await this.createUserUseCase.execute(input);
+            const output: CreateUserResponseDTO = await this.createUserUseCase.execute(input);
             
             this.rabbitMqProvider.publish(
                 RABBITMQ_USER_CREATED_QUEUE_NAME,

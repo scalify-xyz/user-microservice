@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { CreateUserController } from "@infrastructure/controllers/create.controller";
-import { SaveDTO, SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
-
+import { CreateUserController } from "@infrastructure/controllers/create-user.controller";
 
 import { HttpMethod, Route } from "./interfaces/route.interface";
 

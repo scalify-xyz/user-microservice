@@ -1,8 +1,8 @@
 import { UserEntity } from "@domain/entity/user.entity";
 
-import { UserModel } from "@infrastructure/models/user.model";
-import { SaveDTO, SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
+import { CreateUserDTO } from "@application/usecases/create-user/create.schema";
 
+import { UserModel } from "@infrastructure/models/user.model";
 
 export class UserRepository {
     private constructor(
@@ -13,7 +13,7 @@ export class UserRepository {
         return new UserRepository(userModel);
     }
 
-    public async save({ name, email, password }: SaveDTO) {
+    public async save({ name, email, password }: CreateUserDTO) {
         const user = UserEntity.create({ name, email, password });
         // await this.userModel.user.create({
         //     data: {

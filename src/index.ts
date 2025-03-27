@@ -4,7 +4,7 @@ import { Argon2Provider } from "@infrastructure/providers/encrypt/argon2.provide
 
 import { ApiExpress } from "@main/api/express/api.express";
 import { StatusRoute } from "@main/api/express/routes/status.express.route";
-import { CreateUserFactory } from "@main/factories/create.factory";
+import { CreateUserFactory } from "@main/factories/create-user.factory";
 import { UserRepositoryFactory } from "@main/factories/repository.factory";
 
 async function start(): Promise<void> {

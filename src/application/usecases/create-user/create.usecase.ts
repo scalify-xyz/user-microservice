@@ -1,5 +1,6 @@
-import { SaveDTO, SaveResponseDTO } from "@infrastructure/repositories/interfaces/user.interface.repository";
 import { UserRepository } from "@infrastructure/repositories/prisma/user.repository.prisma";
+
+import { CreateUserDTO, CreateUserResponseDTO } from "./create.schema";
 
 export class CreateUserUsecase {
     private constructor(
@@ -10,7 +11,7 @@ export class CreateUserUsecase {
         return new CreateUserUsecase(userRepository);
     }
 
-    public async execute({ name, email, password }: SaveDTO): Promise<SaveResponseDTO> {
+    public async execute({ name, email, password }: CreateUserDTO): Promise<CreateUserResponseDTO> {
         const verificationUser = await this.userRepository.findByEmail(email);
         if (verificationUser?.id) {
             throw new Error("Email is already being used");
@@ -20,8 +21,8 @@ export class CreateUserUsecase {
             throw new Error("Password is too weak");
         }
 
-        const output: SaveResponseDTO = await this.userRepository.save({ name, email, password });
+        const output = await this.userRepository.save({ name, email, password });
 
-        return output;
+        return { id: output.id };
     }
 }
