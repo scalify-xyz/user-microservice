@@ -39,10 +39,14 @@ export class CreateUserController {
             };
 
             const output: CreateUserResponseDTO = await this.createUserUseCase.execute(input);
-            
+
             this.rabbitMqProvider.publish(
                 RABBITMQ_QUEUE_NAME,
-                { status: "200" },
+                {
+                    message: "USER_CREATE",
+                    provider: "email",
+                    userId: output.id,
+                },
             );
 
             response.status(201).json(output);
