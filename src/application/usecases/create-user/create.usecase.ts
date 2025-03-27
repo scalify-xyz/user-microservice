@@ -12,8 +12,6 @@ export class CreateUserUsecase {
     }
 
     public async execute({ name, email, password }: CreateUserDTO): Promise<CreateUserResponseDTO> {
-        throw new Error("Email is already being used");
-
         const verificationUser = await this.userRepository.findByEmail(email);
         if (verificationUser?.id) {
             throw new Error("Email is already being used");
