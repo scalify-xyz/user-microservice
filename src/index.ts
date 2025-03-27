@@ -21,7 +21,6 @@ async function start(): Promise<void> {
   const encryptProvider = Argon2Provider.create();
   const rabbitMqProvider = await RabbitMQProvider.create(process.env.RABBITMQ_URL);
 
-
   const createUserRoute = CreateUserFactory.create(
     userRepository,
     encryptProvider,
