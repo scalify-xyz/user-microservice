@@ -4,7 +4,7 @@ import { Argon2Provider } from "@infrastructure/providers/argon2.provider";
 
 import { ApiExpress } from "@main/api/express/api.express";
 import { StatusRoute } from "@main/api/express/routes/status.express.route";
-import { CreateUserFactory } from "@main/factories/create-user.factory";
+import { CreateUserRouteFactory } from "@main/factories/create-user.route.factory";
 import { UserRepositoryFactory } from "@main/factories/repository.factory";
 
 async function start(): Promise<void> {
@@ -21,11 +21,12 @@ async function start(): Promise<void> {
   const encryptProvider = Argon2Provider.create();
   const rabbitMqProvider = await RabbitMQProvider.create(process.env.RABBITMQ_URL);
 
-  const createUserRoute = CreateUserFactory.create(
+  const createUserRoute = CreateUserRouteFactory.create(
     userRepository,
     encryptProvider,
     rabbitMqProvider,
   );
+  
 
   const api = ApiExpress.create([
     createUserRoute,

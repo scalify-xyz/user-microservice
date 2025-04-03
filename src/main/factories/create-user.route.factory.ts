@@ -8,7 +8,7 @@ import { UserRepository } from "@infrastructure/repositories/prisma/user.reposit
 
 import { CreateUserRoute } from "@main/api/express/routes/create-user.express.route";
 
-export class CreateUserFactory {
+export class CreateUserRouteFactory {
     static create(
         userRepository: UserRepository,
         encryptProvider: Argon2Provider,
