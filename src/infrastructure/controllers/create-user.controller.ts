@@ -2,8 +2,8 @@ import { RabbitMQProvider } from "@scalify/shared-microservice";
 
 import { NextFunction, Request, Response } from "express";
 
-import { CreateUserDTO, CreateUserResponseDTO } from "@application/usecases/create-user/create.schema";
-import { CreateUserUsecase } from "@application/usecases/create-user/create.usecase";
+import { CreateUserDTO, CreateUserResponseDTO } from "@application/usecases/create-user/create-user.schema";
+import { CreateUserUsecase } from "@application/usecases/create-user/create-user.usecase";
 
 import { Argon2Provider } from "@infrastructure/providers/argon2.provider";
 

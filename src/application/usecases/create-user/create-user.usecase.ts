@@ -1,6 +1,6 @@
 import { UserRepository } from "@infrastructure/repositories/prisma/user.repository.prisma";
 
-import { CreateUserDTO, CreateUserResponseDTO } from "./create.schema";
+import { CreateUserDTO, CreateUserResponseDTO } from "./create-user.schema";
 
 export class CreateUserUsecase {
     private constructor(
@@ -17,7 +17,7 @@ export class CreateUserUsecase {
             throw new Error("Email is already being used");
         }
 
-        const output = await this.userRepository.save({ name, email, password });
+        const output = await this.userRepository.createUser({ name, email, password });
 
         return { id: output.id };
     }

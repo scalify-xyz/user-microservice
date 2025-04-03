@@ -4,10 +4,6 @@ import { CreateUserController } from "@infrastructure/controllers/create-user.co
 
 import { HttpMethod, Route } from "./interfaces/route.interface";
 
-export type CreateUserResponseDto = {
-    id: string;
-}
-
 export class CreateUserRoute implements Route {
     private constructor(
         private readonly path: string,

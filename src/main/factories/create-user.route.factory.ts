@@ -1,6 +1,6 @@
 import { RabbitMQProvider } from "@scalify/shared-microservice";
 
-import { CreateUserUsecase } from "@application/usecases/create-user/create.usecase";
+import { CreateUserUsecase } from "@application/usecases/create-user/create-user.usecase";
 
 import { CreateUserController } from "@infrastructure/controllers/create-user.controller";
 import { Argon2Provider } from "@infrastructure/providers/argon2.provider";

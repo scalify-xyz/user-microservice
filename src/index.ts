@@ -5,6 +5,7 @@ import { Argon2Provider } from "@infrastructure/providers/argon2.provider";
 import { ApiExpress } from "@main/api/express/api.express";
 import { StatusRoute } from "@main/api/express/routes/status.express.route";
 import { CreateUserRouteFactory } from "@main/factories/create-user.route.factory";
+import { ListUserRouteFactory } from "@main/factories/list-user.route.factory";
 import { UserRepositoryFactory } from "@main/factories/repository.factory";
 
 async function start(): Promise<void> {
@@ -27,9 +28,12 @@ async function start(): Promise<void> {
     rabbitMqProvider,
   );
   
+  const listUserRoute = ListUserRouteFactory.create(userRepository);
+  
 
   const api = ApiExpress.create([
     createUserRoute,
+    listUserRoute,
     StatusRoute.create(),
   ]);
 

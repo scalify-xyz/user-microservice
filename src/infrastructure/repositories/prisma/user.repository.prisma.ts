@@ -1,6 +1,6 @@
 import { UserEntity } from "@domain/entity/user.entity";
 
-import { CreateUserDTO } from "@application/usecases/create-user/create.schema";
+import { CreateUserDTO } from "@application/usecases/create-user/create-user.schema";
 
 import { UserModel } from "@infrastructure/models/user.model";
 
@@ -13,19 +13,30 @@ export class UserRepository {
         return new UserRepository(userModel);
     }
 
-    public async save({ name, email, password }: CreateUserDTO) {
+    public async createUser({ name, email, password }: CreateUserDTO) {
         const user = UserEntity.create({ name, email, password });
-        // await this.userModel.user.create({
-        //     data: {
-        //         id: user.id,
-        //         name: user.name,
-        //         email: user.email,
-        //         password: user.password,
-        //         isEmailVerified: user.isEmailVerified,
-        //     },
-        // });
+        await this.userModel.user.create({
+            data: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                password: user.password,
+                isEmailVerified: user.isEmailVerified,
+            },
+        });
 
         return user;
+    }
+
+    public async findAllUsers() {
+        const users = await this.userModel.user.findMany();
+    
+        return users.map((user) => UserEntity.create({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            password: user.password,
+        }));
     }
 
     public async findByEmail(email: string) {

@@ -1,31 +1,26 @@
 import { NextFunction, Request, Response } from "express";
 
+import { ListUserController } from "@infrastructure/controllers/list-user.controller";
+
 import { HttpMethod, Route } from "./interfaces/route.interface";
 
-export class StatusRoute implements Route {
+export class ListUserRoute implements Route {
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
+        private readonly listUserController: ListUserController,
     ) { }
 
-    public static create() {
-        return new StatusRoute(
-            "/status",
+    public static create(listUserController: ListUserController) {
+        return new ListUserRoute(
+            "/user",
             HttpMethod.GET,
+            listUserController,
         );
     }
 
     public getHandler(): (request: Request, response: Response, next: NextFunction) => Promise<void> {
-        return async (_: Request, response: Response, next: NextFunction) => {
-            try {
-                response.status(200).json({
-                    status: 200,
-                });
-            } catch (error) {
-                next(error);
-            }
-
-        };
+        return this.listUserController.execute;
     }
 
     getPath(): string {
