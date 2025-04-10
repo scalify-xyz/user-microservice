@@ -37,7 +37,7 @@ export class ApiExpress {
     this.app.use(ErrorHandlerMiddleware);
   }
 
-  start(port: number): void {
+  public start(port: number): void {
     this.app.listen(port, () => {
       console.log(`Service Running on port ${port}`);
       this.listRoutes();

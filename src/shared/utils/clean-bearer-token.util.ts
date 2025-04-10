@@ -1,7 +1,7 @@
 export default class CleanBearerToken {
   private token: string;
 
-  constructor(tokenHeader: string) {
+  private constructor(tokenHeader: string) {
     if (!tokenHeader) {
       throw new Error("Token header is required");
     }
@@ -19,7 +19,7 @@ export default class CleanBearerToken {
     return new CleanBearerToken(tokenHeader);
   }
 
-  getToken(): string {
+  public getToken(): string {
     return this.token;
   }
 }

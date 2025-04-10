@@ -13,7 +13,7 @@ describe("CleanBearerToken", () => {
   it("should throw an error if token header is missing", () => {
     const tokenHeader = "";
 
-    expect(() => new CleanBearerToken(tokenHeader)).toThrow(
+    expect(() => CleanBearerToken.create(tokenHeader)).toThrow(
       "Token header is required",
     );
   });
@@ -22,10 +22,10 @@ describe("CleanBearerToken", () => {
     const invalidTokenHeader1 = "Bearer";
     const invalidTokenHeader2 = "Bearer123 invalid-token";
 
-    expect(() => new CleanBearerToken(invalidTokenHeader1)).toThrow(
+    expect(() => CleanBearerToken.create(invalidTokenHeader1)).toThrow(
       'Invalid token format. Expected "Bearer <token>"',
     );
-    expect(() => new CleanBearerToken(invalidTokenHeader2)).toThrow(
+    expect(() => CleanBearerToken.create(invalidTokenHeader2)).toThrow(
       'Invalid token format. Expected "Bearer <token>"',
     );
   });
@@ -33,7 +33,7 @@ describe("CleanBearerToken", () => {
   it('should throw an error if token does not start with "Bearer"', () => {
     const invalidTokenHeader = "Basic valid-token-123";
 
-    expect(() => new CleanBearerToken(invalidTokenHeader)).toThrow(
+    expect(() => CleanBearerToken.create(invalidTokenHeader)).toThrow(
       'Invalid token format. Expected "Bearer <token>"',
     );
   });

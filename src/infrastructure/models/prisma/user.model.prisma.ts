@@ -8,63 +8,63 @@ export class UserPrismaModel {
     this.prismaUser = prismaClient.user;
   }
 
-  static create(prismaClient: PrismaClient) {
+  public static create(prismaClient: PrismaClient) {
     return new UserPrismaModel(prismaClient);
   }
 
-  findUnique(args: Prisma.UserFindUniqueArgs) {
+  public findUnique(args: Prisma.UserFindUniqueArgs) {
     return this.prismaUser.findUnique(args);
   }
 
-  findUniqueOrThrow(args: Prisma.UserFindUniqueOrThrowArgs) {
+  public findUniqueOrThrow(args: Prisma.UserFindUniqueOrThrowArgs) {
     return this.prismaUser.findUniqueOrThrow(args);
   }
 
-  findFirst(args: Prisma.UserFindFirstArgs) {
+  public findFirst(args: Prisma.UserFindFirstArgs) {
     return this.prismaUser.findFirst(args);
   }
 
-  findFirstOrThrow(args: Prisma.UserFindFirstOrThrowArgs) {
+  public findFirstOrThrow(args: Prisma.UserFindFirstOrThrowArgs) {
     return this.prismaUser.findFirstOrThrow(args);
   }
 
-  findMany(args?: Prisma.UserFindManyArgs) {
+  public findMany(args?: Prisma.UserFindManyArgs) {
     return this.prismaUser.findMany(args);
   }
 
-  create(args: Prisma.UserCreateArgs) {
+  public create(args: Prisma.UserCreateArgs) {
     return this.prismaUser.create(args);
   }
 
-  createMany(args: Prisma.UserCreateManyArgs) {
+  public createMany(args: Prisma.UserCreateManyArgs) {
     return this.prismaUser.createMany(args);
   }
 
-  update(args: Prisma.UserUpdateArgs) {
+  public update(args: Prisma.UserUpdateArgs) {
     return this.prismaUser.update(args);
   }
 
-  updateMany(args: Prisma.UserUpdateManyArgs) {
+  public updateMany(args: Prisma.UserUpdateManyArgs) {
     return this.prismaUser.updateMany(args);
   }
 
-  upsert(args: Prisma.UserUpsertArgs) {
+  public upsert(args: Prisma.UserUpsertArgs) {
     return this.prismaUser.upsert(args);
   }
 
-  delete(args: Prisma.UserDeleteArgs) {
+  public delete(args: Prisma.UserDeleteArgs) {
     return this.prismaUser.delete(args);
   }
 
-  deleteMany(args: Prisma.UserDeleteManyArgs) {
+  public deleteMany(args: Prisma.UserDeleteManyArgs) {
     return this.prismaUser.deleteMany(args);
   }
 
-  count(args?: Prisma.UserCountArgs) {
+  public count(args?: Prisma.UserCountArgs) {
     return this.prismaUser.count(args);
   }
 
-  aggregate(args: Prisma.UserAggregateArgs) {
+  public aggregate(args: Prisma.UserAggregateArgs) {
     return this.prismaUser.aggregate(args);
   }
 }

@@ -23,15 +23,15 @@ export class CreateUserRoute implements Route {
     return this.createUserController.execute;
   }
 
-  getPath(): string {
+  public getPath(): string {
     return this.path;
   }
 
-  getMethod(): HttpMethod {
+  public getMethod(): HttpMethod {
     return this.method;
   }
 
-  getMiddlewares(): Middlewares[] {
+  public getMiddlewares(): Middlewares[] {
     return [];
   }
 }

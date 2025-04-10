@@ -1,11 +1,11 @@
 import { hash, verify } from "argon2";
 
 export class Argon2Provider {
-  static create() {
+  public static create() {
     return new Argon2Provider();
   }
 
-  async hash(password: string | Buffer): Promise<string> {
+  public async hash(password: string | Buffer): Promise<string> {
     try {
       return await hash(password);
     } catch (error) {
@@ -13,7 +13,7 @@ export class Argon2Provider {
     }
   }
 
-  async verify(digest: string, password: string | Buffer): Promise<boolean> {
+  public async verify(digest: string, password: string | Buffer): Promise<boolean> {
     try {
       return await verify(digest, password);
     } catch (error) {

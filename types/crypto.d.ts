@@ -1,3 +1,3 @@
 declare class crypto {
-  static randomUUID(): {};
+  public static randomUUID(): {};
 }

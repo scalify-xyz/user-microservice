@@ -28,15 +28,15 @@ export class StatusRoute implements Route {
     };
   }
 
-  getPath(): string {
+  public getPath(): string {
     return this.path;
   }
 
-  getMethod(): HttpMethod {
+  public getMethod(): HttpMethod {
     return this.method;
   }
 
-  getMiddlewares(): Middlewares[] {
+  public getMiddlewares(): Middlewares[] {
     return [];
   }
 }

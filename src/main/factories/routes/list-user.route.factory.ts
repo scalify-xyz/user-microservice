@@ -6,7 +6,7 @@ import { UserRepository } from "@infrastructure/repositories/user.repository";
 import { ListUserRoute } from "@main/api/express/routes/list-user.express.route";
 
 export class ListUserRouteFactory {
-  static create(userRepository: UserRepository) {
+  public static create(userRepository: UserRepository) {
     return ListUserRoute.create(
       ListUserController.create(ListUserUsecase.create(userRepository)),
     );

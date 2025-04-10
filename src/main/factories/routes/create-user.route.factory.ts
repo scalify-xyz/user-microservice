@@ -9,7 +9,7 @@ import { UserRepository } from "@infrastructure/repositories/user.repository";
 import { CreateUserRoute } from "@main/api/express/routes/create-user.express.route";
 
 export class CreateUserRouteFactory {
-  static create(
+  public static create(
     userRepository: UserRepository,
     encryptProvider: Argon2Provider,
     rabbitMqProvider: RabbitMQProvider,
