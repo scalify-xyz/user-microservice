@@ -1,6 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-
 import { GetUserUsecase } from "@application/usecases/get-user.usecase";
+import {
+  TExpressNext,
+  TExpressRequest,
+  TExpressResponse,
+} from "@main/api/express/routes/interfaces/route.interface";
 
 export class GetUserController {
   private constructor(private readonly getUserUseCase: GetUserUsecase) {}
@@ -10,12 +13,12 @@ export class GetUserController {
   }
 
   public execute = async (
-    req: Request,
-    response: Response,
-    next: NextFunction,
+    request: TExpressRequest,
+    response: TExpressResponse,
+    next: TExpressNext,
   ) => {
     try {
-      const { id } = req.params;
+      const { id } = request.params;
       if (!id) {
         throw new Error("Empty Id");
       }

@@ -34,17 +34,13 @@ export class UserRepository {
 
   public async findById(id: string) {
     const user = await this.userModel.findUnique({ where: { id } });
-    if (!user?.id) {
-      return null;
-    }
+    if (!user?.id) throw new Error('User not found');
     return UserEntity.create(user);
   }
 
   public async findByEmail(email: string) {
     const user = await this.userModel.findUnique({ where: { email } });
-    if (!user?.id) {
-      return null;
-    }
+    if (!user?.id) throw new Error('User not found');
     return UserEntity.create(user);
   }
 }

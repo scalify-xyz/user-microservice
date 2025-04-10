@@ -1,8 +1,12 @@
-import { NextFunction, Request, Response } from "express";
+import {
+  HttpMethod,
+  IRoute,
+  TExpressNext,
+  TExpressRequest,
+  TExpressResponse,
+} from "./interfaces/route.interface";
 
-import { HttpMethod, Route } from "./interfaces/route.interface";
-
-export class StatusRoute implements Route {
+export class StatusRoute implements IRoute {
   private constructor(
     private readonly path: string,
     private readonly method: HttpMethod,
@@ -13,11 +17,15 @@ export class StatusRoute implements Route {
   }
 
   public getHandler(): (
-    request: Request,
-    response: Response,
-    next: NextFunction,
+    request: TExpressRequest,
+    response: TExpressResponse,
+    next: TExpressNext,
   ) => Promise<void> {
-    return async (_: Request, response: Response, next: NextFunction) => {
+    return async (
+      _: TExpressRequest,
+      response: TExpressResponse,
+      next: TExpressNext,
+    ) => {
       try {
         response.status(200).json({
           status: 200,

@@ -1,6 +1,5 @@
-import { NextFunction, Request, Response } from "express";
-
 import { ListUserUsecase } from "@application/usecases/list-user.usecase";
+import { TExpressNext, TExpressRequest, TExpressResponse } from "@main/api/express/routes/interfaces/route.interface";
 
 export class ListUserController {
   private constructor(private readonly listUserUseCase: ListUserUsecase) {}
@@ -10,9 +9,9 @@ export class ListUserController {
   }
 
   public execute = async (
-    _: Request,
-    response: Response,
-    next: NextFunction,
+    _: TExpressRequest,
+    response: TExpressResponse,
+    next: TExpressNext,
   ) => {
     try {
       const output = await this.listUserUseCase.execute();

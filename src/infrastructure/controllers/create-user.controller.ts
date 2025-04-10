@@ -1,12 +1,10 @@
 import { RabbitMQProvider } from "@scalify/shared-microservice";
 
-import { NextFunction, Request, Response } from "express";
-
 import { CreateUserDTO } from "@application/usecases/create-user/create-user.schema";
 import { CreateUserUsecase } from "@application/usecases/create-user/create-user.usecase";
 
 import { Argon2Provider } from "@infrastructure/providers/argon2.provider";
-import { TUserEntityWithoutPassword } from "@domain/entity/user.entity";
+import { TExpressNext, TExpressRequest, TExpressResponse } from "@main/api/express/routes/interfaces/route.interface";
 
 const RABBITMQ_QUEUE_NAME = "notifications";
 
@@ -30,9 +28,9 @@ export class CreateUserController {
   }
 
   public execute = async (
-    request: Request,
-    response: Response,
-    next: NextFunction,
+    request: TExpressRequest,
+    response: TExpressResponse,
+    next: TExpressNext,
   ) => {
     try {
       const { name, email, password } = request.body;

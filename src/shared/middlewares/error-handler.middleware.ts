@@ -1,11 +1,15 @@
-import { Request, Response, NextFunction } from "express";
+import {
+  TExpressNext,
+  TExpressRequest,
+  TExpressResponse,
+} from "@main/api/express/routes/interfaces/route.interface";
 
 export const ErrorHandlerMiddleware = (
   err: Error,
-  _: Request,
-  res: Response,
-  __: NextFunction,
+  _: TExpressRequest,
+  response: TExpressResponse,
+  __: TExpressNext,
 ): void => {
   console.error(err);
-  res.status(500).json({ message: "Internal Server Error" });
+  response.status(500).json({ message: "Internal Server Error" });
 };

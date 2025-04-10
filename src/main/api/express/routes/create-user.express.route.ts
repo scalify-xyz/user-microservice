@@ -1,10 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-
 import { CreateUserController } from "@infrastructure/controllers/create-user.controller";
 
-import { HttpMethod, Route } from "./interfaces/route.interface";
+import { HttpMethod, IRoute, TExpressNext, TExpressRequest, TExpressResponse } from "./interfaces/route.interface";
 
-export class CreateUserRoute implements Route {
+export class CreateUserRoute implements IRoute {
   private constructor(
     private readonly path: string,
     private readonly method: HttpMethod,
@@ -16,9 +14,9 @@ export class CreateUserRoute implements Route {
   }
 
   public getHandler(): (
-    request: Request,
-    response: Response,
-    next: NextFunction,
+    request: TExpressRequest,
+    response: TExpressResponse,
+    next: TExpressNext,
   ) => Promise<void> {
     return this.createUserController.execute;
   }

@@ -5,22 +5,22 @@ import { ILayer } from "express-serve-static-core";
 
 import { ErrorHandlerMiddleware } from "@shared/middlewares/error-handler.middleware";
 
-import { Route } from "./routes/interfaces/route.interface";
+import { IRoute } from "./routes/interfaces/route.interface";
 
 export class ApiExpress {
   private app: Express;
 
-  private constructor(routes: Route[]) {
+  private constructor(routes: IRoute[]) {
     this.app = express();
     this.app.use(express.json());
     this.setupRoutes(routes);
   }
 
-  public static create(routes: Route[]) {
+  public static create(routes: IRoute[]) {
     return new ApiExpress(routes);
   }
 
-  private setupRoutes(routes: Route[]) {
+  private setupRoutes(routes: IRoute[]) {
     routes.forEach((route) => {
       const path = route.getPath();
       const method = route.getMethod();
