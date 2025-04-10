@@ -39,7 +39,7 @@ export class UserEntity {
       name,
       email,
       password,
-      isEmailVerified: isEmailVerified || false,
+      isEmailVerified: !!isEmailVerified,
     });
   }
 

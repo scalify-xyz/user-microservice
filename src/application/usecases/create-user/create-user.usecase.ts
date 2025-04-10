@@ -20,7 +20,7 @@ export class CreateUserUsecase {
       throw new Error("Email is already being used");
     }
 
-    const output = await this.userRepository.createUser({
+    const output = await this.userRepository.create({
       name,
       email,
       password,

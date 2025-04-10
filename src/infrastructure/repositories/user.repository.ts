@@ -1,7 +1,5 @@
 import { UserEntity } from "@domain/entity/user.entity";
-
 import { CreateUserDTO } from "@application/usecases/create-user/create-user.schema";
-
 import { UserPrismaModel } from "@infrastructure/models/prisma/user.model.prisma";
 
 export class UserRepository {
@@ -11,33 +9,27 @@ export class UserRepository {
     return new UserRepository(userModel);
   }
 
-  public async createUser({ name, email, password }: CreateUserDTO) {
-    const user = UserEntity.create({ name, email, password });
-    await this.userModel.create({
-      data: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        isEmailVerified: user.isEmailVerified,
-      },
+  public async create(dto: CreateUserDTO) {
+    const userEntity = UserEntity.create({
+      ...dto
     });
 
-    return user;
+    await this.userModel.create({
+      data: {
+        id: userEntity.id,
+        name: userEntity.name,
+        email: userEntity.email,
+        password: userEntity.password,
+        isEmailVerified: userEntity.isEmailVerified
+      }
+    });
+
+    return userEntity;
   }
 
-  public async findAllUsers() {
+  public async findAll() {
     const users = await this.userModel.findMany();
-
-    return users.map((user) =>
-      UserEntity.create({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        isEmailVerified: user.isEmailVerified,
-      }),
-    );
+    return users.map((user) => UserEntity.create(user));
   }
 
   public async findById(id: string) {
@@ -45,14 +37,7 @@ export class UserRepository {
     if (!user?.id) {
       return null;
     }
-
-    return UserEntity.create({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: user.password,
-      isEmailVerified: user.isEmailVerified,
-    });
+    return UserEntity.create(user);
   }
 
   public async findByEmail(email: string) {
@@ -60,19 +45,6 @@ export class UserRepository {
     if (!user?.id) {
       return null;
     }
-
-    return UserEntity.create({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: user.password,
-    });
-  }
-
-  public async updatePassword(id: string, password: string): Promise<void> {
-    await this.userModel.update({
-      where: { id: id },
-      data: { password },
-    });
+    return UserEntity.create(user);
   }
 }

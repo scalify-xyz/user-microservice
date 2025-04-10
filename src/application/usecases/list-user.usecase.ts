@@ -9,7 +9,7 @@ export class ListUserUsecase {
   }
 
   public async execute(): Promise<TUserEntityWithoutPassword[]> {
-    const output = await this.userRepository.findAllUsers();
+    const output = await this.userRepository.findAll();
     return output.map((user) => user.toJSON());
   }
 }
