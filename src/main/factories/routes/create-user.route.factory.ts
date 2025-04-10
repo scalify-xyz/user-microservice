@@ -9,17 +9,17 @@ import { UserRepository } from "@infrastructure/repositories/prisma/user.reposit
 import { CreateUserRoute } from "@main/api/express/routes/create-user.express.route";
 
 export class CreateUserRouteFactory {
-    static create(
-        userRepository: UserRepository,
-        encryptProvider: Argon2Provider,
-        rabbitMqProvider: RabbitMQProvider,
-    ) {
-        return CreateUserRoute.create(
-            CreateUserController.create(
-                CreateUserUsecase.create(userRepository),
-                encryptProvider,
-                rabbitMqProvider,
-            ),
-        );
-    }
+  static create(
+    userRepository: UserRepository,
+    encryptProvider: Argon2Provider,
+    rabbitMqProvider: RabbitMQProvider,
+  ) {
+    return CreateUserRoute.create(
+      CreateUserController.create(
+        CreateUserUsecase.create(userRepository),
+        encryptProvider,
+        rabbitMqProvider,
+      ),
+    );
+  }
 }

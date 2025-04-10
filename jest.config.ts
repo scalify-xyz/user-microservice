@@ -3,7 +3,7 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type {Config} from "jest";
+import type { Config } from "jest";
 
 const config: Config = {
   passWithNoTests: true,
@@ -23,10 +23,7 @@ const config: Config = {
   collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: [
-    "src/**/*.{js,ts}",
-    "!types/**/*.d.ts",
-  ],
+  collectCoverageFrom: ["src/**/*.{js,ts}", "!types/**/*.d.ts"],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "coverage",
@@ -165,10 +162,7 @@ const config: Config = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  testPathIgnorePatterns: [
-    "/node_modules/",
-    "/build/",
-  ],
+  testPathIgnorePatterns: ["/node_modules/", "/build/"],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
