@@ -1,7 +1,7 @@
 import { ListUserUsecase } from "@application/usecases/list-user.usecase";
 
 import { ListUserController } from "@infrastructure/controllers/list-user.controller";
-import { UserRepository } from "@infrastructure/repositories/prisma/user.repository.prisma";
+import { UserRepository } from "@infrastructure/repositories/user.repository";
 
 import { ListUserRoute } from "@main/api/express/routes/list-user.express.route";
 

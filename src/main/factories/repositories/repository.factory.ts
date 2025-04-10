@@ -1,9 +1,9 @@
-import { UserModel } from "@infrastructure/models/user.model";
-import { PrismaProvider } from "@infrastructure/providers/prisma.provider";
-import { UserRepository } from "@infrastructure/repositories/prisma/user.repository.prisma";
+import { UserRepository } from "@infrastructure/repositories/user.repository";
+
+import { UserPrismaModelFactory } from "../models/prisma/user.model.prisma.factory";
 
 export class UserRepositoryFactory {
   static create(): UserRepository {
-    return UserRepository.create(UserModel.create(PrismaProvider.create()));
+    return UserRepository.create(UserPrismaModelFactory.create());
   }
 }

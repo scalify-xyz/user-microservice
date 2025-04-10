@@ -1,4 +1,4 @@
-import { UserRepository } from "@infrastructure/repositories/prisma/user.repository.prisma";
+import { UserRepository } from "@infrastructure/repositories/user.repository";
 
 export class GetUserUsecase {
   private constructor(private readonly userRepository: UserRepository) {}

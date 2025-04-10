@@ -4,7 +4,7 @@ import { GetUserController } from "@infrastructure/controllers/get-user.controll
 
 import { HttpMethod, Route } from "./interfaces/route.interface";
 
-export class AddUserRoute implements Route {
+export class GetUserRoute implements Route {
   private constructor(
     private readonly path: string,
     private readonly method: HttpMethod,
@@ -12,7 +12,7 @@ export class AddUserRoute implements Route {
   ) {}
 
   public static create(getUserController: GetUserController) {
-    return new AddUserRoute("/user/:id", HttpMethod.GET, getUserController);
+    return new GetUserRoute("/user/:id", HttpMethod.GET, getUserController);
   }
 
   public getHandler(): (

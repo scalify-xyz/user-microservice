@@ -4,7 +4,7 @@ import { CreateUserUsecase } from "@application/usecases/create-user/create-user
 
 import { CreateUserController } from "@infrastructure/controllers/create-user.controller";
 import { Argon2Provider } from "@infrastructure/providers/argon2.provider";
-import { UserRepository } from "@infrastructure/repositories/prisma/user.repository.prisma";
+import { UserRepository } from "@infrastructure/repositories/user.repository";
 
 import { CreateUserRoute } from "@main/api/express/routes/create-user.express.route";
 
