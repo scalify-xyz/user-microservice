@@ -1,3 +1,4 @@
+import { TUserEntityWithoutPassword } from "@domain/entity/user.entity";
 import { UserRepository } from "@infrastructure/repositories/user.repository";
 
 export class GetUserUsecase {
@@ -7,8 +8,8 @@ export class GetUserUsecase {
     return new GetUserUsecase(userRepository);
   }
 
-  public async execute(id: string) {
+  public async execute(id: string): Promise<TUserEntityWithoutPassword> {
     const output = await this.userRepository.findById(id);
-    return output;
+    return output.toJSON();
   }
 }

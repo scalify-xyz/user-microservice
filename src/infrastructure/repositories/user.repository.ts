@@ -35,6 +35,7 @@ export class UserRepository {
         name: user.name,
         email: user.email,
         password: user.password,
+        isEmailVerified: user.isEmailVerified,
       }),
     );
   }
@@ -50,7 +51,8 @@ export class UserRepository {
       name: user.name,
       email: user.email,
       password: user.password,
-    }).toJSON();
+      isEmailVerified: user.isEmailVerified,
+    });
   }
 
   public async findByEmail(email: string) {

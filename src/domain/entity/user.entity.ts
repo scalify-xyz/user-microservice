@@ -1,12 +1,12 @@
-export type IUser = {
+export interface IUser {
   id: string;
   name: string;
   email: string;
   password: string;
   isEmailVerified: boolean;
-};
+}
 
-export type IUserWithoutIdAndConfirmed = Omit<
+export type TUserEntityWithoutIdAndConfirmedFlag = Omit<
   IUser,
   "id" | "isEmailVerified"
 > & {
@@ -14,6 +14,10 @@ export type IUserWithoutIdAndConfirmed = Omit<
   isEmailVerified?: boolean;
 };
 
+export type TUserEntityWithoutPassword = Omit<IUser, "password">;
+
+// ToDo: Implements User from Prisma (but disacoupling)
+// export class UserEntity implements User {
 export class UserEntity {
   private constructor(private props: IUser) {
     this.props.id = props.id;
@@ -28,21 +32,18 @@ export class UserEntity {
     name,
     email,
     password,
-  }: IUserWithoutIdAndConfirmed) {
+    isEmailVerified,
+  }: TUserEntityWithoutIdAndConfirmedFlag) {
     return new UserEntity({
       id: id || crypto.randomUUID().toString(),
       name,
       email,
       password,
-      isEmailVerified: false,
+      isEmailVerified: isEmailVerified || false,
     });
   }
 
-  public static with(props: IUser) {
-    return new UserEntity(props);
-  }
-
-  public toJSON() {
+  public toJSON(): TUserEntityWithoutPassword {
     return {
       id: this.id,
       name: this.name,

@@ -1,3 +1,4 @@
+import { TUserEntityWithoutPassword } from "@domain/entity/user.entity";
 import { UserRepository } from "@infrastructure/repositories/user.repository";
 
 export class ListUserUsecase {
@@ -7,7 +8,7 @@ export class ListUserUsecase {
     return new ListUserUsecase(userRepository);
   }
 
-  public async execute() {
+  public async execute(): Promise<TUserEntityWithoutPassword[]> {
     const output = await this.userRepository.findAllUsers();
     return output.map((user) => user.toJSON());
   }

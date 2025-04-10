@@ -3,6 +3,3 @@ export type CreateUserDTO = {
   email: string;
   password: string;
 };
-export type CreateUserResponseDTO = {
-  id: string;
-};
