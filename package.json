@@ -6,8 +6,10 @@
     "build": "tsc && tsc-alias --project tsconfig.json",
     "test": "NODE_ENV=test jest",
     "test:coverage": "NODE_ENV=test jest --coverage",
-    "lint": "eslint . ",
-    "lint:fix": "eslint . --fix ",
+    "lint": "eslint .",
+    "prettier": "npx prettier --check .",
+    "prettier:fix": "npx prettier --write .",
+    "lint:fix": "npm run lint --fix",
     "prepare": "husky",
     "commitlint": "commitlint --edit"
   },
