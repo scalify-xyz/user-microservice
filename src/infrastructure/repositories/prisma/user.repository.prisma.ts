@@ -39,6 +39,15 @@ export class UserRepository {
         }));
     }
 
+    public async findById(id: string) {
+        const user = await this.userModel.user.findFirst({ where: { id } });
+        if (!user?.id) {
+            return null;
+        }
+
+        return UserEntity.create({ id: user.id, name: user.name, email: user.email, password: user.password }).toJSON();
+    }
+
     public async findByEmail(email: string) {
         const user = await this.userModel.user.findFirst({ where: { email } });
         if (!user?.id) {

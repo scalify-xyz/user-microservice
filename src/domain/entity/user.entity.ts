@@ -28,6 +28,15 @@ export class UserEntity {
         return new UserEntity(props);
     }
 
+    public toJSON() {
+        return {
+            id: this.id,
+            name: this.name,
+            email: this.email,
+            isEmailVerified: this.isEmailVerified,
+        };
+    }
+
     public get id() {
         return this.props.id;
     }
