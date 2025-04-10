@@ -9,6 +9,6 @@ export class ListUserUsecase {
 
   public async execute() {
     const output = await this.userRepository.findAllUsers();
-    return output.map((user) => ({ id: user.id }));
+    return output.map((user) => user.toJSON());
   }
 }
