@@ -3,6 +3,6 @@ import { PrismaProvider } from "@infrastructure/providers/prisma.provider";
 
 export class UserPrismaModelFactory {
   public static create(): UserPrismaModel {
-    return UserPrismaModel.create(PrismaProvider.create());
+    return UserPrismaModel.create(PrismaProvider.create().user);
   }
 }

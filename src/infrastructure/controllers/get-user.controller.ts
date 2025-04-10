@@ -20,8 +20,6 @@ export class GetUserController {
         throw new Error("Empty Id");
       }
       const output = await this.getUserUseCase.execute(id);
-      console.log(output);
-
       response.status(201).json(output);
     } catch (error) {
       next(error);

@@ -1,15 +1,15 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 
 export class UserPrismaModel {
   private prismaUser: Prisma.UserDelegate<DefaultArgs>;
 
-  private constructor(prismaClient: PrismaClient) {
-    this.prismaUser = prismaClient.user;
+  private constructor(prismaClientUser: Prisma.UserDelegate<DefaultArgs>) {
+    this.prismaUser = prismaClientUser;
   }
 
-  public static create(prismaClient: PrismaClient) {
-    return new UserPrismaModel(prismaClient);
+  public static create(prismaClientUser: Prisma.UserDelegate<DefaultArgs>) {
+    return new UserPrismaModel(prismaClientUser);
   }
 
   public findUnique(args: Prisma.UserFindUniqueArgs) {
