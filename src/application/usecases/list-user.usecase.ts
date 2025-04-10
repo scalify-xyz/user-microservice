@@ -1,4 +1,5 @@
 import { TUserEntityWithoutPassword } from "@domain/entity/user.entity";
+
 import { UserRepository } from "@infrastructure/repositories/user.repository";
 
 export class ListUserUsecase {

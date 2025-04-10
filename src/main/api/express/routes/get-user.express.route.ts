@@ -1,6 +1,12 @@
 import { GetUserController } from "@infrastructure/controllers/get-user.controller";
 
-import { HttpMethod, IRoute, TExpressNext, TExpressRequest, TExpressResponse } from "./interfaces/route.interface";
+import {
+  HttpMethod,
+  IRoute,
+  TExpressNext,
+  TExpressRequest,
+  TExpressResponse,
+} from "./interfaces/route.interface";
 
 export class GetUserRoute implements IRoute {
   private constructor(

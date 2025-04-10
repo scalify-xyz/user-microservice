@@ -1,7 +1,8 @@
+import { TUserEntityWithoutPassword } from "@domain/entity/user.entity";
+
 import { UserRepository } from "@infrastructure/repositories/user.repository";
 
 import { CreateUserDTO } from "./create-user.schema";
-import { TUserEntityWithoutPassword } from "@domain/entity/user.entity";
 
 export class CreateUserUsecase {
   private constructor(private readonly userRepository: UserRepository) {}

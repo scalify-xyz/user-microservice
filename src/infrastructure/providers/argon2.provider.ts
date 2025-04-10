@@ -13,7 +13,10 @@ export class Argon2Provider {
     }
   }
 
-  public async verify(digest: string, password: string | Buffer): Promise<boolean> {
+  public async verify(
+    digest: string,
+    password: string | Buffer,
+  ): Promise<boolean> {
     try {
       return await verify(digest, password);
     } catch (error) {

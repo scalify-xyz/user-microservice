@@ -1,6 +1,12 @@
 import { CreateUserController } from "@infrastructure/controllers/create-user.controller";
 
-import { HttpMethod, IRoute, TExpressNext, TExpressRequest, TExpressResponse } from "./interfaces/route.interface";
+import {
+  HttpMethod,
+  IRoute,
+  TExpressNext,
+  TExpressRequest,
+  TExpressResponse,
+} from "./interfaces/route.interface";
 
 export class CreateUserRoute implements IRoute {
   private constructor(

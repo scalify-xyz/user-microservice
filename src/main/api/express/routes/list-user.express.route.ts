@@ -1,6 +1,12 @@
 import { ListUserController } from "@infrastructure/controllers/list-user.controller";
 
-import { HttpMethod, IRoute, TExpressNext, TExpressRequest, TExpressResponse } from "./interfaces/route.interface";
+import {
+  HttpMethod,
+  IRoute,
+  TExpressNext,
+  TExpressRequest,
+  TExpressResponse,
+} from "./interfaces/route.interface";
 
 export class ListUserRoute implements IRoute {
   private constructor(

@@ -4,7 +4,12 @@ import { CreateUserDTO } from "@application/usecases/create-user/create-user.sch
 import { CreateUserUsecase } from "@application/usecases/create-user/create-user.usecase";
 
 import { Argon2Provider } from "@infrastructure/providers/argon2.provider";
-import { TExpressNext, TExpressRequest, TExpressResponse } from "@main/api/express/routes/interfaces/route.interface";
+
+import {
+  TExpressNext,
+  TExpressRequest,
+  TExpressResponse,
+} from "@main/api/express/routes/interfaces/route.interface";
 
 const RABBITMQ_QUEUE_NAME = "notifications";
 

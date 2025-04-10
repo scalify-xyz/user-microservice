@@ -20,6 +20,4 @@ export interface IRoute {
   getPath(): string;
   getMethod(): HttpMethod;
   getMiddlewares(): Middlewares[];
-};
-
-
+}

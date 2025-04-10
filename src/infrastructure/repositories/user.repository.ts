@@ -1,5 +1,7 @@
 import { UserEntity } from "@domain/entity/user.entity";
+
 import { CreateUserDTO } from "@application/usecases/create-user/create-user.schema";
+
 import { UserPrismaModel } from "@infrastructure/models/prisma/user.model.prisma";
 
 export class UserRepository {
@@ -11,7 +13,7 @@ export class UserRepository {
 
   public async create(dto: CreateUserDTO) {
     const userEntity = UserEntity.create({
-      ...dto
+      ...dto,
     });
 
     await this.userModel.create({
@@ -20,8 +22,8 @@ export class UserRepository {
         name: userEntity.name,
         email: userEntity.email,
         password: userEntity.password,
-        isEmailVerified: userEntity.isEmailVerified
-      }
+        isEmailVerified: userEntity.isEmailVerified,
+      },
     });
 
     return userEntity;
@@ -34,13 +36,13 @@ export class UserRepository {
 
   public async findById(id: string) {
     const user = await this.userModel.findUnique({ where: { id } });
-    if (!user?.id) throw new Error('User not found');
+    if (!user?.id) throw new Error("User not found");
     return UserEntity.create(user);
   }
 
   public async findByEmail(email: string) {
     const user = await this.userModel.findUnique({ where: { email } });
-    if (!user?.id) throw new Error('User not found');
+    if (!user?.id) throw new Error("User not found");
     return UserEntity.create(user);
   }
 }
