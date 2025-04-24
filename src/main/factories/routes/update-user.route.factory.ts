@@ -1,14 +1,14 @@
-import { GetUserUsecase } from "@application/usecases/get-user.usecase";
+import { UpdateUserUsecase } from "@application/usecases/update-user/update-user.usecase";
 
-import { GetUserController } from "@infrastructure/controllers/get-user.controller";
+import { UpdateUserController } from "@infrastructure/controllers/update-user.controller";
 import { UserRepository } from "@infrastructure/repositories/user.repository";
 
-import { GetUserRoute } from "@main/api/express/routes/get-user.express.route";
+import { UpdateUserRoute } from "@main/api/express/routes/update-user.express.route";
 
 export class UpdateUserRouteFactory {
   public static create(userRepository: UserRepository) {
-    return GetUserRoute.create(
-      GetUserController.create(GetUserUsecase.create(userRepository)),
+    return UpdateUserRoute.create(
+      UpdateUserController.create(UpdateUserUsecase.create(userRepository)),
     );
   }
 }

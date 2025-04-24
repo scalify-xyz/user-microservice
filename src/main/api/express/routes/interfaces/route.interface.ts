@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
 // ToDo: Rename HttpMethod to I or T (IHttpMethod or TIHttpMethod)
-export type HttpMethod = "get" | "post";
+export type HttpMethod = "get" | "post" | "patch";
 export const HttpMethod = {
   GET: "get" as HttpMethod,
   POST: "post" as HttpMethod,
+  PATCH: "patch" as HttpMethod,
 } as const;
 
 export type TExpressRequest = Request;
