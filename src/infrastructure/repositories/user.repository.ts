@@ -48,10 +48,17 @@ export class UserRepository {
   }
 
   public async update(id: string, data: Partial<UpdateUserDTO>) {
-    const updated = await this.userModel.update({
+    const user = await this.userModel.update({
       where: { id },
       data,
     });
-    return UserEntity.create(updated);
+    return UserEntity.create(user);
+  }
+
+  public async delete(id: string) {
+    const user = await this.userModel.delete({
+      where: { id },
+    });
+    return UserEntity.create(user);
   }
 }

@@ -10,7 +10,7 @@ export class DeleteUserUsecase {
   }
 
   public async execute(id: string): Promise<TUserEntityWithoutPassword> {
-    const output = await this.userRepository.findById(id);
+    const output = await this.userRepository.delete(id);
     return output.toJSON();
   }
 }
