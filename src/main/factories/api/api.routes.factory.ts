@@ -10,6 +10,8 @@ import { GetUserRouteFactory } from "@main/factories/routes/get-user.route.facto
 import { ListUserRouteFactory } from "@main/factories/routes/list-user.route.factory";
 import { UpdateUserRouteFactory } from "@main/factories/routes/update-user.route.factory";
 
+import { DeleteUserRouteFactory } from "../routes/delete-user.route.factory";
+
 export class ApiRoutesFactory {
   public static async create(): Promise<IRoute[]> {
     const userRepository = UserRepositoryFactory.create();
@@ -26,6 +28,8 @@ export class ApiRoutesFactory {
     const listUserRoute = ListUserRouteFactory.create(userRepository);
     const getUserRoute = GetUserRouteFactory.create(userRepository);
     const updateUserRoute = UpdateUserRouteFactory.create(userRepository);
+    const deleteUserRoute = DeleteUserRouteFactory.create(userRepository);
+
     const statusRoute = StatusRoute.create();
 
     return [
@@ -33,6 +37,7 @@ export class ApiRoutesFactory {
       listUserRoute,
       getUserRoute,
       updateUserRoute,
+      deleteUserRoute,
       statusRoute,
     ];
   }
