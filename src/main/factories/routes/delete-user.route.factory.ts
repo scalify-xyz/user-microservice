@@ -3,11 +3,11 @@ import { UpdateUserUsecase } from "@application/usecases/update-user/update-user
 import { UpdateUserController } from "@infrastructure/controllers/update-user.controller";
 import { UserRepository } from "@infrastructure/repositories/user.repository";
 
-import { UpdateUserRoute } from "@main/api/express/routes/update-user.express.route";
+import { DeleteUserRoute } from "@main/api/express/routes/delete-user.express.route";
 
 export class DeleteUserRouteFactory {
   public static create(userRepository: UserRepository) {
-    return UpdateUserRoute.create(
+    return DeleteUserRoute.create(
       UpdateUserController.create(UpdateUserUsecase.create(userRepository)),
     );
   }
