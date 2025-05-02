@@ -1,4 +1,4 @@
-import { UpdateUserController } from "@infrastructure/controllers/update-user.controller";
+import { DeleteUserController } from "@infrastructure/controllers/delete-user.controller";
 
 import {
   HttpMethod,
@@ -12,14 +12,14 @@ export class DeleteUserRoute implements IRoute {
   private constructor(
     private readonly path: string,
     private readonly method: HttpMethod,
-    private readonly updateUserController: UpdateUserController,
+    private readonly deleteUserController: DeleteUserController,
   ) {}
 
-  public static create(updateUserController: UpdateUserController) {
+  public static create(deleteUserController: DeleteUserController) {
     return new DeleteUserRoute(
       "/user/:id",
       HttpMethod.DELETE,
-      updateUserController,
+      deleteUserController,
     );
   }
 
@@ -28,7 +28,7 @@ export class DeleteUserRoute implements IRoute {
     response: TExpressResponse,
     next: TExpressNext,
   ) => Promise<void> {
-    return this.updateUserController.execute;
+    return this.deleteUserController.execute;
   }
 
   public getPath(): string {
