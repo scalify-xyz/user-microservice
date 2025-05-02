@@ -1,4 +1,4 @@
-import { UpdateUserUsecase } from "@application/usecases/update-user/update-user.usecase";
+import { DeleteUserUsecase } from "@application/usecases/delete-user.usecase";
 
 import {
   TExpressNext,
@@ -7,10 +7,10 @@ import {
 } from "@main/api/express/routes/interfaces/route.interface";
 
 export class DeleteUserController {
-  private constructor(private readonly updateUserUseCase: UpdateUserUsecase) {}
+  private constructor(private readonly deleteUserUseCase: DeleteUserUsecase) {}
 
-  public static create(updateUserUseCase: UpdateUserUsecase) {
-    return new DeleteUserController(updateUserUseCase);
+  public static create(deleteUserUseCase: DeleteUserUsecase) {
+    return new DeleteUserController(deleteUserUseCase);
   }
 
   public execute = async (
@@ -25,11 +25,7 @@ export class DeleteUserController {
       if (!id) {
         throw new Error("Empty Id");
       }
-      const output = await this.updateUserUseCase.execute(id, {
-        name,
-        email,
-        password,
-      });
+      const output = await this.deleteUserUseCase.execute(id);
       response.status(201).json(output);
     } catch (error) {
       next(error);
